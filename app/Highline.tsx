@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 
-// import type { Tables } from "~/lib/supabaseClient";
+import type { Tables } from "@/utils/supabase";
 
-// interface Props {
-//   highline: Tables["highline"]["Row"];
-// }
+interface Props {
+  highline: Tables["highline"]["Row"];
+}
 
-function Highline({ highline }: any) {
+function Highline({ highline }: Props) {
   return (
     <div className="w-full rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800 sm:w-128">
       <div className="relative block h-72 w-full">

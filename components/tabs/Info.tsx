@@ -2,11 +2,10 @@
 
 import { motion } from "framer-motion";
 
-// import type { Tables } from "~/lib/supabaseClient";
+import type { Tables } from "@/utils/supabase";
 
 interface Props {
-  // highline: Tables["highline"]["Row"];
-  highline: any;
+  highline: Tables["highline"]["Row"];
 }
 
 function Info({ highline }: Props) {

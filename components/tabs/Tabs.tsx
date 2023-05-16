@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-// import type { Tables } from "~/lib/supabaseClient";
+import type { Tables } from "@/utils/supabase";
 import Info from "./Info";
 import Ranking from "./Ranking";
 
@@ -14,11 +14,10 @@ type Tab = {
 
 interface Props {
   tabs: [Tab, Tab, Tab]; // Define that should be an array of 3 items
-  // highline: Tables["highline"]["Row"];
-  highline: any;
+  highline: Tables["highline"]["Row"];
 }
 
-function tabMapping(tab: string, highline: any) {
+function tabMapping(tab: string, highline: Tables["highline"]["Row"]) {
   switch (tab) {
     case "info":
       return <Info highline={highline} />;
