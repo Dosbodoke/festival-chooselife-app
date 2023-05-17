@@ -1,6 +1,6 @@
 function Ranking() {
   return (
-    <div className="w-full max-w-md rounded-lg border border-gray-200 bg-white p-4 shadow dark:border-gray-700 dark:bg-gray-800 sm:p-8">
+    <div className="w-full rounded-lg">
       <div className="mb-4 flex items-center justify-between">
         <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
           Speedline
@@ -22,10 +22,7 @@ function Ranking() {
               <div className="flex-shrink-0"></div>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
-                  Neil Sims
-                </p>
-                <p className="truncate text-sm text-gray-500 dark:text-gray-400">
-                  email@windster.com
+                  Juan Andrade
                 </p>
               </div>
               <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
@@ -38,10 +35,7 @@ function Ranking() {
               <div className="flex-shrink-0"></div>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
-                  Bonnie Green
-                </p>
-                <p className="truncate text-sm text-gray-500 dark:text-gray-400">
-                  email@windster.com
+                  Matheus Waeny
                 </p>
               </div>
               <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
@@ -54,10 +48,7 @@ function Ranking() {
               <div className="flex-shrink-0"></div>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
-                  Michael Gough
-                </p>
-                <p className="truncate text-sm text-gray-500 dark:text-gray-400">
-                  email@windster.com
+                  Thomaz
                 </p>
               </div>
               <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
@@ -70,10 +61,7 @@ function Ranking() {
               <div className="flex-shrink-0"></div>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
-                  Lana Byrd
-                </p>
-                <p className="truncate text-sm text-gray-500 dark:text-gray-400">
-                  email@windster.com
+                  Tuti
                 </p>
               </div>
               <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
@@ -86,10 +74,7 @@ function Ranking() {
               <div className="flex-shrink-0"></div>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
-                  Thomes Lean
-                </p>
-                <p className="truncate text-sm text-gray-500 dark:text-gray-400">
-                  email@windster.com
+                  Tartaruga
                 </p>
               </div>
               <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">

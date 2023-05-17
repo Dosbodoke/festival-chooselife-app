@@ -34,7 +34,7 @@ function Tabs({ tabs, highline }: Props) {
   const [selectedTabId, setSelectedTabId] = useState(tabs[0].id);
 
   return (
-    <div>
+    <div className="h-full">
       <ul className="mb-4 flex">
         {tabs.map((item) => (
           <li
@@ -58,7 +58,9 @@ function Tabs({ tabs, highline }: Props) {
         ))}
       </ul>
 
-      {tabMapping(selectedTabId, highline)}
+      <div className="overflow-y-auto">
+        {tabMapping(selectedTabId, highline)}
+      </div>
     </div>
   );
 }
