@@ -51,7 +51,7 @@ function TextField({
         placeholder={placeholder}
         required={required}
         {...registerFunction}
-        className={`bg-gray-50 text-gray-900 dark:text-white border text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700  dark:placeholder-gray-400 focus:outline-0 
+        className={`bg-gray-50 text-gray-900 dark:text-white border text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 focus:outline-0 
         ${getStatusClass({
           error: "border-red-500 dark:border-red-400  ",
           neutral:

@@ -18,7 +18,7 @@ interface Props {
 
 function Pegas({ radio, time, distance }: Props) {
   return (
-    <div className="border bg-gray-50 shadow-sm p-4 space-y-3">
+    <div className="border bg-gray-50 dark:bg-gray-700 dark:border-gray-600 shadow-sm p-4 space-y-3">
       <Radio
         id={`cadena`}
         label="Cadena"
