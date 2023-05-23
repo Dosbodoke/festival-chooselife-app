@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +26,16 @@ export default function RootLayout({
             <div className="mx-2 h-4 w-0 border border-gray-300" />
             <p className="mr-2 text-base">2023</p>
           </div>
-          <div className="text-center">criado por Juan Andrade</div>
+          <div className="text-center">
+            site criado por{" "}
+            <Link
+              href="https://www.instagram.com/juangsandrade/"
+              target="_blank"
+              className="text-blue-500"
+            >
+              Juan Andrade
+            </Link>
+          </div>
         </footer>
       </body>
     </html>

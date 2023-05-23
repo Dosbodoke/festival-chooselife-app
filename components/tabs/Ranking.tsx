@@ -18,7 +18,8 @@ function Ranking({ highline }: Props) {
       const { data } = await supabase
         .from("role")
         .select()
-        .match({ highline_id: highline.id });
+        .match({ highline_id: highline.id })
+        .order("crossing_time", { ascending: true });
       if (data) setRoles(data);
     }
 
