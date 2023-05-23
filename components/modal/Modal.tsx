@@ -85,7 +85,7 @@ function Modal({ closeModal, highlineId, highlineDistance }: Props) {
     }
   };
 
-  const onError = (e) => {
+  const onError = (e: unknown) => {
     console.log("Error");
     console.log(e);
   };
