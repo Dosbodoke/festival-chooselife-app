@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import supabase from "@/utils/supabase";
+import Link from "next/link";
+import supabase, { type Tables } from "@/utils/supabase";
 
-import type { Tables } from "@/utils/supabase";
 import { transformSecondsToTimeString } from "@/utils/helperFunctions";
 
 interface Props {
@@ -49,9 +49,16 @@ function Ranking({ highline }: Props) {
               <div className="flex items-center space-x-4">
                 {/* <div className="flex-shrink-0"></div> */}
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
+                  <Link
+                    href={`https://www.instagram.com/${role.name.replace(
+                      "@",
+                      ""
+                    )}/`}
+                    target="_blank"
+                    className="truncate text-sm font-medium text-blue-700 dark:text-blue-500"
+                  >
                     {role.name}
-                  </p>
+                  </Link>
                 </div>
                 <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                   {transformSecondsToTimeString(role.crossing_time)}
