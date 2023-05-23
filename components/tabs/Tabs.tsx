@@ -24,7 +24,7 @@ function tabMapping(tab: string, highline: Tables["highline"]["Row"]) {
     case "reviews":
       return <div>Reviews</div>;
     case "ranking":
-      return <Ranking />;
+      return <Ranking highline={highline} />;
     default:
       return null;
   }
