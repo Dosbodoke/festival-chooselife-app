@@ -45,32 +45,38 @@ export interface Database {
         Row: {
           comment: string | null;
           created_at: string | null;
-          crossing_time: number;
+          crossing_time: number | null;
           highline_id: string;
           id: number;
-          is_cadena: boolean;
+          is_cadena: boolean | null;
+          is_full_line: boolean | null;
+          is_highliner: boolean;
           name: string;
-          witness: string[];
+          witness: string[] | null;
         };
         Insert: {
           comment?: string | null;
           created_at?: string | null;
-          crossing_time: number;
+          crossing_time?: number | null;
           highline_id: string;
           id?: number;
-          is_cadena: boolean;
+          is_cadena?: boolean | null;
+          is_full_line?: boolean | null;
+          is_highliner: boolean;
           name: string;
-          witness: string[];
+          witness?: string[] | null;
         };
         Update: {
           comment?: string | null;
           created_at?: string | null;
-          crossing_time?: number;
+          crossing_time?: number | null;
           highline_id?: string;
           id?: number;
-          is_cadena?: boolean;
+          is_cadena?: boolean | null;
+          is_full_line?: boolean | null;
+          is_highliner?: boolean;
           name?: string;
-          witness?: string[];
+          witness?: string[] | null;
         };
       };
     };

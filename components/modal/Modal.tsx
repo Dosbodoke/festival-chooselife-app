@@ -12,34 +12,39 @@ import TextField from "../ui/TextField";
 import TextArea from "../ui/TextArea";
 import Header from "./Header";
 import { transformTimeStringToSeconds } from "@/utils/helperFunctions";
+import Checkbox from "../ui/Checkbox";
 
 const formSchema = z.object({
   instagram: z
     .string()
     .startsWith("@", "O usuário deve começar com @")
     .min(3, "Deve conter ao menos 3 caracteres"),
-  pegas: z.object({
-    type: z.enum(["cadena", "fullLine"] as const).nullable(),
-    distance: z
-      .number({
-        required_error: "Insira quantos metros você andou",
-        invalid_type_error: "Insira um número",
-      })
-      .positive("Distância não pode ser negativa"),
-    time: z
-      .string()
-      .refine(
-        (value) => /^([0-9]|[0-5][0-9]):[0-5][0-9]$/.test(value),
-        "Inválido, use o formato mm:ss"
-      ),
-  }),
+  isNotHighliner: z.boolean(),
+  pegas: z
+    .object({
+      type: z.enum(["cadena", "fullLine"] as const).nullable(),
+      distance: z
+        .number({
+          required_error: "Insira quantos metros você andou",
+          invalid_type_error: "Insira um número",
+        })
+        .positive("Distância não pode ser negativa"),
+      time: z
+        .string()
+        .refine(
+          (value) => /^([0-9]|[0-5][0-9]):[0-5][0-9]$/.test(value),
+          "Inválido, use o formato mm:ss"
+        ),
+    })
+    .optional(),
   comment: z.string().nullable(),
   witness: z
     .string()
     .refine(
       (value) => /^(?=.*@[^,\s]+,.*@[^,\s]+).*$/.test(value),
       "Inválido, coloque o instagram de duas pessoas, separado por vírgula."
-    ),
+    )
+    .optional(),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -55,9 +60,14 @@ function Modal({ closeModal, highlineId, highlineDistance }: Props) {
     useForm<FormSchema>({
       mode: "onTouched",
       resolver: zodResolver(formSchema),
+      shouldUnregister: true,
+      defaultValues: {
+        isNotHighliner: false,
+      },
     });
 
   const watchPegaType = watch("pegas.type");
+  const watchIsNotHighliner = watch("isNotHighliner");
 
   useEffect(() => {
     if (watchPegaType === "cadena") {
@@ -68,14 +78,20 @@ function Modal({ closeModal, highlineId, highlineDistance }: Props) {
   }, [watchPegaType, setValue, highlineDistance]);
 
   const onSubmit = async (formData: FormSchema) => {
+    if (formData.isNotHighliner) {
+    }
     const { error, status } = await supabase.from("role").insert([
       {
         name: formData.instagram,
-        crossing_time: transformTimeStringToSeconds(formData.pegas.time),
+        crossing_time: formData.pegas
+          ? transformTimeStringToSeconds(formData.pegas.time)
+          : null,
         highline_id: highlineId,
-        is_cadena: formData.pegas.type === "cadena",
+        is_cadena: formData.pegas?.type === "cadena",
+        is_full_line: formData.pegas?.type === "fullLine",
         comment: formData.comment,
-        witness: formData.witness.replace(" ", "").split(","),
+        witness: formData.witness?.replace(" ", "").split(","),
+        is_highliner: !formData.isNotHighliner,
       },
     ]);
     if (status === 201) {
@@ -108,35 +124,44 @@ function Modal({ closeModal, highlineId, highlineDistance }: Props) {
               touched={formState.touchedFields.instagram}
             />
 
-            <div className="space-y-2">
-              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Pegas
-              </label>
-              {/* <p className="text-gray-600 text-sm">
+            <Checkbox
+              id="isHighliner"
+              label="Não sou highliner"
+              helperText="Veio dar um rolê para curtir esse paraíso 🌎? deixe registrado também"
+              registerFunction={register("isNotHighliner")}
+            />
+
+            {watchIsNotHighliner === false && (
+              <>
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-900 dark:text-white">
+                    Pegas
+                  </label>
+                  {/* <p className="text-gray-600 text-sm">
                 Caso tenha dado mais de um role clique em{" "}
                 <span className="font-medium">registrar mais uma volta</span>{" "}
                 para registrar todos.
               </p> */}
 
-              <Pegas
-                radio={{ registerFunction: register(`pegas.type`) }}
-                distance={{
-                  registerFunction: register(`pegas.distance`, {
-                    valueAsNumber: true,
-                  }),
-                  errorMessage: formState.errors.pegas?.distance?.message,
-                  isDirty: formState.dirtyFields.pegas?.distance,
-                  touched: formState.touchedFields.pegas?.distance,
-                }}
-                time={{
-                  registerFunction: register(`pegas.time`),
-                  errorMessage: formState.errors.pegas?.time?.message,
-                  isDirty: formState.dirtyFields.pegas?.time,
-                  touched: formState.touchedFields.pegas?.time,
-                }}
-              />
+                  <Pegas
+                    radio={{ registerFunction: register(`pegas.type`) }}
+                    distance={{
+                      registerFunction: register(`pegas.distance`, {
+                        valueAsNumber: true,
+                      }),
+                      errorMessage: formState.errors.pegas?.distance?.message,
+                      isDirty: formState.dirtyFields.pegas?.distance,
+                      touched: formState.touchedFields.pegas?.distance,
+                    }}
+                    time={{
+                      registerFunction: register(`pegas.time`),
+                      errorMessage: formState.errors.pegas?.time?.message,
+                      isDirty: formState.dirtyFields.pegas?.time,
+                      touched: formState.touchedFields.pegas?.time,
+                    }}
+                  />
 
-              {/* <button
+                  {/* <button
                 onClick={(e) => {
                   e.preventDefault();
                   append(emptyPega);
@@ -145,22 +170,24 @@ function Modal({ closeModal, highlineId, highlineDistance }: Props) {
               >
                 registrar mais uma volta
               </button> */}
-            </div>
+                </div>
+                <TextField
+                  id="witness"
+                  label="Testemunhas"
+                  placeholder="Ao menos duas testemunhas, exemplo: @festivalchooselife, @juangsandrade"
+                  inputType="text"
+                  registerFunction={register("witness")}
+                  errorMessage={formState.errors.witness?.message}
+                  isDirty={formState.dirtyFields.witness}
+                  touched={formState.touchedFields.witness}
+                />
+              </>
+            )}
 
             <TextArea
               label="Comentário"
-              placeholder="Boa choosen 🤘🤘. Conta pra gente como foi ese rolê, o que achou da fita, da conexão..."
+              placeholder="Boa choosen 🤘🆑 Conta pra gente como foi ese rolê, o que achou da fita, da conexão..."
               registerFunction={register("comment")}
-            />
-            <TextField
-              id="witness"
-              label="Testemunhas"
-              placeholder="Ao menos duas testemunhas, exemplo: @festivalchooselife, @juangsandrade"
-              inputType="text"
-              registerFunction={register("witness")}
-              errorMessage={formState.errors.witness?.message}
-              isDirty={formState.dirtyFields.witness}
-              touched={formState.touchedFields.witness}
             />
 
             <button
