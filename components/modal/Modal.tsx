@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import supabase from "@/utils/supabase";
+import { useMutation } from "@tanstack/react-query";
 
 import { PlusSvg } from "@/assets";
 import Pegas from "./Pegas";
@@ -13,6 +14,8 @@ import TextArea from "../ui/TextArea";
 import Header from "./Header";
 import { transformTimeStringToSeconds } from "@/utils/helperFunctions";
 import Checkbox from "../ui/Checkbox";
+import SuccessAnimation from "./SuccessAnimation";
+import PrimaryButton from "../PrimaryButton";
 
 const formSchema = z.object({
   instagram: z
@@ -77,10 +80,8 @@ function Modal({ closeModal, highlineId, highlineDistance }: Props) {
     }
   }, [watchPegaType, setValue, highlineDistance]);
 
-  const onSubmit = async (formData: FormSchema) => {
-    if (formData.isNotHighliner) {
-    }
-    const { error, status } = await supabase.from("role").insert([
+  const createRecord = async (formData: FormSchema) => {
+    return supabase.from("role").insert([
       {
         name: formData.instagram,
         crossing_time: formData.pegas
@@ -94,11 +95,17 @@ function Modal({ closeModal, highlineId, highlineDistance }: Props) {
         is_highliner: !formData.isNotHighliner,
       },
     ]);
-    if (status === 201) {
-      closeModal();
-    } else {
-      console.log(error);
-    }
+  };
+
+  const { mutate, isLoading, error, isSuccess } = useMutation(createRecord, {
+    onError: (e) => {
+      console.log("Error");
+      console.log(e);
+    },
+  });
+
+  const onSubmit = (formData: FormSchema) => {
+    mutate(formData);
   };
 
   const onError = (e: unknown) => {
@@ -109,59 +116,63 @@ function Modal({ closeModal, highlineId, highlineDistance }: Props) {
   return (
     <div className="fixed top-0 right-0 left-0 bottom-0 z-50 flex justify-center items-center w-full md:inset-0 bg-gray-700 bg-opacity-50">
       <div className="relative mx-4 p-4 w-full max-w-2xl h-5/6 overflow-y-auto bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
-        <Header closeModal={closeModal} />
+        {isSuccess ? (
+          <SuccessAnimation closeModal={closeModal} />
+        ) : (
+          <>
+            <Header closeModal={closeModal} />
+            <form onSubmit={handleSubmit(onSubmit, onError)}>
+              <div className="space-y-2">
+                <TextField
+                  id="name-text"
+                  label="Instagram"
+                  placeholder="Seu @ do instragram"
+                  inputType="text"
+                  registerFunction={register("instagram")}
+                  errorMessage={formState.errors.instagram?.message}
+                  isDirty={formState.dirtyFields.instagram}
+                  touched={formState.touchedFields.instagram}
+                />
 
-        <form onSubmit={handleSubmit(onSubmit, onError)}>
-          <div className="space-y-2">
-            <TextField
-              id="name-text"
-              label="Instagram"
-              placeholder="Seu @ do instragram"
-              inputType="text"
-              registerFunction={register("instagram")}
-              errorMessage={formState.errors.instagram?.message}
-              isDirty={formState.dirtyFields.instagram}
-              touched={formState.touchedFields.instagram}
-            />
+                <Checkbox
+                  id="isHighliner"
+                  label="Não sou highliner"
+                  helperText="Veio dar um rolê para curtir esse paraíso 🌎? deixe registrado também"
+                  registerFunction={register("isNotHighliner")}
+                />
 
-            <Checkbox
-              id="isHighliner"
-              label="Não sou highliner"
-              helperText="Veio dar um rolê para curtir esse paraíso 🌎? deixe registrado também"
-              registerFunction={register("isNotHighliner")}
-            />
-
-            {watchIsNotHighliner === false && (
-              <>
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-900 dark:text-white">
-                    Pegas
-                  </label>
-                  {/* <p className="text-gray-600 text-sm">
+                {watchIsNotHighliner === false && (
+                  <>
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-900 dark:text-white">
+                        Pegas
+                      </label>
+                      {/* <p className="text-gray-600 text-sm">
                 Caso tenha dado mais de um role clique em{" "}
                 <span className="font-medium">registrar mais uma volta</span>{" "}
                 para registrar todos.
               </p> */}
 
-                  <Pegas
-                    radio={{ registerFunction: register(`pegas.type`) }}
-                    distance={{
-                      registerFunction: register(`pegas.distance`, {
-                        valueAsNumber: true,
-                      }),
-                      errorMessage: formState.errors.pegas?.distance?.message,
-                      isDirty: formState.dirtyFields.pegas?.distance,
-                      touched: formState.touchedFields.pegas?.distance,
-                    }}
-                    time={{
-                      registerFunction: register(`pegas.time`),
-                      errorMessage: formState.errors.pegas?.time?.message,
-                      isDirty: formState.dirtyFields.pegas?.time,
-                      touched: formState.touchedFields.pegas?.time,
-                    }}
-                  />
+                      <Pegas
+                        radio={{ registerFunction: register(`pegas.type`) }}
+                        distance={{
+                          registerFunction: register(`pegas.distance`, {
+                            valueAsNumber: true,
+                          }),
+                          errorMessage:
+                            formState.errors.pegas?.distance?.message,
+                          isDirty: formState.dirtyFields.pegas?.distance,
+                          touched: formState.touchedFields.pegas?.distance,
+                        }}
+                        time={{
+                          registerFunction: register(`pegas.time`),
+                          errorMessage: formState.errors.pegas?.time?.message,
+                          isDirty: formState.dirtyFields.pegas?.time,
+                          touched: formState.touchedFields.pegas?.time,
+                        }}
+                      />
 
-                  {/* <button
+                      {/* <button
                 onClick={(e) => {
                   e.preventDefault();
                   append(emptyPega);
@@ -170,35 +181,35 @@ function Modal({ closeModal, highlineId, highlineDistance }: Props) {
               >
                 registrar mais uma volta
               </button> */}
-                </div>
-                <TextField
-                  id="witness"
-                  label="Testemunhas"
-                  placeholder="Ao menos duas testemunhas, exemplo: @festivalchooselife, @juangsandrade"
-                  inputType="text"
-                  registerFunction={register("witness")}
-                  errorMessage={formState.errors.witness?.message}
-                  isDirty={formState.dirtyFields.witness}
-                  touched={formState.touchedFields.witness}
+                    </div>
+                    <TextField
+                      id="witness"
+                      label="Testemunhas"
+                      placeholder="Ao menos duas testemunhas, exemplo: @festivalchooselife, @juangsandrade"
+                      inputType="text"
+                      registerFunction={register("witness")}
+                      errorMessage={formState.errors.witness?.message}
+                      isDirty={formState.dirtyFields.witness}
+                      touched={formState.touchedFields.witness}
+                    />
+                  </>
+                )}
+
+                <TextArea
+                  label="Comentário"
+                  placeholder="Boa choosen 🤘🆑 Conta pra gente como foi ese rolê, o que achou da fita, da conexão..."
+                  registerFunction={register("comment")}
                 />
-              </>
-            )}
 
-            <TextArea
-              label="Comentário"
-              placeholder="Boa choosen 🤘🆑 Conta pra gente como foi ese rolê, o que achou da fita, da conexão..."
-              registerFunction={register("comment")}
-            />
-
-            <button
-              type="submit"
-              className="inline-flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-            >
-              <PlusSvg />
-              Registrar
-            </button>
-          </div>
-        </form>
+                <PrimaryButton
+                  label="Registrar"
+                  icon={<PlusSvg />}
+                  loading={isLoading}
+                />
+              </div>
+            </form>
+          </>
+        )}
       </div>
     </div>
   );
