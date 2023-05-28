@@ -19,6 +19,7 @@ export interface Database {
           lenght: number;
           main_webbing: string;
           name: string;
+          sector_id: number | null;
         };
         Insert: {
           backup_webbing?: string;
@@ -29,6 +30,7 @@ export interface Database {
           lenght: number;
           main_webbing?: string;
           name: string;
+          sector_id?: number | null;
         };
         Update: {
           backup_webbing?: string;
@@ -39,6 +41,7 @@ export interface Database {
           lenght?: number;
           main_webbing?: string;
           name?: string;
+          sector_id?: number | null;
         };
       };
       role: {
@@ -77,6 +80,26 @@ export interface Database {
           is_highliner?: boolean;
           name?: string;
           witness?: string[] | null;
+        };
+      };
+      sector: {
+        Row: {
+          created_at: string | null;
+          description: string | null;
+          id: number;
+          name: string;
+        };
+        Insert: {
+          created_at?: string | null;
+          description?: string | null;
+          id?: number;
+          name: string;
+        };
+        Update: {
+          created_at?: string | null;
+          description?: string | null;
+          id?: number;
+          name?: string;
         };
       };
     };
