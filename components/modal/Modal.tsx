@@ -25,7 +25,9 @@ const formSchema = z.object({
   isNotHighliner: z.boolean(),
   pegas: z
     .object({
-      type: z.enum(["cadena", "fullLine"] as const).nullable(),
+      type: z
+        .enum(["entry", "crossing", "cadena", "fullLine"] as const)
+        .nullable(),
       distance: z
         .number({
           required_error: "Insira quantos metros você andou",
@@ -73,9 +75,12 @@ function Modal({ closeModal, highlineId, highlineDistance }: Props) {
   const watchIsNotHighliner = watch("isNotHighliner");
 
   useEffect(() => {
-    if (watchPegaType === "cadena") {
-      setValue("pegas.distance", highlineDistance);
-    } else if (watchPegaType === "fullLine") {
+    if (watchPegaType === "entry") {
+      setValue("pegas.distance", 0);
+      return;
+    }
+    // If any other radio type, the person has walked the entire
+    if (watchPegaType) {
       setValue("pegas.distance", highlineDistance * 2);
     }
   }, [watchPegaType, setValue, highlineDistance]);
@@ -93,6 +98,7 @@ function Modal({ closeModal, highlineId, highlineDistance }: Props) {
         comment: formData.comment,
         witness: formData.witness?.replace(" ", "").split(","),
         is_highliner: !formData.isNotHighliner,
+        distance_walked: formData.pegas?.distance,
       },
     ]);
   };

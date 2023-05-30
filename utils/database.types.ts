@@ -49,6 +49,7 @@ export interface Database {
           comment: string | null;
           created_at: string | null;
           crossing_time: number | null;
+          distance_walked: number | null;
           highline_id: string;
           id: number;
           is_cadena: boolean | null;
@@ -61,6 +62,7 @@ export interface Database {
           comment?: string | null;
           created_at?: string | null;
           crossing_time?: number | null;
+          distance_walked?: number | null;
           highline_id: string;
           id?: number;
           is_cadena?: boolean | null;
@@ -73,6 +75,7 @@ export interface Database {
           comment?: string | null;
           created_at?: string | null;
           crossing_time?: number | null;
+          distance_walked?: number | null;
           highline_id?: string;
           id?: number;
           is_cadena?: boolean | null;
@@ -107,7 +110,10 @@ export interface Database {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      get_total_walked: {
+        name: "string";
+        total_distance_walked: number;
+      };
     };
     Enums: {
       [_ in never]: never;

@@ -20,21 +20,35 @@ function Pegas({ radio, time, distance }: Props) {
   return (
     <div className="border bg-gray-50 dark:bg-gray-700 dark:border-gray-600 shadow-sm p-4 space-y-3">
       <Radio
-        id={`cadena`}
+        id="entry"
+        label="Entrada"
+        value="entry"
+        helperText="Você deu um rolê na fita, especifique a quantidade de metros andados a seguir."
+        registerFunction={radio.registerFunction}
+      />
+      <Radio
+        id="crossing"
+        label="Travessia"
+        value="crossing"
+        helperText="Você atravessou e voltou com quedas."
+        registerFunction={radio.registerFunction}
+      />
+      <Radio
+        id="cadena"
         label="Cadena"
         value="cadena"
         helperText="Você dropou no começo e foi até o final da fita sem cair, no final pode descer no drop e sentar na fita."
         registerFunction={radio.registerFunction}
       />
       <Radio
-        id={`fullLine`}
+        id="fullLine"
         label="Full line"
         value="fullLine"
         helperText="Você cadenou a ida e a volta, sem descer na virada."
         registerFunction={radio.registerFunction}
       />
       <TextField
-        id={`distance`}
+        id="distance"
         label="Distância"
         placeholder="Quantos metros você andou"
         inputType="number"
@@ -44,7 +58,7 @@ function Pegas({ radio, time, distance }: Props) {
         touched={distance.touched}
       />
       <TextField
-        id={`time`}
+        id="time"
         label="Tempo"
         placeholder="Tempo da travessia, exemplo: 2:59"
         inputType="text"
