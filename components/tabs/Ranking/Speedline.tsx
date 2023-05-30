@@ -16,9 +16,9 @@ interface Props {
 const PAGE_SIZE = 5;
 
 function Speedline({ highline }: Props) {
-  const fetchRoles = async ({ pageParam = 1 }) => {
+  const fetchEntrys = async ({ pageParam = 1 }) => {
     const { data } = await supabase
-      .from("role")
+      .from("entry")
       .select()
       .match({ highline_id: highline.id })
       .order("crossing_time", { ascending: true })
@@ -28,14 +28,14 @@ function Speedline({ highline }: Props) {
   };
 
   const {
-    data: roles,
+    data: entrys,
     isLoading,
     isError,
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(
-    ["roles", highline.id, "speedline"],
-    ({ pageParam = 1 }) => fetchRoles({ pageParam }),
+    ["entry", highline.id, "speedline"],
+    ({ pageParam = 1 }) => fetchEntrys({ pageParam }),
     {
       enabled: !!highline.id,
       getNextPageParam: (lastPage, pages) => {
@@ -56,30 +56,30 @@ function Speedline({ highline }: Props) {
   return (
     <>
       <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-        {roles.pages.map((page, pageIndex) => (
+        {entrys.pages.map((page, pageIndex) => (
           <React.Fragment key={pageIndex}>
-            {page?.map((role, idx) => {
-              if (!role.crossing_time || !role.created_at) return null;
+            {page?.map((entry, idx) => {
+              if (!entry.crossing_time || !entry.created_at) return null;
               const rankingPosition = pageIndex * PAGE_SIZE + idx + 1; // Calculate ranking
               return (
-                <li key={role.id} className="py-3 sm:py-4">
+                <li key={entry.id} className="py-3 sm:py-4">
                   <div className="flex items-center space-x-4">
                     <div className="font-bold">{rankingPosition}</div>
                     <div className="min-w-0 flex-1">
                       <Link
-                        href={`https://www.instagram.com/${role.name.replace(
+                        href={`https://www.instagram.com/${entry.instagram.replace(
                           "@",
                           ""
                         )}/`}
                         target="_blank"
                         className="truncate font-medium text-blue-700 dark:text-blue-500"
                       >
-                        {role.name}
+                        {entry.instagram}
                       </Link>
-                      <div>{convertISODateToTimeFormat(role.created_at)}</div>
+                      <div>{convertISODateToTimeFormat(entry.created_at)}</div>
                     </div>
                     <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                      {transformSecondsToTimeString(role.crossing_time)}
+                      {transformSecondsToTimeString(entry.crossing_time)}
                     </div>
                   </div>
                 </li>

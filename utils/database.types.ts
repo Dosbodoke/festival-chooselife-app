@@ -9,6 +9,47 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      entry: {
+        Row: {
+          comment: string | null;
+          created_at: string;
+          crossing_time: number | null;
+          distance_walked: number | null;
+          highline_id: string;
+          id: string;
+          instagram: string;
+          is_cadena: boolean | null;
+          is_full_line: boolean | null;
+          is_highliner: boolean;
+          witness: string[] | null;
+        };
+        Insert: {
+          comment?: string | null;
+          created_at?: string;
+          crossing_time?: number | null;
+          distance_walked?: number | null;
+          highline_id: string;
+          id?: string;
+          instagram: string;
+          is_cadena?: boolean | null;
+          is_full_line?: boolean | null;
+          is_highliner: boolean;
+          witness?: string[] | null;
+        };
+        Update: {
+          comment?: string | null;
+          created_at?: string;
+          crossing_time?: number | null;
+          distance_walked?: number | null;
+          highline_id?: string;
+          id?: string;
+          instagram?: string;
+          is_cadena?: boolean | null;
+          is_full_line?: boolean | null;
+          is_highliner?: boolean;
+          witness?: string[] | null;
+        };
+      };
       highline: {
         Row: {
           backup_webbing: string;
@@ -44,47 +85,6 @@ export interface Database {
           sector_id?: number | null;
         };
       };
-      role: {
-        Row: {
-          comment: string | null;
-          created_at: string | null;
-          crossing_time: number | null;
-          distance_walked: number | null;
-          highline_id: string;
-          id: number;
-          is_cadena: boolean | null;
-          is_full_line: boolean | null;
-          is_highliner: boolean;
-          name: string;
-          witness: string[] | null;
-        };
-        Insert: {
-          comment?: string | null;
-          created_at?: string | null;
-          crossing_time?: number | null;
-          distance_walked?: number | null;
-          highline_id: string;
-          id?: number;
-          is_cadena?: boolean | null;
-          is_full_line?: boolean | null;
-          is_highliner: boolean;
-          name: string;
-          witness?: string[] | null;
-        };
-        Update: {
-          comment?: string | null;
-          created_at?: string | null;
-          crossing_time?: number | null;
-          distance_walked?: number | null;
-          highline_id?: string;
-          id?: number;
-          is_cadena?: boolean | null;
-          is_full_line?: boolean | null;
-          is_highliner?: boolean;
-          name?: string;
-          witness?: string[] | null;
-        };
-      };
       sector: {
         Row: {
           created_at: string | null;
@@ -111,8 +111,15 @@ export interface Database {
     };
     Functions: {
       get_total_walked: {
-        name: "string";
-        total_distance_walked: number;
+        Args: {
+          highline_id: string;
+          page_number: number;
+          page_size: number;
+        };
+        Returns: {
+          instagram: string;
+          total_distance_walked: number;
+        }[];
       };
     };
     Enums: {

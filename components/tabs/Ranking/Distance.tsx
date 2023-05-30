@@ -12,27 +12,33 @@ interface Props {
 const PAGE_SIZE = 5;
 
 function Distance({ highline }: Props) {
-  const fetchRoles = async ({ pageParam = 1 }) => {
-    const { data, error } = await supabase
-      .rpc("get_total_walked", {
-        highline_id: highline.id,
-        page_number: pageParam,
-        page_size: PAGE_SIZE,
-      })
-      .select();
-    console.log({ data });
+  const fetchEntrys = async ({ pageParam = 1 }) => {
+    const { data, error } = await supabase.rpc("get_total_walked", {
+      highline_id: highline.id,
+      page_number: pageParam,
+      page_size: PAGE_SIZE,
+    });
     return data;
+    // const { data, error } = await supabase
+    //   .rpc("get_total_walked", {
+    //     highline_id: highline.id,
+    //     page_number: pageParam,
+    //     page_size: PAGE_SIZE,
+    //   })
+    //   .select();
+    // console.log({ data });
+    // return data;
   };
 
   const {
-    data: roles,
+    data: entrys,
     isLoading,
     isError,
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(
-    ["roles", highline.id, "distance"],
-    ({ pageParam = 1 }) => fetchRoles({ pageParam }),
+    ["entry", highline.id, "distance"],
+    ({ pageParam = 1 }) => fetchEntrys({ pageParam }),
     {
       enabled: !!highline.id,
       getNextPageParam: (lastPage, pages) => {
@@ -53,28 +59,29 @@ function Distance({ highline }: Props) {
   return (
     <>
       <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-        {roles.pages.map((page, pageIndex) => (
+        {entrys.pages.map((page, pageIndex) => (
           <React.Fragment key={pageIndex}>
-            {page?.map((role, idx) => {
+            {page?.map((entry, idx) => {
               const rankingPosition = pageIndex * PAGE_SIZE + idx + 1; // Calculate ranking
+              console.log(entry);
               return (
-                <li key={role.id} className="py-3 sm:py-4">
+                <li key={entry.instagram} className="py-3 sm:py-4">
                   <div className="flex items-center space-x-4">
                     <div className="font-bold">{rankingPosition}</div>
                     <div className="min-w-0 flex-1">
                       <Link
-                        href={`https://www.instagram.com/${role.name.replace(
+                        href={`https://www.instagram.com/${entry.instagram.replace(
                           "@",
                           ""
                         )}/`}
                         target="_blank"
                         className="truncate font-medium text-blue-700 dark:text-blue-500"
                       >
-                        {role.name}
+                        {entry.instagram}
                       </Link>
                     </div>
                     <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                      {role.total_distance_walked}m
+                      {entry.total_distance_walked}m
                     </div>
                   </div>
                 </li>

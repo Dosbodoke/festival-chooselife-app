@@ -86,9 +86,9 @@ function Modal({ closeModal, highlineId, highlineDistance }: Props) {
   }, [watchPegaType, setValue, highlineDistance]);
 
   const createRecord = async (formData: FormSchema) => {
-    return supabase.from("role").insert([
+    return supabase.from("entry").insert([
       {
-        name: formData.instagram,
+        instagram: formData.instagram,
         crossing_time: formData.pegas
           ? transformTimeStringToSeconds(formData.pegas.time)
           : null,
