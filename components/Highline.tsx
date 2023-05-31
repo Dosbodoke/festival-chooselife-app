@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import type { Tables } from "@/utils/supabase";
 import { ArrowIcon } from "@/assets";
+import HighlineImage from "./HighlineImage";
 
 interface Props {
   highline: Tables["highline"]["Row"];
@@ -12,12 +13,7 @@ function Highline({ highline }: Props) {
   return (
     <div className="w-full rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800 sm:w-128">
       <div className="relative block h-72 w-full">
-        <Image
-          src="https://dummyimage.com/400x400"
-          alt="highline"
-          fill
-          className="object-cover object-center"
-        />
+        <HighlineImage coverImageId={highline.cover_image} />
       </div>
       <div className="p-5">
         <a href="#">

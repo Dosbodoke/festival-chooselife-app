@@ -19,7 +19,8 @@ export default async function Home() {
         main_webbing,
         backup_webbing,
         description, 
-        sector_id
+        sector_id,
+        cover_image
         )
       `
   );
@@ -33,7 +34,6 @@ export default async function Home() {
             ? sector.highline
             : [sector.highline];
         }
-        console.log(highlines);
         return (
           <section
             key={sector.id}

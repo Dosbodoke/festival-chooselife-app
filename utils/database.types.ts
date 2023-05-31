@@ -53,6 +53,7 @@ export interface Database {
       highline: {
         Row: {
           backup_webbing: string;
+          cover_image: string | null;
           created_at: string;
           description: string | null;
           height: number;
@@ -64,6 +65,7 @@ export interface Database {
         };
         Insert: {
           backup_webbing?: string;
+          cover_image?: string | null;
           created_at?: string;
           description?: string | null;
           height: number;
@@ -75,6 +77,7 @@ export interface Database {
         };
         Update: {
           backup_webbing?: string;
+          cover_image?: string | null;
           created_at?: string;
           description?: string | null;
           height?: number;
