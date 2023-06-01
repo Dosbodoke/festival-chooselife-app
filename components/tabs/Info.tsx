@@ -11,9 +11,7 @@ interface Props {
 function Info({ highline }: Props) {
   return (
     <motion.div exit={{ opacity: 0 }}>
-      <p className="mb-4 leading-relaxed">
-        Fita conquistada em 2019 durante a primeira edição do festival.
-      </p>
+      <p className="mb-4 leading-relaxed">{highline.description}</p>
 
       <div className="flex border-t border-gray-200 py-2">
         <span className="text-gray-500 dark:text-gray-400">Altura</span>
@@ -30,12 +28,14 @@ function Info({ highline }: Props) {
       <div className="flex border-t border-gray-200 py-2">
         <span className="text-gray-500 dark:text-gray-400">Fita principal</span>
         <span className="ml-auto text-gray-900 dark:text-gray-200">
-          Feather Pro
+          {highline.main_webbing}
         </span>
       </div>
       <div className="flex border-t border-gray-200 py-2">
         <span className="text-gray-500 dark:text-gray-400">Fita Backup</span>
-        <span className="ml-auto text-gray-900 dark:text-gray-200">Aero 2</span>
+        <span className="ml-auto text-gray-900 dark:text-gray-200">
+          {highline.backup_webbing}
+        </span>
       </div>
     </motion.div>
   );
