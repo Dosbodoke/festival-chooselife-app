@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import supabase from "@/utils/supabase";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { PlusSvg } from "@/assets";
 import Pegas from "./Pegas";
@@ -61,6 +61,7 @@ interface Props {
 }
 
 function Modal({ closeModal, highlineId, highlineDistance }: Props) {
+  const queryClient = useQueryClient();
   const { register, handleSubmit, formState, watch, setValue } =
     useForm<FormSchema>({
       mode: "onTouched",
@@ -107,6 +108,9 @@ function Modal({ closeModal, highlineId, highlineDistance }: Props) {
     onError: (e) => {
       console.log("Error");
       console.log(e);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["entry"] });
     },
   });
 
