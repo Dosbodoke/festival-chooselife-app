@@ -7,7 +7,7 @@ import {
   transformSecondsToTimeString,
 } from "@/utils/helperFunctions";
 import supabase, { type Tables } from "@/utils/supabase";
-import LoadingSkeleton from "../LoadingSkeleton";
+import LoadingSkeleton from "./LoadingSkeleton";
 
 interface Props {
   highline: Tables["highline"]["Row"];

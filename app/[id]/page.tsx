@@ -45,7 +45,7 @@ export default async function Highline({
               },
               {
                 id: "reviews",
-                label: "Reviews",
+                label: "Comentários",
               },
               {
                 id: "ranking",

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 import supabase, { type Tables } from "@/utils/supabase";
-import LoadingSkeleton from "../LoadingSkeleton";
+import LoadingSkeleton from "./LoadingSkeleton";
 
 interface Props {
   highline: Tables["highline"]["Row"];
@@ -63,7 +63,6 @@ function Distance({ highline }: Props) {
           <React.Fragment key={pageIndex}>
             {page?.map((entry, idx) => {
               const rankingPosition = pageIndex * PAGE_SIZE + idx + 1; // Calculate ranking
-              console.log(entry);
               return (
                 <li key={entry.instagram} className="py-3 sm:py-4">
                   <div className="flex items-center space-x-4">

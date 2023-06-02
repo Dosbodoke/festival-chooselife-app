@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import type { Tables } from "@/utils/supabase";
 import Info from "./Info";
 import Ranking from "./Ranking";
+import Comments from "./Comments";
 
 type Tab = {
   id: string;
@@ -22,7 +23,7 @@ function tabMapping(tab: string, highline: Tables["highline"]["Row"]) {
     case "info":
       return <Info highline={highline} />;
     case "reviews":
-      return <div>Reviews</div>;
+      return <Comments highline={highline} />;
     case "ranking":
       return <Ranking highline={highline} />;
     default:
