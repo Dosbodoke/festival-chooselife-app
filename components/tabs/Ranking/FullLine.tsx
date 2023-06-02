@@ -11,9 +11,9 @@ interface Props {
 
 const PAGE_SIZE = 5;
 
-function Cadenas({ highline }: Props) {
-  const fetchCadenas = async ({ pageParam = 1 }) => {
-    const { data, error } = await supabase.rpc("get_total_cadenas", {
+function FullLine({ highline }: Props) {
+  const fetchFullLine = async ({ pageParam = 1 }) => {
+    const { data, error } = await supabase.rpc("get_total_full_lines", {
       highline_id: highline.id,
       page_number: pageParam,
       page_size: PAGE_SIZE,
@@ -28,8 +28,8 @@ function Cadenas({ highline }: Props) {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(
-    ["entry", highline.id, "cadenas"],
-    ({ pageParam = 1 }) => fetchCadenas({ pageParam }),
+    ["entry", highline.id, "fullLine"],
+    ({ pageParam = 1 }) => fetchFullLine({ pageParam }),
     {
       enabled: !!highline.id,
       getNextPageParam: (lastPage, pages) => {
@@ -71,7 +71,7 @@ function Cadenas({ highline }: Props) {
                       </Link>
                     </div>
                     <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                      {entry.total_cadenas}
+                      {entry.total_full_lines}
                     </div>
                   </div>
                 </li>
@@ -93,4 +93,4 @@ function Cadenas({ highline }: Props) {
   );
 }
 
-export default Cadenas;
+export default FullLine;

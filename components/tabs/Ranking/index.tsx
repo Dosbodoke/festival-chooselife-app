@@ -8,6 +8,7 @@ import CategoryDropdown from "./CategoryDropdown";
 import Speedline from "./Speedline";
 import Distance from "./Distance";
 import Cadenas from "./Cadenas";
+import FullLine from "./FullLine";
 
 interface Props {
   highline: Tables["highline"]["Row"];
@@ -15,8 +16,13 @@ interface Props {
 
 // TODO: Improve this logic, categories shouldn't be possible to
 // crate with duplicated values such as ["sppedline", "speedline"]
-export type Category = "speedline" | "distância" | "cadenas";
-const categories: Category[] = ["speedline", "distância", "cadenas"];
+export type Category = "speedline" | "distância" | "cadenas" | "fullLine";
+const categories: Category[] = [
+  "speedline",
+  "distância",
+  "cadenas",
+  "fullLine",
+];
 
 function Ranking({ highline }: Props) {
   const [selectedCategory, setSelectedCategory] = useState<Category>(
@@ -37,6 +43,8 @@ function Ranking({ highline }: Props) {
         return <Distance highline={highline} />;
       case "cadenas":
         return <Cadenas highline={highline} />;
+      case "fullLine":
+        return <FullLine highline={highline} />;
       default:
         return null;
     }

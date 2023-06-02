@@ -124,6 +124,17 @@ export interface Database {
           total_cadenas: number;
         }[];
       };
+      get_total_full_lines: {
+        Args: {
+          highline_id: string;
+          page_number: number;
+          page_size: number;
+        };
+        Returns: {
+          instagram: string;
+          total_full_lines: number;
+        }[];
+      };
       get_total_walked: {
         Args: {
           highline_id: string;
