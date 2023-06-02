@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import supabase, { type Tables } from "@/utils/supabase";
 import { transformSecondsToTimeString } from "@/utils/helperFunctions";
+import LoadingSkeleton from "./Ranking/LoadingSkeleton";
 
 interface Props {
   highline: Tables["highline"]["Row"];
@@ -42,7 +43,8 @@ function Comments({ highline }: Props) {
   );
 
   if (isLoading) {
-    return null;
+    // TODO: Create a different loading skeleton for comment section
+    return <LoadingSkeleton />;
   }
 
   if (isError) {
@@ -50,13 +52,13 @@ function Comments({ highline }: Props) {
   }
 
   return (
-    <div>
+    <>
       {comments.pages.map((page, pageIndex) => (
         <React.Fragment key={pageIndex}>
           {page?.map((comment, idx) => (
             <article
               key={`comment-${comment.created_at}`}
-              className="py-6 text-base bg-white border-t first:border-t-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+              className="py-6 text-base border-t first:border-t-0 border-gray-200 dark:border-gray-700 bg"
             >
               <footer className="flex justify-between items-center mb-2">
                 <div className="flex items-center">
@@ -96,7 +98,7 @@ function Comments({ highline }: Props) {
           carregar mais
         </button>
       )}
-    </div>
+    </>
   );
 }
 
