@@ -113,6 +113,17 @@ export interface Database {
       [_ in never]: never;
     };
     Functions: {
+      get_total_cadenas: {
+        Args: {
+          highline_id: string;
+          page_number: number;
+          page_size: number;
+        };
+        Returns: {
+          instagram: string;
+          total_cadenas: number;
+        }[];
+      };
       get_total_walked: {
         Args: {
           highline_id: string;

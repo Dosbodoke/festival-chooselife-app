@@ -11,9 +11,9 @@ interface Props {
 
 const PAGE_SIZE = 5;
 
-function Distance({ highline }: Props) {
+function Cadenas({ highline }: Props) {
   const fetchEntrys = async ({ pageParam = 1 }) => {
-    const { data, error } = await supabase.rpc("get_total_walked", {
+    const { data, error } = await supabase.rpc("get_total_cadenas", {
       highline_id: highline.id,
       page_number: pageParam,
       page_size: PAGE_SIZE,
@@ -71,7 +71,7 @@ function Distance({ highline }: Props) {
                       </Link>
                     </div>
                     <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                      {entry.total_distance_walked}m
+                      {entry.total_cadenas}
                     </div>
                   </div>
                 </li>
@@ -93,4 +93,4 @@ function Distance({ highline }: Props) {
   );
 }
 
-export default Distance;
+export default Cadenas;

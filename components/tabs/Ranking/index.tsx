@@ -7,14 +7,16 @@ import { type Tables } from "@/utils/supabase";
 import CategoryDropdown from "./CategoryDropdown";
 import Speedline from "./Speedline";
 import Distance from "./Distance";
+import Cadenas from "./Cadenas";
 
 interface Props {
   highline: Tables["highline"]["Row"];
 }
 
-export type Category = "speedline" | "distância";
-
-const categories: Category[] = ["speedline", "distância"];
+// TODO: Improve this logic, categories shouldn't be possible to
+// crate with duplicated values such as ["sppedline", "speedline"]
+export type Category = "speedline" | "distância" | "cadenas";
+const categories: Category[] = ["speedline", "distância", "cadenas"];
 
 function Ranking({ highline }: Props) {
   const [selectedCategory, setSelectedCategory] = useState<Category>(
@@ -33,6 +35,8 @@ function Ranking({ highline }: Props) {
         return <Speedline highline={highline} />;
       case "distância":
         return <Distance highline={highline} />;
+      case "cadenas":
+        return <Cadenas highline={highline} />;
       default:
         return null;
     }
