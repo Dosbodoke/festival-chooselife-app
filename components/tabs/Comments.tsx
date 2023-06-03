@@ -18,7 +18,7 @@ function Comments({ highline }: Props) {
       .from("entry")
       .select("comment, created_at, instagram")
       .match({ highline_id: highline.id })
-      .order("created_at", { ascending: true })
+      .order("created_at", { ascending: false })
       .range((pageParam - 1) * PAGE_SIZE, pageParam * PAGE_SIZE - 1);
 
     return data;
