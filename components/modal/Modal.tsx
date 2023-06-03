@@ -124,8 +124,8 @@ function Modal({ closeModal, highlineId, highlineDistance }: Props) {
   };
 
   return (
-    <div className="fixed top-0 right-0 left-0 bottom-0 z-50 flex justify-center items-center w-full md:inset-0 bg-gray-700 bg-opacity-50">
-      <div className="relative mx-4 p-4 w-full max-w-2xl h-5/6 overflow-y-auto bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+    <div className="fixed bottom-0 left-0 right-0 top-0 z-50 flex w-full items-center justify-center bg-gray-700 bg-opacity-50 md:inset-0">
+      <div className="relative mx-4 h-5/6 w-full max-w-2xl overflow-y-auto rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-5">
         {isSuccess ? (
           <SuccessAnimation closeModal={closeModal} />
         ) : (

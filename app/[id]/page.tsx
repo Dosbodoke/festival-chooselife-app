@@ -24,12 +24,12 @@ export default async function Highline({
   if (!highline) return null;
 
   return (
-    <div className="relative mx-auto w-full h-full max-w-screen-md">
+    <div className="relative mx-auto h-full w-full max-w-screen-md">
       <div className="rounded-lg border border-gray-200 bg-white shadow-2xl dark:border-gray-700 dark:bg-gray-800">
-        <div className="w-full relative h-64 md:h-96 rounded">
+        <div className="relative h-64 w-full rounded md:h-96">
           <HighlineImage coverImageId={highline.cover_image} />
         </div>
-        <div className="px-2 pb-4 md:px-4 md:pb-6 h-full w-full">
+        <div className="h-full w-full px-2 pb-4 md:px-4 md:pb-6">
           <h1 className="my-2 text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white">
             {highline.name}
           </h1>

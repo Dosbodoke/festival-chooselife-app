@@ -10,13 +10,13 @@ function SuccessAnimation({ closeModal }: Props) {
     <div>
       <h1 className="text-center text-4xl font-bold">BOA CHOOSEN</h1>
       <span className="block text-center"> 🆑 🆑 🆑 🆑 🆑</span>
-      <p className="text-center text-lg mt-3">
+      <p className="mt-3 text-center text-lg">
         Seu rolê está registrado e será usado para calcular as suas estatística
         no festival.
       </p>
       <Player
         src="https://assets2.lottiefiles.com/datafiles/jXqHQIXI6oO6V47/data.json"
-        className="w-full h-max"
+        className="h-max w-full"
         autoplay
         keepLastFrame
       />

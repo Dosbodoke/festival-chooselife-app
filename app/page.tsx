@@ -39,7 +39,7 @@ export default async function Home() {
             key={sector.id}
             className="flex-wrap gap-4 px-4 py-8 md:flex lg:px-6 lg:py-16"
           >
-            <div className="mb-4 md:mb-0 min-w-[384px] flex-1">
+            <div className="mb-4 min-w-[384px] flex-1 md:mb-0">
               <h2
                 className="mb-4 text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white"
                 style={inter.style}

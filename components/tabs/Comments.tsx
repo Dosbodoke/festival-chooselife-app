@@ -58,9 +58,9 @@ function Comments({ highline }: Props) {
           {page?.map((comment, idx) => (
             <article
               key={`comment-${comment.created_at}`}
-              className="py-6 text-base border-t first:border-t-0 border-gray-200 dark:border-gray-700 bg"
+              className="bg border-t border-gray-200 py-6 text-base first:border-t-0 dark:border-gray-700"
             >
-              <footer className="flex justify-between items-center mb-2">
+              <footer className="mb-2 flex items-center justify-between">
                 <div className="flex items-center">
                   <Link
                     href={`https://www.instagram.com/${comment.instagram.replace(
@@ -68,7 +68,7 @@ function Comments({ highline }: Props) {
                       ""
                     )}/`}
                     target="_blank"
-                    className="inline-flex items-center mr-3 text-sm truncate font-medium text-blue-700 dark:text-blue-500"
+                    className="mr-3 inline-flex items-center truncate text-sm font-medium text-blue-700 dark:text-blue-500"
                   >
                     {comment.instagram}
                   </Link>
@@ -93,7 +93,7 @@ function Comments({ highline }: Props) {
         <button
           onClick={() => fetchNextPage()}
           disabled={isLoading}
-          className="mt-2 text-center text-sm font-medium cursor-pointer text-blue-600 dark:text-blue-500"
+          className="mt-2 cursor-pointer text-center text-sm font-medium text-blue-600 dark:text-blue-500"
         >
           carregar mais
         </button>

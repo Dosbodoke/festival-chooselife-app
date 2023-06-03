@@ -84,7 +84,7 @@ function FullLine({ highline }: Props) {
         <button
           onClick={() => fetchNextPage()}
           disabled={isLoading}
-          className="mt-2 text-center text-sm font-medium cursor-pointer text-blue-600 dark:text-blue-500"
+          className="mt-2 cursor-pointer text-center text-sm font-medium text-blue-600 dark:text-blue-500"
         >
           carregar mais
         </button>

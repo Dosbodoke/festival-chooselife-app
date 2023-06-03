@@ -11,7 +11,7 @@ interface Props {
 
 function Highline({ highline }: Props) {
   return (
-    <div className="w-full rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800 sm:w-128">
+    <div className="sm:w-128 w-full rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
       <div className="relative block h-72 w-full">
         <HighlineImage coverImageId={highline.cover_image} />
       </div>

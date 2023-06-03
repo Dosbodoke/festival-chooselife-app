@@ -2,7 +2,7 @@ import { SVGAttributes } from "react";
 
 export const PlusSvg = () => (
   <svg
-    className="mr-1 -ml-1 w-6 h-6"
+    className="-ml-1 mr-1 h-6 w-6"
     fill="currentColor"
     viewBox="0 0 20 20"
     xmlns="http://www.w3.org/2000/svg"
@@ -18,7 +18,7 @@ export const PlusSvg = () => (
 export const CloseSvg = () => (
   <svg
     aria-hidden="true"
-    className="w-5 h-5"
+    className="h-5 w-5"
     fill="currentColor"
     viewBox="0 0 20 20"
     xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +72,7 @@ export const ArrowIcon = (props: SVGAttributes<SVGElement>) => (
 export const ArrowDownSvg = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg
-      className="w-3 h-3 ml-2"
+      className="ml-2 h-3 w-3"
       aria-hidden="true"
       fill="none"
       stroke="currentColor"

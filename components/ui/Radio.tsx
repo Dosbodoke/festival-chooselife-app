@@ -11,13 +11,13 @@ interface Props {
 function Radio({ id, label, value, helperText, registerFunction }: Props) {
   return (
     <div className="flex">
-      <div className="flex items-center h-5">
+      <div className="flex h-5 items-center">
         <input
           id={id}
           type="radio"
           value={value}
           {...registerFunction}
-          className="w-4 h-4 accent-blue-600"
+          className="h-4 w-4 accent-blue-600"
         />
       </div>
       <div className="ml-2 text-sm">

@@ -19,7 +19,7 @@ export default function RootLayout({
     <ReactQueryProvider>
       <html lang="en">
         <body
-          className={`min-h-screen w-screen md:px-0 px-2 bg-white text-gray-700 dark:bg-gray-900 dark:text-gray-400 ${inter.className}`}
+          className={`min-h-screen w-screen bg-white px-2 text-gray-700 dark:bg-gray-900 dark:text-gray-400 md:px-0 ${inter.className}`}
         >
           {children}
           <footer className="w-full py-8 text-base text-gray-900 opacity-75 transition hover:opacity-100 dark:text-gray-400">
