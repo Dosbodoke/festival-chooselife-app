@@ -28,7 +28,7 @@ function CategoryDropdown({
         onClick={() => setDropdownOpen((prev) => !prev)}
         className="inline-flex items-end gap-2 text-xl font-bold leading-none text-gray-900 dark:text-white"
       >
-        <div>{selectedCategory}</div>
+        <div className="capitalize">{selectedCategory}</div>
         <ArrowDownSvg className="w-4 h-4" />
       </button>
 
@@ -37,7 +37,7 @@ function CategoryDropdown({
           <div className="block px-4 py-2 text-sm font-semibold text-gray-900 dark:text-gray-200">
             Trocar modalidade
           </div>
-          <ul className="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200">
+          <ul className="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200 capitalize">
             {categories.map((c) => (
               <li key={c}>
                 <label

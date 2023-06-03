@@ -16,12 +16,12 @@ interface Props {
 
 // TODO: Improve this logic, categories shouldn't be possible to
 // crate with duplicated values such as ["sppedline", "speedline"]
-export type Category = "speedline" | "distância" | "cadenas" | "fullLine";
+export type Category = "speedline" | "distância" | "cadenas" | "full Line";
 const categories: Category[] = [
   "speedline",
   "distância",
   "cadenas",
-  "fullLine",
+  "full Line",
 ];
 
 function Ranking({ highline }: Props) {
@@ -43,7 +43,7 @@ function Ranking({ highline }: Props) {
         return <Distance highline={highline} />;
       case "cadenas":
         return <Cadenas highline={highline} />;
-      case "fullLine":
+      case "full Line":
         return <FullLine highline={highline} />;
       default:
         return null;
