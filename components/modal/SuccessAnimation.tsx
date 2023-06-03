@@ -1,4 +1,6 @@
 import { Player } from "@lottiefiles/react-lottie-player";
+
+import succesAnimation from "@/assets/success-animation.json";
 import PrimaryButton from "../PrimaryButton";
 
 interface Props {
@@ -15,7 +17,7 @@ function SuccessAnimation({ closeModal }: Props) {
         no festival.
       </p>
       <Player
-        src="https://assets2.lottiefiles.com/datafiles/jXqHQIXI6oO6V47/data.json"
+        src={succesAnimation}
         className="h-max w-full"
         autoplay
         keepLastFrame
