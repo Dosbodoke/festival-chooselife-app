@@ -1,4 +1,3 @@
-import Image from "next/image";
 import supabase from "@/utils/supabase";
 
 import Tabs from "@/components/tabs/Tabs";

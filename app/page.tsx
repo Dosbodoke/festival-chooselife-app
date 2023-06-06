@@ -20,7 +20,8 @@ export default async function Home() {
         backup_webbing,
         description, 
         sector_id,
-        cover_image
+        cover_image,
+        riggers
         )
       `
   );

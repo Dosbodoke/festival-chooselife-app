@@ -61,6 +61,7 @@ export interface Database {
           lenght: number;
           main_webbing: string;
           name: string;
+          riggers: string[] | null;
           sector_id: number | null;
         };
         Insert: {
@@ -73,6 +74,7 @@ export interface Database {
           lenght: number;
           main_webbing?: string;
           name: string;
+          riggers?: string[] | null;
           sector_id?: number | null;
         };
         Update: {
@@ -85,6 +87,7 @@ export interface Database {
           lenght?: number;
           main_webbing?: string;
           name?: string;
+          riggers?: string[] | null;
           sector_id?: number | null;
         };
       };
