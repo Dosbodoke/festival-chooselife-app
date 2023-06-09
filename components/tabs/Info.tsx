@@ -45,7 +45,7 @@ function Info({ highline }: Props) {
           {highline.backup_webbing}
         </span>
       </div>
-      <div className="flex border-t border-gray-200 py-2">
+      {/* <div className="flex border-t border-gray-200 py-2">
         <span className="flex-1 text-gray-500 dark:text-gray-400">Riggers</span>
         <span className="flex-1 text-right text-gray-900 dark:text-gray-200">
           {highline.riggers?.length === 2 ? (
@@ -73,7 +73,7 @@ function Info({ highline }: Props) {
             </>
           ) : null}
         </span>
-      </div>
+      </div> */}
       <h2 className="my-4 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">
         Mapa
       </h2>
