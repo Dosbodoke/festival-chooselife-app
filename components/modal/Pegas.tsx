@@ -60,7 +60,7 @@ function Pegas({ radio, time, distance }: Props) {
       <TextField
         id="time"
         label="Tempo"
-        placeholder="Tempo da travessia, exemplo: 2:59"
+        placeholder="Seu melhor tempo para o ranking do Speedline nesta via, exemplo: 2:59"
         inputType="text"
         registerFunction={time.registerFunction}
         errorMessage={time.errorMessage}
