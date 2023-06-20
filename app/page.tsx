@@ -26,7 +26,7 @@ export default function Home() {
 
   return (
     <main className="container mx-auto ">
-      <div className="relative mx-auto my-12 w-3/5">
+      <div className="relative mx-auto my-12 w-full sm:w-3/5">
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
           <SearchSvg />
         </div>
@@ -34,9 +34,9 @@ export default function Home() {
           type="search"
           id="default-search"
           placeholder="Nome do Highline"
-          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
         />
       </div>
 
