@@ -1,64 +1,50 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { Inter } from "next/font/google";
 
-import supabase from "@/utils/supabase";
+import supabase, { type Tables } from "@/utils/supabase";
 import Highline from "../components/Highline";
+import { SearchSvg } from "@/assets";
 
-const inter = Inter({ subsets: ["latin"] });
+export default function Home() {
+  const [highlines, setHighlines] = useState<Tables["highline"]["Row"][]>([]);
+  const [search, setSearch] = useState("");
 
-export default async function Home() {
-  // Had to manually declare all fields on highline because highline(*) didn't worked
-  const { data: sectors } = await supabase.from("sector").select(
-    `
-      *,
-      highline (
-        id,
-        created_at,
-        name,
-        height,
-        lenght, 
-        main_webbing,
-        backup_webbing,
-        description, 
-        sector_id,
-        cover_image,
-        riggers
-        )
-      `
+  useEffect(() => {
+    fetchHighlines();
+  }, []);
+
+  const fetchHighlines = async () => {
+    const { data } = await supabase.from("highline").select("*");
+    setHighlines(data || []);
+  };
+
+  const filteredHighlines = highlines.filter((highline) =>
+    highline.name.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
-    <div className="mx-auto max-w-screen-xl">
-      {sectors?.map((sector) => {
-        let highlines = null;
-        if (sector.highline) {
-          highlines = highlines = Array.isArray(sector.highline)
-            ? sector.highline
-            : [sector.highline];
-        }
-        return (
-          <section
-            key={sector.id}
-            className="flex-wrap gap-4 px-4 py-8 md:flex lg:px-6 lg:py-16"
-          >
-            <div className="mb-4 min-w-[384px] flex-1 md:mb-0">
-              <h2
-                className="mb-4 text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white"
-                style={inter.style}
-              >
-                {sector.name}
-              </h2>
-              <p className="font-normal text-gray-700 dark:text-gray-400">
-                {sector.description}
-              </p>
-            </div>
-            <div className="flex flex-[1_0_0%] flex-col items-center space-y-9 ">
-              {highlines?.map((highline) => (
-                <Highline key={highline.id} highline={highline} />
-              ))}
-            </div>
-          </section>
-        );
-      })}
-    </div>
+    <main className="container mx-auto ">
+      <div className="relative mx-auto my-12 w-3/5">
+        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+          <SearchSvg />
+        </div>
+        <input
+          type="search"
+          id="default-search"
+          placeholder="Nome do Highline"
+          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+
+      <section className="flex flex-wrap justify-center gap-6">
+        {filteredHighlines.map((highline) => (
+          <Highline key={highline.id} highline={highline} />
+        ))}
+      </section>
+    </main>
   );
 }

@@ -1,11 +1,12 @@
 import { SVGAttributes } from "react";
 
-export const PlusSvg = () => (
+export const PlusSvg = (props: SVGAttributes<SVGElement>) => (
   <svg
-    className="-ml-1 mr-1 h-6 w-6"
     fill="currentColor"
     viewBox="0 0 20 20"
     xmlns="http://www.w3.org/2000/svg"
+    className="-ml-1 mr-1 h-6 w-6"
+    {...props}
   >
     <path
       fillRule="evenodd"
@@ -15,13 +16,14 @@ export const PlusSvg = () => (
   </svg>
 );
 
-export const CloseSvg = () => (
+export const CloseSvg = (props: SVGAttributes<SVGElement>) => (
   <svg
     aria-hidden="true"
-    className="h-5 w-5"
     fill="currentColor"
     viewBox="0 0 20 20"
     xmlns="http://www.w3.org/2000/svg"
+    className="h-5 w-5"
+    {...props}
   >
     <path
       fillRule="evenodd"
@@ -56,10 +58,11 @@ export function LoadingIcon(props: SVGAttributes<SVGElement>) {
 export const ArrowIcon = (props: SVGAttributes<SVGElement>) => (
   <svg
     aria-hidden="true"
-    className="-mr-1 ml-2 h-4 w-4"
     fill="currentColor"
     viewBox="0 0 20 20"
     xmlns="http://www.w3.org/2000/svg"
+    className="-mr-1 ml-2 h-4 w-4"
+    {...props}
   >
     <path
       fillRule="evenodd"
@@ -72,12 +75,12 @@ export const ArrowIcon = (props: SVGAttributes<SVGElement>) => (
 export const ArrowDownSvg = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg
-      className="ml-2 h-3 w-3"
       aria-hidden="true"
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      className="ml-2 h-3 w-3"
       {...props}
     >
       <path
@@ -86,6 +89,45 @@ export const ArrowDownSvg = (props: SVGAttributes<SVGElement>) => {
         strokeWidth="2"
         d="M19 9l-7 7-7-7"
       ></path>
+    </svg>
+  );
+};
+
+export const SearchSvg = (props: SVGAttributes<SVGElement>) => (
+  <svg
+    aria-hidden="true"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-5 w-5 text-gray-500 dark:text-gray-400"
+    {...props}
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+    ></path>
+  </svg>
+);
+
+export const ArrowLongLeftIcon = (props: SVGAttributes<SVGElement>) => {
+  return (
+    <svg
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      {...props}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
+      />
     </svg>
   );
 };
