@@ -74,7 +74,7 @@ function Info({ highline }: Props) {
           ) : null}
         </span>
       </div> */}
-      <h2 className="my-4 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+      {/* <h2 className="my-4 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">
         Mapa
       </h2>
       <div className="relative h-[36rem] w-full">
@@ -111,7 +111,7 @@ function Info({ highline }: Props) {
         <p>7 Choose Games / Waterline</p>
         <p>8 Bonds Vive</p>
         <p>9 Quemtaí? / O Pastor, o grilo e a Tartaruta</p>
-      </div>
+      </div> */}
     </motion.div>
   );
 }
