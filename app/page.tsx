@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import supabase, { type Tables } from "@/utils/supabase";
 import Highline from "../components/Highline";
 import { SearchSvg } from "@/assets";
+import CreateHighline from "@/components/CreateHighline";
 
 export default function Home() {
   const [highlines, setHighlines] = useState<Tables["highline"]["Row"][]>([]);
@@ -26,18 +27,17 @@ export default function Home() {
 
   return (
     <main className="container mx-auto ">
-      <div className="relative mx-auto my-12 w-full sm:w-3/5">
-        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-          <SearchSvg />
-        </div>
+      <div className="mx-auto my-12 flex w-full items-center rounded-lg border border-gray-300 bg-gray-50 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:w-3/5">
+        <SearchSvg />
         <input
           type="search"
           id="default-search"
           placeholder="Nome do Highline"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 pl-10 text-base text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+          className="flex-1 bg-transparent pl-2 text-base text-gray-900 dark:text-white  dark:placeholder-gray-400"
         />
+        <CreateHighline />
       </div>
 
       <section className="flex flex-wrap justify-center gap-6">

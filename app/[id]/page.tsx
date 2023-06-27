@@ -34,13 +34,13 @@ export default async function Highline({
         <div className="relative h-64 w-full rounded md:h-96">
           <HighlineImage coverImageId={highline.cover_image} />
         </div>
-        <div className="h-full w-full px-2 pb-4 md:px-4 md:pb-6">
+        <div className="h-full w-full space-y-2 px-2 pb-4 md:px-4 md:pb-6">
           <h1 className="my-2 text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white">
             {highline.name}
           </h1>
           <RegistryEntry
             highlineId={highline.id}
-            highlineDistace={highline.lenght}
+            highlineDistance={highline.lenght}
           />
           <Tabs
             tabs={[
