@@ -212,6 +212,7 @@ const CreateHighline = () => {
                 label="Clique para escolher a foto do Highline"
                 file={getValues("image") ? getValues("image")[0] : undefined}
                 registerFunction={register("image")}
+                errorMessage={formState.errors.image?.message?.toString()}
               />
 
               <Button

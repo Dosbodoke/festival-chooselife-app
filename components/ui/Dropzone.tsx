@@ -2,6 +2,7 @@ import { UseFormRegisterReturn } from "react-hook-form";
 import { UploadCloudIcon } from "@/assets";
 import React from "react";
 import Image from "next/image";
+import { ACCEPTED_IMAGE_TYPES } from "@/utils/supabase";
 
 interface Props {
   id: string;
@@ -13,14 +14,16 @@ interface Props {
 
 function Dropzone({ id, label, registerFunction, errorMessage, file }: Props) {
   return (
-    <div className="relative flex h-64 w-full items-center justify-center">
+    <>
       {file ? (
-        <Image
-          src={URL.createObjectURL(file)}
-          alt="Preview"
-          fill
-          className="rounded-lg object-cover"
-        />
+        <div className="relative h-64 w-full">
+          <Image
+            src={URL.createObjectURL(file)}
+            alt="Preview"
+            fill
+            className="rounded-lg object-cover"
+          />
+        </div>
       ) : (
         <label
           htmlFor={id}
@@ -35,15 +38,21 @@ function Dropzone({ id, label, registerFunction, errorMessage, file }: Props) {
               PNG ou JPG
             </p>
           </div>
-          <input {...registerFunction} id={id} type="file" className="hidden" />
+          <input
+            {...registerFunction}
+            id={id}
+            type="file"
+            accept={ACCEPTED_IMAGE_TYPES.join(", ")}
+            className="hidden"
+          />
+          {errorMessage && (
+            <p className="text-sm text-red-600 dark:text-red-500">
+              {errorMessage}
+            </p>
+          )}
         </label>
       )}
-      {errorMessage && (
-        <p className="mt-2 text-sm text-red-600 dark:text-red-500">
-          {errorMessage}
-        </p>
-      )}
-    </div>
+    </>
   );
 }
 
