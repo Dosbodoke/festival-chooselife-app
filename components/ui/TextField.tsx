@@ -37,7 +37,7 @@ function TextField({
     <div>
       <label
         htmlFor={id}
-        className={`mb-2 block text-sm font-medium ${getStatusClass({
+        className={`mb-2 block text-base font-medium ${getStatusClass({
           error: "text-red-700 dark:text-red-500",
           neutral: "text-gray-900 dark:text-white",
           success: "text-green-700 dark:text-green-500",
@@ -51,7 +51,7 @@ function TextField({
         placeholder={placeholder}
         required={required}
         {...registerFunction}
-        className={`block w-full rounded-lg border bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-0 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 
+        className={`block w-full rounded-lg border bg-gray-50 p-2.5 text-base text-gray-900 focus:outline-0 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 
         ${getStatusClass({
           error: "border-red-500 dark:border-red-400  ",
           neutral:
