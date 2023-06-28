@@ -225,6 +225,7 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
                 )}
 
                 <TextArea
+                  id="comment"
                   label="Comentário"
                   placeholder="Boa choosen 🤘🆑 Conta pra gente como foi ese rolê, o que achou da fita, da conexão..."
                   registerFunction={register("comment")}

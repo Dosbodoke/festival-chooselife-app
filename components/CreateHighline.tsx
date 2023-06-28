@@ -203,6 +203,7 @@ const CreateHighline = () => {
                 touched={formState.touchedFields.backup_webbing}
               />
               <TextArea
+                id="description"
                 label="Descrição"
                 placeholder="Fale um pouco sobre este Highline. Aqui é o lugar perfeito para dar informações de acesso, segurança, dica para montagem ou rolê, etc..."
                 registerFunction={register("description")}
