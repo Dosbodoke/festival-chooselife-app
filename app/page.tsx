@@ -1,50 +1,29 @@
-"use client";
+import HighlineSearch from "@/components/HighlineSearch";
+import { type Metadata } from "next";
 
-import { useState, useEffect } from "react";
-import { Inter } from "next/font/google";
-
-import supabase, { type Tables } from "@/utils/supabase";
-import Highline from "../components/Highline";
-import { SearchSvg } from "@/assets";
-import CreateHighline from "@/components/CreateHighline";
+export const metadata: Metadata = {
+  title: "Festival Chooselife",
+  description: "Aplicativo de Highline do Festival Chooselife",
+  applicationName: "Festival Chooselife",
+  appleWebApp: {
+    capable: true,
+    title: "Festival Chooselife",
+    statusBarStyle: "default",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  themeColor: "#FFFFFF",
+  viewport:
+    "minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover",
+  manifest: "/manifest.json",
+  keywords: ["highline", "chooselife"],
+};
 
 export default function Home() {
-  const [highlines, setHighlines] = useState<Tables["highline"]["Row"][]>([]);
-  const [search, setSearch] = useState("");
-
-  useEffect(() => {
-    fetchHighlines();
-  }, []);
-
-  const fetchHighlines = async () => {
-    const { data } = await supabase.from("highline").select("*");
-    setHighlines(data || []);
-  };
-
-  const filteredHighlines = highlines.filter((highline) =>
-    highline.name.toLowerCase().includes(search.toLowerCase())
-  );
-
   return (
     <main className="container mx-auto ">
-      <div className="mx-auto my-12 flex w-full items-center rounded-lg border border-gray-300 bg-gray-50 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:w-3/5">
-        <SearchSvg />
-        <input
-          type="search"
-          id="default-search"
-          placeholder="Nome do Highline"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 bg-transparent pl-2 text-base text-gray-900 dark:text-white  dark:placeholder-gray-400"
-        />
-        <CreateHighline />
-      </div>
-
-      <section className="flex flex-wrap justify-center gap-6">
-        {filteredHighlines.map((highline) => (
-          <Highline key={highline.id} highline={highline} />
-        ))}
-      </section>
+      <HighlineSearch />
     </main>
   );
 }
