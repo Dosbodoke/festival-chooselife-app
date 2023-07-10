@@ -86,7 +86,10 @@ const CreateHighline = () => {
       // Create a new Blob from the file
       const blob = new Blob([await file.arrayBuffer()], { type: file.type });
       // Upload the blob
-      await supabase.storage.from("images").upload(imageName, blob);
+      const { error } = await supabase.storage
+        .from("images")
+        .upload(imageName, blob);
+      if (error) throw new Error("Couldn't upload the image");
     }
     const { data } = await supabase
       .from("highline")
@@ -102,7 +105,9 @@ const CreateHighline = () => {
         },
       ])
       .select();
-    if (!data || data.length !== 1) return null;
+    if (!data || data.length !== 1) {
+      throw new Error("Error when creating the highline");
+    }
     return data[0].id;
   };
 
