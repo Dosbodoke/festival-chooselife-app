@@ -95,7 +95,7 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
   }, [watchPegaType, setValue, highlineDistance]);
 
   const createRecord = async (formData: FormSchema) => {
-    return supabase.from("entry").insert([
+    const response = await supabase.from("entry").insert([
       {
         instagram: formData.instagram.toLowerCase(),
         crossing_time: formData.pegas
@@ -110,6 +110,12 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
         distance_walked: formData.pegas?.distance,
       },
     ]);
+
+    if (response.error) {
+      throw new Error(response.error.message);
+    }
+
+    return response.data;
   };
 
   const { mutate, isLoading, error, isSuccess } = useMutation(createRecord, {
@@ -117,7 +123,9 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
       console.log("Error");
       console.log(e);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log({ data });
+      console.log("Success");
       queryClient.invalidateQueries({ queryKey: ["entry"] });
     },
   });
