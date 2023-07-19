@@ -1,4 +1,3 @@
-import { UseFormRegisterReturn } from "react-hook-form";
 import { UploadCloudIcon } from "@/assets";
 import React from "react";
 import Image from "next/image";
@@ -7,12 +6,12 @@ import { ACCEPTED_IMAGE_TYPES } from "@/utils/supabase";
 interface Props {
   id: string;
   label: string;
-  registerFunction: UseFormRegisterReturn;
   errorMessage?: string;
   file?: Blob;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function Dropzone({ id, label, registerFunction, errorMessage, file }: Props) {
+function Dropzone({ id, label, errorMessage, file, onChange }: Props) {
   return (
     <>
       {file ? (
@@ -39,10 +38,10 @@ function Dropzone({ id, label, registerFunction, errorMessage, file }: Props) {
             </p>
           </div>
           <input
-            {...registerFunction}
             id={id}
             type="file"
             accept={ACCEPTED_IMAGE_TYPES.join(", ")}
+            onChange={onChange}
             className="hidden"
           />
           {errorMessage && (

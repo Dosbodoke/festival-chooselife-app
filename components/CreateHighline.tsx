@@ -10,16 +10,19 @@ import supabase, {
 } from "@/utils/supabase";
 
 import { PlusSvg } from "@/assets";
+import { SuccessAnimation } from "./animations/SuccessAnimation";
+import { Form, FormField, FormControl, FormItem, FormLabel } from "./ui/Form";
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
+  DialogDescription,
   DialogHeader,
-  FormContent,
-  SuccessAnimation,
-} from "./ui/FormDialog";
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/Dialog";
+import { Input } from "./ui/Input";
 import TextField from "./ui/TextField";
-import TextArea from "./ui/TextArea";
+import { TextArea } from "./ui/TextArea";
 import Dropzone from "./ui/Dropzone";
 import Button from "./ui/Button";
 import Link from "next/link";
@@ -27,13 +30,13 @@ import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string().min(3, "Deve conter ao menos 3 caracteres"),
-  height: z
+  height: z.coerce
     .number({
       required_error: "Insira a altura do Highline",
       invalid_type_error: "Insira um número",
     })
     .positive("Altura não pode ser negativa"),
-  lenght: z
+  lenght: z.coerce
     .number({
       required_error: "Insira o comprimento do Highline",
       invalid_type_error: "Insira um número",
@@ -61,9 +64,10 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 const CreateHighline = () => {
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [newHighlineUUID, setNewHighlineUUID] = useState<string | null>(null);
 
-  const { register, handleSubmit, getValues, formState } = useForm<FormSchema>({
+  const highlineForm = useForm<FormSchema>({
     mode: "onTouched",
     resolver: zodResolver(formSchema),
     defaultValues: {},
@@ -131,10 +135,12 @@ const CreateHighline = () => {
   };
 
   return (
-    <Dialog>
-      <DialogTrigger label="Novo Highline" />
-      <DialogContent>
-        {isSuccess ? (
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen} modal>
+      <DialogTrigger asChild>
+        <Button label="Novo Highline" widthFit />
+      </DialogTrigger>
+      {isSuccess ? (
+        <DialogContent>
           <SuccessAnimation
             message="O Highline foi criado, agora é so registrar o seu rolê!"
             button={
@@ -146,13 +152,140 @@ const CreateHighline = () => {
               </Link>
             }
           />
-        ) : (
-          <>
-            <DialogHeader
-              title="Registrar Highline"
-              description="Adicione o seu Highline no aplicativo e tenha acesso ao histórico de rolês"
-            />
-            <FormContent onSubmit={handleSubmit(onSubmit, onError)}>
+        </DialogContent>
+      ) : (
+        <DialogContent className="h-5/6">
+          <DialogHeader>
+            <DialogTitle>Registrar Highline</DialogTitle>
+            <DialogDescription>
+              Adicione o seu Highline no aplicativo e tenha acesso ao histórico
+              de rolês.
+            </DialogDescription>
+          </DialogHeader>
+          <Form {...highlineForm}>
+            <form
+              onSubmit={highlineForm.handleSubmit(onSubmit, onError)}
+              className="space-y-6"
+            >
+              <FormField
+                control={highlineForm.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nome da via</FormLabel>
+                    <FormControl>
+                      <Input placeholder="exemplo: Dedo de Jah" {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={highlineForm.control}
+                name="height"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Altura</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Altura do Highline em metros"
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={highlineForm.control}
+                name="lenght"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Comprimento</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Comprimento do Highline em metros"
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={highlineForm.control}
+                name="main_webbing"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Fita principal</FormLabel>
+                    <FormControl>
+                      <Input placeholder="exemplo: Sky 2 (Bera)" {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={highlineForm.control}
+                name="backup_webbing"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Fita principal</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="exemplo: Sky 2 (Bera) + Sky 3d (Bera)"
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={highlineForm.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Descrição</FormLabel>
+                    <FormControl>
+                      <TextArea
+                        {...field}
+                        placeholder="Fale um pouco sobre este Highline. Aqui é o lugar perfeito para dar informações de acesso, segurança, dica para montagem ou rolê, etc..."
+                        rows={3}
+                        className="resize-none"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={highlineForm.control}
+                name="image"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Dropzone
+                        id="image"
+                        label="Clique para escolher a foto do Highline"
+                        file={field.value}
+                        errorMessage={highlineForm.formState.errors.image?.message?.toString()}
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files[0]) {
+                            // Call the provided onChange with the actual File object
+                            field.onChange(e.target.files[0]);
+                          }
+                        }}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <Button
+                type="submit"
+                label="Registrar"
+                icon={<PlusSvg />}
+                loading={isLoading}
+              />
+            </form>
+          </Form>
+          {/* <FormContent onSubmit={handleSubmit(onSubmit, onError)}>
               <TextField
                 id="name"
                 label="Nome da via"
@@ -227,10 +360,9 @@ const CreateHighline = () => {
                 icon={<PlusSvg />}
                 loading={isLoading}
               />
-            </FormContent>
-          </>
-        )}
-      </DialogContent>
+            </FormContent> */}
+        </DialogContent>
+      )}
     </Dialog>
   );
 };
