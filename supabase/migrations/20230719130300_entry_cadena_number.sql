@@ -1,10 +1,12 @@
-alter table "public"."entry" drop column "is_cadena";
+ALTER TABLE "public"."entry" ADD COLUMN "cadenas" integer DEFAULT 0;
+UPDATE "public"."entry" SET "cadenas" = CASE WHEN "is_cadena" = TRUE THEN 1 ELSE 0 END;
 
-alter table "public"."entry" drop column "is_full_line";
+ALTER TABLE "public"."entry" ADD COLUMN "full_lines" integer DEFAULT 0;
+UPDATE "public"."entry" SET "full_lines" = CASE WHEN "is_full_line" = TRUE THEN 1 ELSE 0 END;
 
-alter table "public"."entry" add column "cadenas" integer default 0;
+ALTER TABLE "public"."entry" DROP COLUMN "is_cadena";
 
-alter table "public"."entry" add column "full_lines" integer default 0;
+ALTER TABLE "public"."entry" DROP column "is_full_line";
 
 set check_function_bodies = off;
 
