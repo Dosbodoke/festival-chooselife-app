@@ -192,7 +192,7 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
                 name="cadenas"
                 render={({ field }) => (
                   <FormItem>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between gap-4">
                       <div>
                         <FormLabel>Cadenas</FormLabel>
                         <FormDescription>
@@ -216,7 +216,7 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
                 name="full_lines"
                 render={({ field }) => (
                   <FormItem>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between gap-4">
                       <div>
                         <FormLabel>Full lines</FormLabel>
                         <FormDescription>
