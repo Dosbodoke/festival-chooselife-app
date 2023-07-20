@@ -240,11 +240,16 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
                 name="distance"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Distância caminhada</FormLabel>
+                    <div>
+                      <FormLabel>Distância caminhada</FormLabel>
+                      <FormDescription>
+                        Quantos metros você andou no total
+                      </FormDescription>
+                    </div>
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="Quantos metros você andou"
+                        placeholder="exemplo: 150"
                         {...field}
                       />
                     </FormControl>
@@ -256,10 +261,12 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
                 name="time"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Speedline</FormLabel>
-                    <FormDescription>
-                      Seu melhor tempo para o ranking do Speedline nesta via
-                    </FormDescription>
+                    <div>
+                      <FormLabel>Speedline</FormLabel>
+                      <FormDescription>
+                        Seu melhor tempo para o ranking do Speedline nesta via
+                      </FormDescription>
+                    </div>
                     <FormControl>
                       <Input placeholder="Exemplo: 2:59" {...field} />
                     </FormControl>
@@ -271,7 +278,14 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
                 name="witness"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Testemunhas</FormLabel>
+                    <div>
+                      <FormLabel>Testemunhas</FormLabel>
+                      <FormDescription>
+                        Insira o instagram de duas pessoas, separado por
+                        vírgula.
+                      </FormDescription>
+                    </div>
+
                     <FormControl>
                       <Input
                         placeholder="exemplo: @festivalchooselife, @testemunha2"
