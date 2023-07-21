@@ -140,7 +140,7 @@ const CreateHighline = () => {
         <Button label="Novo Highline" widthFit />
       </DialogTrigger>
       {isSuccess ? (
-        <DialogContent>
+        <DialogContent className="h-fit">
           <SuccessAnimation
             message="O Highline foi criado, agora é so registrar o seu rolê!"
             button={

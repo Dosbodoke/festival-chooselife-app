@@ -155,7 +155,7 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
       </DialogTrigger>
 
       {formMutation.isSuccess ? (
-        <DialogContent>
+        <DialogContent className="h-fit">
           <SuccessAnimation
             message="Seu rolê está registrado e será usado para calcular as suas estatística no festival."
             button={<Button label="fechar" onClick={closeDialog} />}
