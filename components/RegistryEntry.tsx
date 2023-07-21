@@ -47,11 +47,14 @@ const formSchema = z.object({
     .positive("Distância não pode ser negativa"),
   time: z
     .string()
+    .optional()
     .refine(
-      (value) => /^([0-9]|[0-5][0-9]):[0-5][0-9]$/.test(value),
+      (value) =>
+        value == null ||
+        value === "" ||
+        /^([0-9]|[0-5][0-9]):[0-5][0-9]$/.test(value),
       "Inválido, use o formato mm:ss"
-    )
-    .optional(),
+    ),
   witness: z
     .string()
     .refine(
@@ -84,19 +87,6 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
       comment: "",
     },
   });
-
-  // const watchPegaType = watch("pegas.type");
-
-  // useEffect(() => {
-  //   if (watchPegaType === "entry") {
-  //     setValue("pegas.distance", 0);
-  //     return;
-  //   }
-  //   // If any other radio type, the person has walked the entire
-  //   if (watchPegaType) {
-  //     setValue("pegas.distance", highlineDistance * 2);
-  //   }
-  // }, [watchPegaType, setValue, highlineDistance]);
 
   const createRecord = async (formData: FormSchema) => {
     const response = await supabase.from("entry").insert([
@@ -262,7 +252,7 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
                 render={({ field }) => (
                   <FormItem>
                     <div>
-                      <FormLabel>Speedline</FormLabel>
+                      <FormLabel optional>Speedline</FormLabel>
                       <FormDescription>
                         Seu melhor tempo para o ranking do Speedline nesta via
                       </FormDescription>
@@ -300,7 +290,7 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
                 name="comment"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Comentário</FormLabel>
+                    <FormLabel optional>Comentário</FormLabel>
                     <FormControl>
                       <TextArea
                         {...field}

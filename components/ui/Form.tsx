@@ -108,7 +108,7 @@ const FormLabel = React.forwardRef<
       {...props}
     >
       {children}{" "}
-      {optional ? <span className="text-gray-500">*optional</span> : ""}
+      {optional ? <span className="text-gray-500">*opcional</span> : ""}
     </LabelPrimitive.Root>
   );
 });
