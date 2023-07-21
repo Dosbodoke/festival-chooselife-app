@@ -14,8 +14,6 @@ interface Props {
   className?: string;
 }
 function NumberPicker({ value, onChange, className }: Props) {
-  // const [number, setNumber] = useState(0);
-
   function handleDecrement() {
     if (value > 0) onChange(value - 1);
   }
