@@ -25,13 +25,13 @@ function NumberPicker({ value, onChange, className }: Props) {
   return (
     <div className={cn("flex items-center gap-3", className)}>
       <button
-        className="grid h-8 w-8 place-items-center rounded-md bg-gray-50 text-white dark:bg-gray-700"
+        className="grid h-8 w-8 place-items-center rounded-md bg-gray-50 text-gray-900 dark:bg-gray-700 dark:text-white"
         onClick={(e) => {
           e.preventDefault();
           handleDecrement();
         }}
       >
-        <MinusIcon />
+        <MinusIcon transform="scale(1.5, 2)" />
       </button>
 
       <motion.div
