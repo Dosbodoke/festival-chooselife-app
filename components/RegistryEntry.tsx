@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -74,8 +74,8 @@ interface Props {
 
 const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
   const [dialogOpen, setDialogOpen] = useState(false);
-
   const queryClient = useQueryClient();
+
   const entryForm = useForm<FormSchema>({
     mode: "onTouched",
     resolver: zodResolver(formSchema),
@@ -87,6 +87,15 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
       comment: "",
     },
   });
+
+  const watchCadenas = entryForm.watch("cadenas");
+  const watchFullLines = entryForm.watch("full_lines");
+
+  useEffect(() => {
+    const totalLeaps = watchCadenas + watchFullLines * 2;
+    const totalDistance = highlineDistance * totalLeaps;
+    entryForm.setValue("distance", totalDistance);
+  }, [watchCadenas, watchFullLines, highlineDistance, entryForm]);
 
   const createRecord = async (formData: FormSchema) => {
     const response = await supabase.from("entry").insert([
