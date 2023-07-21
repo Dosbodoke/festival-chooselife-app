@@ -17,6 +17,8 @@ function Comments({ highline }: Props) {
     const { data } = await supabase
       .from("entry")
       .select("comment, created_at, instagram")
+      .not("comment", "eq", "")
+      .not("comment", "eq", null)
       .match({ highline_id: highline.id })
       .order("created_at", { ascending: false })
       .range((pageParam - 1) * PAGE_SIZE, pageParam * PAGE_SIZE - 1);
