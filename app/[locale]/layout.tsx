@@ -37,7 +37,8 @@ export default async function RootLayout({
     // refer to https://github.com/pacocoursey/next-themes#with-app
     <html lang={locale} suppressHydrationWarning>
       <body
-        className={`min-h-screen bg-white px-2 text-gray-700 dark:bg-gray-900 dark:text-gray-400 md:px-0 ${inter.className}`}
+        className="min-h-screen bg-gradient-to-b from-white via-transparent to-gray-300 dark:from-gray-900 dark:to-black md:px-0"
+        style={inter.style}
       >
         <Providers locale={locale} messages={messages}>
           <>
