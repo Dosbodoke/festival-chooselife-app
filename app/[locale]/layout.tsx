@@ -1,11 +1,11 @@
-import { ReactQueryProvider } from "@/components/ReactQueryProvider";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
-
-import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
+
+import Providers from "./Providers";
 import Footer from "@/components/Footer";
+import NavBar from "@/components/layout/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,17 +31,21 @@ export default async function RootLayout({
   } catch (error) {
     notFound();
   }
+
   return (
-    <html lang={locale}>
+    // suppressHydrationWarning because of `next-themes`
+    // refer to https://github.com/pacocoursey/next-themes#with-app
+    <html lang={locale} suppressHydrationWarning>
       <body
         className={`min-h-screen bg-white px-2 text-gray-700 dark:bg-gray-900 dark:text-gray-400 md:px-0 ${inter.className}`}
       >
-        <ReactQueryProvider>
-          <NextIntlClientProvider locale={locale} messages={messages}>
+        <Providers locale={locale} messages={messages}>
+          <>
+            <NavBar />
             {children}
             <Footer />
-          </NextIntlClientProvider>
-        </ReactQueryProvider>
+          </>
+        </Providers>
         <Analytics />
       </body>
     </html>
