@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 import supabase from "@/utils/supabase";
@@ -5,6 +7,7 @@ import Tabs from "@/components/tabs/Tabs";
 import RegistryEntry from "@/components/RegistryEntry";
 import HighlineImage from "@/components/HighlineImage";
 import { ArrowLongLeftIcon } from "@/assets";
+import { useTranslations } from "next-intl";
 
 export async function generateStaticParams() {
   const { data: highlines } = await supabase.from("highline").select("id");
@@ -16,6 +19,8 @@ export default async function Highline({
 }: {
   params: { id: string };
 }) {
+  const t = useTranslations("highline");
+
   const { data: highline } = await supabase
     .from("highline")
     .select()
@@ -28,7 +33,7 @@ export default async function Highline({
     <div className="relative mx-auto h-full w-full max-w-screen-md">
       <Link href={"/"} className="my-4 flex gap-1">
         <ArrowLongLeftIcon className="inline-block h-6 w-6" />
-        Ver todos os highlines
+        {t("goBack")}
       </Link>
       <div className="rounded-lg border border-gray-200 bg-white shadow-2xl dark:border-gray-700 dark:bg-gray-800">
         <div className="relative h-64 w-full rounded md:h-96">
@@ -46,11 +51,11 @@ export default async function Highline({
             tabs={[
               {
                 id: "info",
-                label: "Informações",
+                label: t("tabs.informations"),
               },
               {
                 id: "reviews",
-                label: "Comentários",
+                label: t("tabs.comments"),
               },
               {
                 id: "ranking",

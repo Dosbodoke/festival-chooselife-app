@@ -1,16 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Inter } from "next/font/google";
-
 import supabase, { type Tables } from "@/utils/supabase";
-import Highline from "../components/Highline";
+import Highline from "@/components/Highline";
 import { SearchSvg } from "@/assets";
 import CreateHighline from "@/components/CreateHighline";
+import { useTranslations } from "next-intl";
 
 export default function Home() {
   const [highlines, setHighlines] = useState<Tables["highline"]["Row"][]>([]);
   const [search, setSearch] = useState("");
+
+  const t = useTranslations("home");
 
   useEffect(() => {
     fetchHighlines();
@@ -32,7 +33,7 @@ export default function Home() {
         <input
           type="search"
           id="default-search"
-          placeholder="Nome do Highline"
+          placeholder={t("searchPlaceholder")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="flex-1 bg-transparent pl-2 text-base text-gray-900 dark:text-white  dark:placeholder-gray-400"

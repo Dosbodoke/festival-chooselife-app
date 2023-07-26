@@ -3,12 +3,15 @@ import Link from "next/link";
 import type { Tables } from "@/utils/supabase";
 import { ArrowIcon } from "@/assets";
 import HighlineImage from "./HighlineImage";
+import { useTranslations } from "next-intl";
 
 interface Props {
   highline: Tables["highline"]["Row"];
 }
 
 function Highline({ highline }: Props) {
+  const t = useTranslations("home");
+
   return (
     <div className="w-96 rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
       <div className="relative block h-72 w-full">
@@ -25,7 +28,7 @@ function Highline({ highline }: Props) {
           href={`/${highline.id}`}
           className="inline-flex items-center rounded-lg bg-blue-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          Ver detalhes
+          {t("seeDetails")}
           <ArrowIcon />
         </Link>
       </div>

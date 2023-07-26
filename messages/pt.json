@@ -1,0 +1,50 @@
+{
+    "home": {
+      "searchPlaceholder": "Nome do Highline",
+      "newHighline": "Novo Highline",
+      "seeDetails": "Ver detalhes"
+    },
+    "highline": {
+      "goBack": "Ver todos os highlines",
+      "registry": {
+        "trigger": "Registrar rolê",
+        "title": "Registrar rolê",
+        "success": "Seu rolê está registrado e será usado para calcular as suas estatística no festival.",
+        "description": "Registre como foi o seu rolê e tenha acesso as suas estatísticas.",
+        "instagram": {
+          "placeholder": "Seu @ do instragram"
+        },
+        "cadenas": {
+          "description": "dropou no começo e foi até o final da fita sem cair."
+        },
+        "fullLines": {
+          "description": "Você cadenou a ida e a volta, sem descer na virada."
+        },
+        "distance": {
+          "label": "Distância caminhada",
+          "description": "Quantos metros você andou no total",
+          "placeholder": "Example: "
+        },
+        "speedline": {
+          "description": "Seu melhor tempo para o ranking do Speedline nesta via"
+        },
+        "witness": {
+          "label": "Testemunhas", 
+          "description": "Insira o instagram de duas pessoas, separado por vírgula.",
+          "placeholder": "Exemplo: @festivalchooselife, @testemunha2"
+        },
+        "comment": {
+          "label": "Comentário",
+          "placeholder": "Boa choosen 🤘🆑 Conta pra gente como foi ese rolê, o que achou da fita, da conexão..."
+        },
+        "submit": "Registrar"
+      },
+      "tabs": {
+        "informations": "Informações",
+        "comments": "Comentários"
+      }
+    },
+    "footer": {
+      "desc": "Site criado por "
+    }
+  }

@@ -1,3 +1,5 @@
+"use client";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -27,6 +29,7 @@ import Dropzone from "./ui/Dropzone";
 import Button from "./ui/Button";
 import Link from "next/link";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 const formSchema = z.object({
   name: z.string().min(3, "Deve conter ao menos 3 caracteres"),
@@ -66,6 +69,7 @@ type FormSchema = z.infer<typeof formSchema>;
 const CreateHighline = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [newHighlineUUID, setNewHighlineUUID] = useState<string | null>(null);
+  const t = useTranslations("home");
 
   const highlineForm = useForm<FormSchema>({
     mode: "onTouched",
@@ -137,7 +141,7 @@ const CreateHighline = () => {
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen} modal>
       <DialogTrigger asChild>
-        <Button label="Novo Highline" widthFit />
+        <Button label={t("newHighline")} widthFit />
       </DialogTrigger>
       {isSuccess ? (
         <DialogContent className="h-fit">

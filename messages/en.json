@@ -1,0 +1,50 @@
+{
+  "home": {
+    "searchPlaceholder": "Highline name",
+    "newHighline": "New Highline",
+    "seeDetails": "See details"
+  },
+  "highline": {
+    "goBack": "See all Highlines",
+    "registry": {
+      "trigger": "Registry",
+      "title": "Registry",
+      "success": "Seu rolê está registrado e será usado para calcular as suas estatística no festival.",
+      "description": "Registre como foi o seu rolê e tenha acesso as suas estatísticas.",
+      "instagram": {
+        "placeholder": "Your @ on instragram"
+      },
+      "cadenas": {
+        "description": "You mounted the line and crossed it whitout falling"
+      },
+      "fullLines": {
+        "description": "You walked both ways on a Highline and didn't fall"
+      },
+      "distance": {
+        "label": "Distance walked",
+        "description": "How many meters did you walked in total",
+        "placeholder": "Example: "
+      },
+      "speedline": {
+        "description": "Your best time for the Speedline ranking on this line"
+      },
+      "witness": {
+        "label": "Witness", 
+        "description": "Input the instagram of two people, separated by a comma.",
+        "placeholder": "Example: @festivalchooselife, @witness2"
+      },
+      "comment": {
+        "label": "Comments",
+        "placeholder": "Nice choosen 🤘🆑 Tell us how was this walk, what did you think of the line, the connection ..."
+      },
+      "submit": "Registry"
+    },
+    "tabs": {
+      "informations": "Informations",
+      "comments": "Comments"
+    }
+  },
+  "footer": {
+    "desc": "Website create by "
+  }
+}
