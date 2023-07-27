@@ -1,7 +1,41 @@
 {
     "home": {
       "searchPlaceholder": "Nome do Highline",
-      "newHighline": "Novo Highline",
+      "newHighline": {
+        "trigger": "New Highline",
+        "title": "Registry Highline",
+        "success": "O Highline foi criado, agora é so registrar o seu rolê!",
+        "successLink": "Ver Highline",
+        "description": "Adicione o seu Highline no aplicativo e tenha acesso ao histórico de rolês.",
+        "name": {
+          "label": "Nome da via",
+          "placeholder": "exemplo: Bongada de Jah"
+        },
+        "height": {
+          "label": "Altura",
+          "placeholder": "Altura do Highline em metros"
+        },
+        "length": {
+          "label": "Comprimento",
+          "placeholder": "Comprimento do Highline em metros"
+        },
+        "mainWebbing": {
+          "label": "Fita principal",
+          "placeholder": "Exemplo: Sky 2 (Bera)"
+        },
+        "backupWebbing": {
+          "label": "Fita backup",
+          "placeholder": "Exemplo: Sky 2 (Bera) + Sky 3d (Bera)"
+        },
+        "highlineDescription": {
+          "label": "Decrição",
+          "placeholder": "Fale um pouco sobre este Highline. Aqui é o lugar perfeito para dar informações de acesso, segurança, dica para montagem ou rolê, etc..."
+        },
+        "image": {
+          "label": "Clique para escolher a foto do Highline"
+        },
+        "submit": "Registrar"
+      },
       "seeDetails": "Ver detalhes"
     },
     "highline": {

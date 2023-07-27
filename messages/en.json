@@ -1,7 +1,41 @@
 {
   "home": {
     "searchPlaceholder": "Highline name",
-    "newHighline": "New Highline",
+    "newHighline": {
+      "trigger": "New Highline",
+      "title": "Registry Highline",
+      "success": "Highline Created! Now you can start registering your walks.",
+      "successLink": "See Highline",
+      "description": "Add your Highline to the APP ang get acces to history and stats.",
+      "name": {
+        "label": "Highline name",
+        "placeholder": "E.g.: SOME HIGHLINE"
+      },
+      "height": {
+        "label": "Height",
+        "placeholder": "Highline height in meters"
+      },
+      "length": {
+        "label": "Length",
+        "placeholder": "Highline length in meters"
+      },
+      "mainWebbing": {
+        "label": "Main webbing",
+        "placeholder": "E.g.: Lift 2be"
+      },
+      "backupWebbing": {
+        "label": "Backup webbing",
+        "placeholder": "E.g.: Lift 2be"
+      },
+      "highlineDescription": {
+        "label": "Description",
+        "placeholder": "Say more about this Highline. Here is the perfect place for security info, access, warning, rigging tips, etc..."
+      },
+      "image": {
+        "label": "Click to select the Highline cover photo"
+      },
+      "submit": "Create"
+    },
     "seeDetails": "See details"
   },
   "highline": {

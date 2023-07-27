@@ -67,9 +67,9 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 const CreateHighline = () => {
+  const t = useTranslations("home.newHighline");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [newHighlineUUID, setNewHighlineUUID] = useState<string | null>(null);
-  const t = useTranslations("home");
 
   const highlineForm = useForm<FormSchema>({
     mode: "onTouched",
@@ -141,18 +141,18 @@ const CreateHighline = () => {
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen} modal>
       <DialogTrigger asChild>
-        <Button label={t("newHighline")} widthFit />
+        <Button label={t("trigger")} widthFit />
       </DialogTrigger>
       {isSuccess ? (
         <DialogContent className="h-fit">
           <SuccessAnimation
-            message="O Highline foi criado, agora é so registrar o seu rolê!"
+            message={t("success")}
             button={
               <Link
                 href={`/${newHighlineUUID}`}
                 className="block w-full rounded-lg border border-blue-600 bg-blue-700 px-4 py-2 text-center font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
-                Ver Highline
+                {t("successLink")}
               </Link>
             }
           />
@@ -160,11 +160,8 @@ const CreateHighline = () => {
       ) : (
         <DialogContent className="h-5/6">
           <DialogHeader>
-            <DialogTitle>Registrar Highline</DialogTitle>
-            <DialogDescription>
-              Adicione o seu Highline no aplicativo e tenha acesso ao histórico
-              de rolês.
-            </DialogDescription>
+            <DialogTitle>{t("title")}</DialogTitle>
+            <DialogDescription>{t("description")}</DialogDescription>
           </DialogHeader>
           <Form {...highlineForm}>
             <form
@@ -176,9 +173,9 @@ const CreateHighline = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nome da via</FormLabel>
+                    <FormLabel>{t("name.label")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="exemplo: Dedo de Jah" {...field} />
+                      <Input placeholder={t("name.placeholder")} {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -188,11 +185,11 @@ const CreateHighline = () => {
                 name="height"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Altura</FormLabel>
+                    <FormLabel>{t("height.label")}</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="Altura do Highline em metros"
+                        placeholder={t("height.placeholder")}
                         {...field}
                       />
                     </FormControl>
@@ -204,11 +201,11 @@ const CreateHighline = () => {
                 name="lenght"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Comprimento</FormLabel>
+                    <FormLabel>{t("length.label")}</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="Comprimento do Highline em metros"
+                        placeholder={t("length.placeholder")}
                         {...field}
                       />
                     </FormControl>
@@ -220,9 +217,12 @@ const CreateHighline = () => {
                 name="main_webbing"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Fita principal</FormLabel>
+                    <FormLabel>{t("mainWebbing.label")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="exemplo: Sky 2 (Bera)" {...field} />
+                      <Input
+                        placeholder={t("mainWebbing.placeholder")}
+                        {...field}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -232,10 +232,10 @@ const CreateHighline = () => {
                 name="backup_webbing"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Fita principal</FormLabel>
+                    <FormLabel>{t("backupWebbing.label")}</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="exemplo: Sky 2 (Bera) + Sky 3d (Bera)"
+                        placeholder={t("backupWebbing.placeholder")}
                         {...field}
                       />
                     </FormControl>
@@ -247,11 +247,11 @@ const CreateHighline = () => {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Descrição</FormLabel>
+                    <FormLabel>{t("highlineDescription.label")}</FormLabel>
                     <FormControl>
                       <TextArea
                         {...field}
-                        placeholder="Fale um pouco sobre este Highline. Aqui é o lugar perfeito para dar informações de acesso, segurança, dica para montagem ou rolê, etc..."
+                        placeholder={t("highlineDescription.placeholder")}
                         rows={3}
                         className="resize-none"
                       />
@@ -267,7 +267,7 @@ const CreateHighline = () => {
                     <FormControl>
                       <Dropzone
                         id="image"
-                        label="Clique para escolher a foto do Highline"
+                        label={t("image.label")}
                         file={field.value}
                         errorMessage={highlineForm.formState.errors.image?.message?.toString()}
                         onChange={(e) => {
@@ -283,7 +283,7 @@ const CreateHighline = () => {
               />
               <Button
                 type="submit"
-                label="Registrar"
+                label={t("submit")}
                 icon={<PlusSvg />}
                 loading={isLoading}
               />
