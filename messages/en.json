@@ -4,12 +4,15 @@
     "newHighline": {
       "trigger": "New Highline",
       "title": "Registry Highline",
-      "success": "Highline Created! Now you can start registering your walks.",
+      "success": {
+        "header": "NICE CHOOSEN",
+        "message": "Highline Created! Now you can start registering your walks."
+      },
       "successLink": "See Highline",
       "description": "Add your Highline to the APP ang get acces to history and stats.",
       "name": {
         "label": "Highline name",
-        "placeholder": "E.g.: SOME HIGHLINE"
+        "placeholder": "E.g.: God's finger"
       },
       "height": {
         "label": "Height",
@@ -43,7 +46,10 @@
     "registry": {
       "trigger": "Registry",
       "title": "Registry",
-      "success": "Your walk is registered and will be used to calculate your stats.",
+      "success": {
+        "header": "NICE CHOOSEN",
+        "message": "Your walk is registered and will be used to calculate your stats."
+      },
       "description": "Registry your walk and get access to your statistics.",
       "instagram": {
         "placeholder": "Your @ on instragram"

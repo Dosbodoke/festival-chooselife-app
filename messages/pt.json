@@ -4,7 +4,10 @@
       "newHighline": {
         "trigger": "New Highline",
         "title": "Registry Highline",
-        "success": "O Highline foi criado, agora é so registrar o seu rolê!",
+        "success": {
+          "header": "BOA CHOOSEN",
+          "message": "O Highline foi criado, agora é so registrar o seu rolê!"
+        },
         "successLink": "Ver Highline",
         "description": "Adicione o seu Highline no aplicativo e tenha acesso ao histórico de rolês.",
         "name": {
@@ -43,7 +46,10 @@
       "registry": {
         "trigger": "Registrar rolê",
         "title": "Registrar rolê",
-        "success": "Seu rolê está registrado e será usado para calcular as suas estatísticas.",
+        "success": {
+          "header": "BOA CHOOSEN",
+          "message": "Seu rolê está registrado e será usado para calcular as suas estatísticas."
+        },
         "description": "Registre como foi o seu rolê e tenha acesso as suas estatísticas.",
         "instagram": {
           "placeholder": "Seu @ do instragram"

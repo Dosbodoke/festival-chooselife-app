@@ -161,7 +161,8 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
       {formMutation.isSuccess ? (
         <DialogContent className="h-fit">
           <SuccessAnimation
-            message={t("success")}
+            header={t("success.header")}
+            message={t("success.message")}
             button={<Button label="fechar" onClick={closeDialog} />}
           />
         </DialogContent>

@@ -39,7 +39,7 @@ const formSchema = z.object({
       invalid_type_error: "Insira um número",
     })
     .positive("Altura não pode ser negativa"),
-  lenght: z.coerce
+  lenght: z
     .number({
       required_error: "Insira o comprimento do Highline",
       invalid_type_error: "Insira um número",
@@ -146,7 +146,8 @@ const CreateHighline = () => {
       {isSuccess ? (
         <DialogContent className="h-fit">
           <SuccessAnimation
-            message={t("success")}
+            header={t("success.header")}
+            message={t("success.message")}
             button={
               <Link
                 href={`/${newHighlineUUID}`}
