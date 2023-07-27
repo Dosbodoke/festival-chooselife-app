@@ -11,8 +11,11 @@ export const ThemeModeToggler = () => {
 
   // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
+    if (!theme) {
+      setTheme("dark");
+    }
     setMounted(true);
-  }, []);
+  }, [theme, setTheme]);
 
   if (!mounted) {
     return null;
