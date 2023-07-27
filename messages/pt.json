@@ -40,8 +40,21 @@
         "submit": "Registrar"
       },
       "tabs": {
-        "informations": "Informações",
-        "comments": "Comentários"
+        "informations": {
+          "label": "Informações",
+          "height": "Altura",
+          "length": "Comprimento",
+          "mainWebbing": "Fita principal",
+          "backupWebbing": "Fita backup",
+          "meters": "metros"
+        },
+        "comments": "Comentários",
+        "ranking": {
+          "changeModality": "Trocar modalidade",
+          "cadenas": "Cadenas",
+          "distance": "Distância"
+        },
+        "seeMore": "carregar mais"
       }
     },
     "footer": {

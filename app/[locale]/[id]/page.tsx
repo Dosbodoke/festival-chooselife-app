@@ -47,23 +47,7 @@ export default async function Highline({
             highlineId={highline.id}
             highlineDistance={highline.lenght}
           />
-          <Tabs
-            tabs={[
-              {
-                id: "info",
-                label: t("tabs.informations"),
-              },
-              {
-                id: "reviews",
-                label: t("tabs.comments"),
-              },
-              {
-                id: "ranking",
-                label: "Ranking",
-              },
-            ]}
-            highline={highline}
-          />
+          <Tabs highline={highline} />
         </div>
       </div>
     </div>

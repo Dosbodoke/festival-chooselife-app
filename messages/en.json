@@ -40,8 +40,21 @@
       "submit": "Registry"
     },
     "tabs": {
-      "informations": "Informations",
-      "comments": "Comments"
+      "informations": {
+        "label": "Informations",
+        "height": "Height",
+        "length": "Length",
+        "mainWebbing": "Main webbing",
+        "backupWebbing": "Backup webing",
+        "meters": "meters"
+      },
+      "comments": "Comments",
+      "ranking": {
+        "changeModality": "Change modality",
+        "cadenas": "Sent",
+        "distance": "Distance"
+      },
+      "seeMore": "see more"
     }
   },
   "footer": {
