@@ -1,0 +1,108 @@
+{
+  "home": {
+    "searchPlaceholder": "Highline name",
+    "newHighline": {
+      "trigger": "New Highline",
+      "title": "Registry Highline",
+      "success": {
+        "header": "NICE CHOOSEN",
+        "message": "Highline Created! Now you can start registering your walks."
+      },
+      "successLink": "See Highline",
+      "description": "Add your Highline to the APP ang get acces to history and stats.",
+      "name": {
+        "label": "Highline name",
+        "placeholder": "E.g.: God's finger"
+      },
+      "height": {
+        "label": "Height",
+        "placeholder": "Highline height in meters"
+      },
+      "length": {
+        "label": "Length",
+        "placeholder": "Highline length in meters"
+      },
+      "mainWebbing": {
+        "label": "Main webbing",
+        "placeholder": "E.g.: Lift 2be"
+      },
+      "backupWebbing": {
+        "label": "Backup webbing",
+        "placeholder": "E.g.: Lift 2be"
+      },
+      "highlineDescription": {
+        "label": "Description",
+        "placeholder": "Say more about this Highline. Here is the perfect place for security info, access, warning, rigging tips, etc..."
+      },
+      "image": {
+        "label": "Click to select the Highline cover photo"
+      },
+      "submit": "Create"
+    },
+    "seeDetails": "See details"
+  },
+  "highline": {
+    "goBack": "See all Highlines",
+    "registry": {
+      "trigger": "Registry",
+      "title": "Registry",
+      "success": {
+        "header": "NICE CHOOSEN",
+        "message": "Your walk is registered and will be used to calculate your stats."
+      },
+      "description": "Registry your walk and get access to your statistics.",
+      "instagram": {
+        "placeholder": "Your @ on instragram"
+      },
+      "cadenas": {
+        "label": "Sent",
+        "description": "You mounted the line and crossed it whitout falling"
+      },
+      "fullLines": {
+        "description": "You walked both ways on a Highline and didn't fall"
+      },
+      "distance": {
+        "label": "Distance walked",
+        "description": "How many meters did you walked in total",
+        "placeholder": "E.g.: 110"
+      },
+      "speedline": {
+        "description": "Your best time for the Speedline ranking on this line",
+        "placeholder": "E.g.: 4:20"
+      },
+      "witness": {
+        "label": "Witness", 
+        "description": "Input the instagram of two people, separated by a comma.",
+        "placeholder": "E.g.: @festivalchooselife, @witness2"
+      },
+      "comment": {
+        "label": "Comments",
+        "placeholder": "Nice choosen 🤘🆑 Tell us how was this walk, what did you think of the line, the connection ..."
+      },
+      "submit": "Registry"
+    },
+    "tabs": {
+      "informations": {
+        "label": "Informations",
+        "height": "Height",
+        "length": "Length",
+        "mainWebbing": "Main webbing",
+        "backupWebbing": "Backup webing",
+        "meters": "meters"
+      },
+      "comments": "Comments",
+      "ranking": {
+        "changeModality": "Change modality",
+        "cadenas": "Sent",
+        "distance": "Distance"
+      },
+      "seeMore": "see more"
+    }
+  },
+  "footer": {
+    "desc": "Website create by "
+  },
+  "LocaleSwitcher": {
+    "label": "Change language"
+  }
+}

@@ -1,10 +1,13 @@
+"use client";
+
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
 import Link from "next/link";
+import { useFormatter } from "next-intl";
 
 import supabase, { type Tables } from "@/utils/supabase";
-import { transformSecondsToTimeString } from "@/utils/helperFunctions";
 import LoadingSkeleton from "./Ranking/LoadingSkeleton";
+import SeeMore from "./SeeMore";
 
 interface Props {
   highline: Tables["highline"]["Row"];
@@ -13,6 +16,8 @@ interface Props {
 const PAGE_SIZE = 5;
 
 function Comments({ highline }: Props) {
+  const format = useFormatter();
+
   const fetchComments = async ({ pageParam = 1 }) => {
     const { data } = await supabase
       .from("entry")
@@ -57,7 +62,7 @@ function Comments({ highline }: Props) {
     <>
       {comments.pages.map((page, pageIndex) => (
         <React.Fragment key={pageIndex}>
-          {page?.map((comment, idx) => (
+          {page?.map((comment) => (
             <article
               key={`comment-${comment.created_at}`}
               className="bg border-t border-gray-200 py-6 text-base first:border-t-0 dark:border-gray-700"
@@ -75,10 +80,9 @@ function Comments({ highline }: Props) {
                     {comment.instagram}
                   </Link>
                   <div className="text-sm text-gray-600 dark:text-gray-400">
-                    {new Date(comment.created_at).toLocaleString("pt-BR", {
+                    {format.dateTime(new Date(comment.created_at), {
                       dateStyle: "medium",
                       timeStyle: "short",
-                      timeZone: "America/Sao_Paulo",
                     })}
                   </div>
                   <p className="text-sm text-gray-600 dark:text-gray-400"></p>
@@ -92,13 +96,7 @@ function Comments({ highline }: Props) {
         </React.Fragment>
       ))}
       {hasNextPage && (
-        <button
-          onClick={() => fetchNextPage()}
-          disabled={isLoading}
-          className="mt-2 cursor-pointer text-center text-sm font-medium text-blue-600 dark:text-blue-500"
-        >
-          carregar mais
-        </button>
+        <SeeMore onClick={() => fetchNextPage()} disabled={isLoading} />
       )}
     </>
   );

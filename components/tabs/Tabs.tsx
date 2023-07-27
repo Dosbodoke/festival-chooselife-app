@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
 import type { Tables } from "@/utils/supabase";
 import Info from "./Info";
 import Ranking from "./Ranking";
 import Comments from "./Comments";
+import { useTranslations } from "next-intl";
 
 type Tab = {
   id: string;
@@ -14,7 +15,6 @@ type Tab = {
 };
 
 interface Props {
-  tabs: [Tab, Tab, Tab]; // Define that should be an array of 3 items
   highline: Tables["highline"]["Row"];
 }
 
@@ -31,7 +31,26 @@ function tabMapping(tab: string, highline: Tables["highline"]["Row"]) {
   }
 }
 
-function Tabs({ tabs, highline }: Props) {
+function Tabs({ highline }: Props) {
+  const t = useTranslations("highline.tabs");
+
+  const tabs = useMemo<Tab[]>(
+    () => [
+      {
+        id: "info",
+        label: t("informations.label"),
+      },
+      {
+        id: "reviews",
+        label: t("comments"),
+      },
+      {
+        id: "ranking",
+        label: "Ranking",
+      },
+    ],
+    [t]
+  );
   const [selectedTabId, setSelectedTabId] = useState(tabs[0].id);
 
   return (
