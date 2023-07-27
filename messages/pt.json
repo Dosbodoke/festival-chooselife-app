@@ -9,12 +9,13 @@
       "registry": {
         "trigger": "Registrar rolê",
         "title": "Registrar rolê",
-        "success": "Seu rolê está registrado e será usado para calcular as suas estatística no festival.",
+        "success": "Seu rolê está registrado e será usado para calcular as suas estatísticas.",
         "description": "Registre como foi o seu rolê e tenha acesso as suas estatísticas.",
         "instagram": {
           "placeholder": "Seu @ do instragram"
         },
         "cadenas": {
+          "label": "Cadenas",
           "description": "dropou no começo e foi até o final da fita sem cair."
         },
         "fullLines": {
@@ -23,10 +24,11 @@
         "distance": {
           "label": "Distância caminhada",
           "description": "Quantos metros você andou no total",
-          "placeholder": "Example: "
+          "placeholder": "Exemplo: 110"
         },
         "speedline": {
-          "description": "Seu melhor tempo para o ranking do Speedline nesta via"
+          "description": "Seu melhor tempo para o ranking do Speedline nesta via",
+          "placeholder": "Exemplo: 2:59"
         },
         "witness": {
           "label": "Testemunhas", 

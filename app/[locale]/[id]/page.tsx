@@ -1,25 +1,16 @@
-"use client";
-
-import Link from "next/link";
-
 import supabase from "@/utils/supabase";
 import Tabs from "@/components/tabs/Tabs";
 import RegistryEntry from "@/components/RegistryEntry";
 import HighlineImage from "@/components/HighlineImage";
-import { ArrowLongLeftIcon } from "@/assets";
-import { useTranslations } from "next-intl";
+import GoBack from "./_components/GoBack";
 
 export async function generateStaticParams() {
   const { data: highlines } = await supabase.from("highline").select("id");
   return highlines ?? [];
 }
 
-export default async function Highline({
-  params: { id },
-}: {
-  params: { id: string };
-}) {
-  const t = useTranslations("highline");
+export default async function Highline({ params }: { params: { id: string } }) {
+  const { id } = params;
 
   const { data: highline } = await supabase
     .from("highline")
@@ -31,10 +22,7 @@ export default async function Highline({
 
   return (
     <div className="relative mx-auto h-full w-full max-w-screen-md">
-      <Link href={"/"} className="my-4 flex gap-1">
-        <ArrowLongLeftIcon className="inline-block h-6 w-6" />
-        {t("goBack")}
-      </Link>
+      <GoBack />
       <div className="rounded-lg border border-gray-200 bg-white shadow-2xl dark:border-gray-700 dark:bg-gray-800">
         <div className="relative h-64 w-full rounded md:h-96">
           <HighlineImage coverImageId={highline.cover_image} />

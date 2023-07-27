@@ -9,12 +9,13 @@
     "registry": {
       "trigger": "Registry",
       "title": "Registry",
-      "success": "Seu rolê está registrado e será usado para calcular as suas estatística no festival.",
-      "description": "Registre como foi o seu rolê e tenha acesso as suas estatísticas.",
+      "success": "Your walk is registered and will be used to calculate your stats.",
+      "description": "Registry your walk and get access to your statistics.",
       "instagram": {
         "placeholder": "Your @ on instragram"
       },
       "cadenas": {
+        "label": "Sent",
         "description": "You mounted the line and crossed it whitout falling"
       },
       "fullLines": {
@@ -23,15 +24,16 @@
       "distance": {
         "label": "Distance walked",
         "description": "How many meters did you walked in total",
-        "placeholder": "Example: "
+        "placeholder": "E.g.: 110"
       },
       "speedline": {
-        "description": "Your best time for the Speedline ranking on this line"
+        "description": "Your best time for the Speedline ranking on this line",
+        "placeholder": "E.g.: 4:20"
       },
       "witness": {
         "label": "Witness", 
         "description": "Input the instagram of two people, separated by a comma.",
-        "placeholder": "Example: @festivalchooselife, @witness2"
+        "placeholder": "E.g.: @festivalchooselife, @witness2"
       },
       "comment": {
         "label": "Comments",

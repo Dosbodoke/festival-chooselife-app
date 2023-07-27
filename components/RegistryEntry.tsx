@@ -40,7 +40,7 @@ const formSchema = z.object({
     .min(3, "Deve conter ao menos 3 caracteres"),
   cadenas: z.number().nonnegative(),
   full_lines: z.number().nonnegative(),
-  distance: z.coerce
+  distance: z
     .number({
       required_error: "Insira quantos metros você andou",
       invalid_type_error: "Insira um número",
@@ -51,7 +51,7 @@ const formSchema = z.object({
     .optional()
     .refine(
       (value) =>
-        value == null ||
+        value === undefined ||
         value === "" ||
         /^([0-9]|[0-5][0-9]):[0-5][0-9]$/.test(value),
       "Inválido, use o formato mm:ss"
@@ -59,10 +59,9 @@ const formSchema = z.object({
   witness: z
     .string()
     .refine(
-      (value) => /^(?=.*@[^,\s]+,.*@[^,\s]+).*$/.test(value),
+      (w) => /^(?=.*@[^,\s]+,.*@[^,\s]+).*$/.test(w),
       "Inválido, coloque o instagram de duas pessoas, separado por vírgula."
-    )
-    .optional(),
+    ),
   comment: z.string(),
 });
 
@@ -84,9 +83,12 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
     resolver: zodResolver(formSchema),
     shouldUnregister: true,
     defaultValues: {
+      instagram: "",
       cadenas: 0,
       full_lines: 0,
       distance: 0,
+      time: "",
+      witness: "",
       comment: "",
     },
   });
@@ -97,7 +99,7 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
   useEffect(() => {
     const totalLeaps = watchCadenas + watchFullLines * 2;
     const totalDistance = highlineDistance * totalLeaps;
-    entryForm.setValue("distance", totalDistance);
+    if (totalDistance) entryForm.setValue("distance", totalDistance);
   }, [watchCadenas, watchFullLines, highlineDistance, entryForm]);
 
   const createRecord = async (formData: FormSchema) => {
@@ -197,7 +199,7 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
                   <FormItem>
                     <div className="flex justify-between gap-4">
                       <div>
-                        <FormLabel>Cadenas</FormLabel>
+                        <FormLabel>{t("cadenas.label")}</FormLabel>
                         <FormDescription>
                           {t("cadenas.description")}
                         </FormDescription>
@@ -270,7 +272,10 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
                       </FormDescription>
                     </div>
                     <FormControl>
-                      <Input placeholder="Exemplo: 2:59" {...field} />
+                      <Input
+                        placeholder={t("speedline.placeholder")}
+                        {...field}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
