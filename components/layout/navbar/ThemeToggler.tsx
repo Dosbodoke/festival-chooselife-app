@@ -19,13 +19,12 @@ export const ThemeModeToggler = () => {
   }
 
   function toggleTheme() {
-    console.log({ theme });
     const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
   }
 
   return (
-    <button className="h-6 w-6" onClick={toggleTheme}>
+    <button className="mr-3 h-8 w-8" onClick={toggleTheme}>
       {theme === "dark" ? <SunIcon /> : <MoonIcon />}
     </button>
   );
