@@ -9,7 +9,7 @@ function GoBack() {
   const t = useTranslations("highline");
 
   return (
-    <Link href={"/"} className="my-4 flex gap-1">
+    <Link href={"/"} className="flex gap-1">
       <ArrowLongLeftIcon className="inline-block h-6 w-6" />
       {t("goBack")}
     </Link>

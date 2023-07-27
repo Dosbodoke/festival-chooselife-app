@@ -95,5 +95,8 @@
   },
   "footer": {
     "desc": "Website create by "
+  },
+  "LocaleSwitcher": {
+    "label": "Change language"
   }
 }

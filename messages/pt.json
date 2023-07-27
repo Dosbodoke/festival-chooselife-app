@@ -95,5 +95,8 @@
     },
     "footer": {
       "desc": "Site criado por "
+    },
+    "LocaleSwitcher": {
+      "label": "Trocar idioma"
     }
   }

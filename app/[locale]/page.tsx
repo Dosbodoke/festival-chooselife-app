@@ -27,8 +27,8 @@ export default function Home() {
   );
 
   return (
-    <main className="container mx-auto ">
-      <div className="mx-auto my-12 flex w-full items-center rounded-lg border border-gray-300 bg-gray-50 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:w-3/5">
+    <main className="container mx-auto mt-4 space-y-12 ">
+      <div className="mx-auto flex w-full items-center rounded-lg border border-gray-300 bg-gray-50 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:w-3/5">
         <SearchSvg />
         <input
           type="search"
