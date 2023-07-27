@@ -2,12 +2,11 @@ import React from "react";
 import Link from "next/link";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import {
-  convertISODateToTimeFormat,
-  transformSecondsToTimeString,
-} from "@/utils/helperFunctions";
+import { transformSecondsToTimeString } from "@/utils/helperFunctions";
 import supabase, { type Tables } from "@/utils/supabase";
 import LoadingSkeleton from "./LoadingSkeleton";
+import SeeMore from "../SeeMore";
+import { useFormatter } from "next-intl";
 
 interface Props {
   highline: Tables["highline"]["Row"];
@@ -16,6 +15,8 @@ interface Props {
 const PAGE_SIZE = 5;
 
 function Speedline({ highline }: Props) {
+  const format = useFormatter();
+
   const fetchEntrys = async ({ pageParam = 1 }) => {
     const { data } = await supabase
       .from("entry")
@@ -76,7 +77,12 @@ function Speedline({ highline }: Props) {
                       >
                         {entry.instagram}
                       </Link>
-                      <div>{convertISODateToTimeFormat(entry.created_at)}</div>
+                      <div>
+                        {format.dateTime(new Date(entry.created_at), {
+                          dateStyle: "short",
+                          timeStyle: "short",
+                        })}
+                      </div>
                     </div>
                     <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                       {transformSecondsToTimeString(entry.crossing_time)}
@@ -89,13 +95,7 @@ function Speedline({ highline }: Props) {
         ))}
       </ul>
       {hasNextPage && (
-        <button
-          onClick={() => fetchNextPage()}
-          disabled={isLoading}
-          className="mt-2 cursor-pointer text-center text-sm font-medium text-blue-600 dark:text-blue-500"
-        >
-          carregar mais
-        </button>
+        <SeeMore onClick={() => fetchNextPage()} disabled={isLoading} />
       )}
     </>
   );

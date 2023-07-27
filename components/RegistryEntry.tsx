@@ -31,6 +31,7 @@ import {
   FormLabel,
 } from "./ui/Form";
 import { Input } from "./ui/Input";
+import { useTranslations } from "next-intl";
 
 const formSchema = z.object({
   instagram: z
@@ -39,7 +40,7 @@ const formSchema = z.object({
     .min(3, "Deve conter ao menos 3 caracteres"),
   cadenas: z.number().nonnegative(),
   full_lines: z.number().nonnegative(),
-  distance: z.coerce
+  distance: z
     .number({
       required_error: "Insira quantos metros você andou",
       invalid_type_error: "Insira um número",
@@ -50,7 +51,7 @@ const formSchema = z.object({
     .optional()
     .refine(
       (value) =>
-        value == null ||
+        value === undefined ||
         value === "" ||
         /^([0-9]|[0-5][0-9]):[0-5][0-9]$/.test(value),
       "Inválido, use o formato mm:ss"
@@ -58,10 +59,9 @@ const formSchema = z.object({
   witness: z
     .string()
     .refine(
-      (value) => /^(?=.*@[^,\s]+,.*@[^,\s]+).*$/.test(value),
+      (w) => /^(?=.*@[^,\s]+,.*@[^,\s]+).*$/.test(w),
       "Inválido, coloque o instagram de duas pessoas, separado por vírgula."
-    )
-    .optional(),
+    ),
   comment: z.string(),
 });
 
@@ -74,6 +74,8 @@ interface Props {
 
 const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  const t = useTranslations("highline.registry");
   const queryClient = useQueryClient();
 
   const entryForm = useForm<FormSchema>({
@@ -81,9 +83,12 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
     resolver: zodResolver(formSchema),
     shouldUnregister: true,
     defaultValues: {
+      instagram: "",
       cadenas: 0,
       full_lines: 0,
       distance: 0,
+      time: "",
+      witness: "",
       comment: "",
     },
   });
@@ -94,7 +99,7 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
   useEffect(() => {
     const totalLeaps = watchCadenas + watchFullLines * 2;
     const totalDistance = highlineDistance * totalLeaps;
-    entryForm.setValue("distance", totalDistance);
+    if (totalDistance) entryForm.setValue("distance", totalDistance);
   }, [watchCadenas, watchFullLines, highlineDistance, entryForm]);
 
   const createRecord = async (formData: FormSchema) => {
@@ -150,23 +155,22 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen} modal>
       <DialogTrigger asChild>
-        <Button label="Registrar Rolê" widthFit />
+        <Button label={t("trigger")} widthFit />
       </DialogTrigger>
 
       {formMutation.isSuccess ? (
         <DialogContent className="h-fit">
           <SuccessAnimation
-            message="Seu rolê está registrado e será usado para calcular as suas estatística no festival."
+            header={t("success.header")}
+            message={t("success.message")}
             button={<Button label="fechar" onClick={closeDialog} />}
           />
         </DialogContent>
       ) : (
         <DialogContent className="h-5/6">
           <DialogHeader>
-            <DialogTitle>Registrar rolê</DialogTitle>
-            <DialogDescription>
-              Registre como foi o seu rolê e tenha acesso as suas estatísticas.
-            </DialogDescription>
+            <DialogTitle>{t("title")}</DialogTitle>
+            <DialogDescription>{t("description")}</DialogDescription>
           </DialogHeader>
           <Form {...entryForm}>
             <form
@@ -180,7 +184,10 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
                   <FormItem>
                     <FormLabel>Instagram</FormLabel>
                     <FormControl>
-                      <Input placeholder="Seu @ do instragram" {...field} />
+                      <Input
+                        placeholder={t("instagram.placeholder")}
+                        {...field}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -193,10 +200,9 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
                   <FormItem>
                     <div className="flex justify-between gap-4">
                       <div>
-                        <FormLabel>Cadenas</FormLabel>
+                        <FormLabel>{t("cadenas.label")}</FormLabel>
                         <FormDescription>
-                          Você dropou no começo e foi até o final da fita sem
-                          cair.
+                          {t("cadenas.description")}
                         </FormDescription>
                       </div>
                       <FormControl>
@@ -219,7 +225,7 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
                       <div>
                         <FormLabel>Full lines</FormLabel>
                         <FormDescription>
-                          Você cadenou a ida e a volta, sem descer na virada.
+                          {t("fullLines.description")}
                         </FormDescription>
                       </div>
                       <FormControl>
@@ -240,15 +246,15 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
                 render={({ field }) => (
                   <FormItem>
                     <div>
-                      <FormLabel>Distância caminhada</FormLabel>
+                      <FormLabel>{t("distance.label")}</FormLabel>
                       <FormDescription>
-                        Quantos metros você andou no total
+                        {t("distance.description")}
                       </FormDescription>
                     </div>
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="exemplo: 150"
+                        placeholder={t("distance.placeholder")}
                         {...field}
                       />
                     </FormControl>
@@ -263,11 +269,14 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
                     <div>
                       <FormLabel optional>Speedline</FormLabel>
                       <FormDescription>
-                        Seu melhor tempo para o ranking do Speedline nesta via
+                        {t("speedline.description")}
                       </FormDescription>
                     </div>
                     <FormControl>
-                      <Input placeholder="Exemplo: 2:59" {...field} />
+                      <Input
+                        placeholder={t("speedline.placeholder")}
+                        {...field}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -278,16 +287,15 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
                 render={({ field }) => (
                   <FormItem>
                     <div>
-                      <FormLabel>Testemunhas</FormLabel>
+                      <FormLabel>{t("witness.label")}</FormLabel>
                       <FormDescription>
-                        Insira o instagram de duas pessoas, separado por
-                        vírgula.
+                        {t("witness.description")}
                       </FormDescription>
                     </div>
 
                     <FormControl>
                       <Input
-                        placeholder="exemplo: @festivalchooselife, @testemunha2"
+                        placeholder={t("witness.placeholder")}
                         {...field}
                       />
                     </FormControl>
@@ -299,11 +307,11 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
                 name="comment"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel optional>Comentário</FormLabel>
+                    <FormLabel optional>{t("comment.label")}</FormLabel>
                     <FormControl>
                       <TextArea
                         {...field}
-                        placeholder="Boa choosen 🤘🆑 Conta pra gente como foi ese rolê, o que achou da fita, da conexão..."
+                        placeholder={t("comment.placeholder")}
                         rows={3}
                         className="resize-none"
                       />
@@ -313,7 +321,7 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
               />
               <Button
                 type="submit"
-                label="Registrar"
+                label={t("submit")}
                 icon={<PlusSvg />}
                 loading={formMutation.isLoading}
               />

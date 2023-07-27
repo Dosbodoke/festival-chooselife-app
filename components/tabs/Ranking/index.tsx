@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import { type Tables } from "@/utils/supabase";
 
@@ -9,25 +9,28 @@ import Speedline from "./Speedline";
 import Distance from "./Distance";
 import Cadenas from "./Cadenas";
 import FullLine from "./FullLine";
+import { useTranslations } from "next-intl";
 
 interface Props {
   highline: Tables["highline"]["Row"];
 }
 
-// TODO: Improve this logic, categories shouldn't be possible to
-// crate with duplicated values such as ["sppedline", "speedline"]
-export type Category = "speedline" | "distância" | "cadenas" | "full Line";
-const categories: Category[] = [
-  "speedline",
-  "distância",
-  "cadenas",
-  "full Line",
-];
+export type Category = "speedline" | "distance" | "cadenas" | "fullLine";
+export type Categories = Record<Category, { label: string }>;
 
 function Ranking({ highline }: Props) {
+  const t = useTranslations("highline.tabs.ranking");
+  const categories = useMemo<Categories>(
+    () => ({
+      speedline: { label: "Speedline" },
+      cadenas: { label: t("cadenas") },
+      distance: { label: t("distance") },
+      fullLine: { label: "Full Lines" },
+    }),
+    [t]
+  );
   const [selectedCategory, setSelectedCategory] = useState<Category>(
-    () =>
-      (localStorage.getItem("selectedCategory") as Category) || categories[0]
+    () => (localStorage.getItem("selectedCategory") as Category) || "speedline"
   );
 
   function handleCategoryChange(category: Category) {
@@ -39,11 +42,11 @@ function Ranking({ highline }: Props) {
     switch (selectedCategory) {
       case "speedline":
         return <Speedline highline={highline} />;
-      case "distância":
+      case "distance":
         return <Distance highline={highline} />;
       case "cadenas":
         return <Cadenas highline={highline} />;
-      case "full Line":
+      case "fullLine":
         return <FullLine highline={highline} />;
       default:
         return null;

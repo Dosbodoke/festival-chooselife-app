@@ -4,6 +4,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 import supabase, { type Tables } from "@/utils/supabase";
 import LoadingSkeleton from "./LoadingSkeleton";
+import SeeMore from "../SeeMore";
 
 interface Props {
   highline: Tables["highline"]["Row"];
@@ -81,13 +82,7 @@ function Distance({ highline }: Props) {
         ))}
       </ul>
       {hasNextPage && (
-        <button
-          onClick={() => fetchNextPage()}
-          disabled={isLoading}
-          className="mt-2 cursor-pointer text-center text-sm font-medium text-blue-600 dark:text-blue-500"
-        >
-          carregar mais
-        </button>
+        <SeeMore onClick={() => fetchNextPage()} disabled={isLoading} />
       )}
     </>
   );
