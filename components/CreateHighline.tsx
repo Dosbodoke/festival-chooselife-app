@@ -39,7 +39,7 @@ const formSchema = z.object({
       invalid_type_error: "Insira um número",
     })
     .positive("Altura não pode ser negativa"),
-  lenght: z
+  lenght: z.coerce
     .number({
       required_error: "Insira o comprimento do Highline",
       invalid_type_error: "Insira um número",

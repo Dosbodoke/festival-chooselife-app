@@ -40,7 +40,7 @@ const formSchema = z.object({
     .min(3, "Deve conter ao menos 3 caracteres"),
   cadenas: z.number().nonnegative(),
   full_lines: z.number().nonnegative(),
-  distance: z
+  distance: z.coerce
     .number({
       required_error: "Insira quantos metros você andou",
       invalid_type_error: "Insira um número",
