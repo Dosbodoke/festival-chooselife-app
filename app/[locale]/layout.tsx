@@ -2,6 +2,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { notFound } from "next/navigation";
+import { useLocale, useMessages } from "next-intl";
 
 import Providers from "./Providers";
 import Footer from "@/components/Footer";
@@ -14,23 +15,20 @@ export const metadata = {
   description: "Site oficial do festival Chooselife",
 };
 
-export function generateStaticParams() {
-  return [{ locale: "en" }, { locale: "pt" }];
-}
-
-export default async function RootLayout({
+export default function RootLayout({
   children,
-  params: { locale },
+  params,
 }: {
   children: React.ReactNode;
   params: { locale: "en" | "pt" };
 }) {
-  let messages;
-  try {
-    messages = (await import(`../../messages/${locale}.json`)).default;
-  } catch (error) {
+  const locale = useLocale();
+  // Show a 404 error if the user requests an unknown locale
+  if (params.locale !== locale) {
     notFound();
   }
+
+  const messages = useMessages();
 
   return (
     // suppressHydrationWarning because of `next-themes`
@@ -41,11 +39,12 @@ export default async function RootLayout({
         style={inter.style}
       >
         <Providers locale={locale} messages={messages}>
-          <>
+          <main className="flex flex-col">
+            {/* @ts-expect-error Server Component */}
             <NavBar />
             {children}
             <Footer />
-          </>
+          </main>
         </Providers>
         <Analytics />
       </body>

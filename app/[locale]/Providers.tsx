@@ -2,15 +2,16 @@
 
 import type { ReactNode } from "react";
 import { ThemeProvider } from "next-themes";
-import { type AbstractIntlMessages, NextIntlClientProvider } from "next-intl";
+import { NextIntlClientProvider, type AbstractIntlMessages } from "next-intl";
 
 import { ReactQueryProvider } from "@/components/ReactQueryProvider";
 
 interface Props {
   locale: "en" | "pt";
-  messages: AbstractIntlMessages;
+  messages: AbstractIntlMessages | undefined;
   children: ReactNode;
 }
+
 function Providers({ locale, messages, children }: Props) {
   return (
     <ReactQueryProvider>

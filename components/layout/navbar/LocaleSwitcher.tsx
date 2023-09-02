@@ -2,7 +2,7 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next-intl/client";
-import { ChangeEvent, useTransition } from "react";
+import { useTransition } from "react";
 
 import {
   Select,
@@ -13,9 +13,6 @@ import {
   SelectLabel,
   SelectItem,
 } from "@/components/ui/Select";
-
-import { cn } from "@/utils/cn";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
 
 export default function LocaleSwitcher() {
   const t = useTranslations("LocaleSwitcher");
