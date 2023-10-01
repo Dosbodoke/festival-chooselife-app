@@ -1,5 +1,5 @@
-import { SVGAttributes } from "react";
 import { motion } from "framer-motion";
+import { SVGAttributes } from "react";
 
 export const PlusSvg = (props: SVGAttributes<SVGElement>) => (
   <svg

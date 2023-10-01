@@ -1,11 +1,12 @@
 "use client";
 
 import { useInfiniteQuery } from "@tanstack/react-query";
-import React from "react";
 import Link from "next/link";
 import { useFormatter } from "next-intl";
+import React from "react";
 
 import supabase, { type Tables } from "@/utils/supabase";
+
 import LoadingSkeleton from "./Ranking/LoadingSkeleton";
 import SeeMore from "./SeeMore";
 

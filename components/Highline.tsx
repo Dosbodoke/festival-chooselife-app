@@ -1,9 +1,10 @@
 import Link from "next/link";
-
-import type { Tables } from "@/utils/supabase";
-import { ArrowIcon } from "@/assets";
-import HighlineImage from "./HighlineImage";
 import { useTranslations } from "next-intl";
+
+import { ArrowIcon } from "@/assets";
+import type { Tables } from "@/utils/supabase";
+
+import HighlineImage from "./HighlineImage";
 
 interface Props {
   highline: Tables["highline"]["Row"];

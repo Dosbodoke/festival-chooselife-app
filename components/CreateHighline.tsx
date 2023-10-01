@@ -1,19 +1,22 @@
 "use client";
 
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { z } from "zod";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
+import { z } from "zod";
 
+import { PlusSvg } from "@/assets";
 import supabase, {
   ACCEPTED_IMAGE_TYPES,
   MAX_FILE_SIZE,
 } from "@/utils/supabase";
 
-import { PlusSvg } from "@/assets";
 import { SuccessAnimation } from "./animations/SuccessAnimation";
-import { Form, FormField, FormControl, FormItem, FormLabel } from "./ui/Form";
+import Button from "./ui/Button";
 import {
   Dialog,
   DialogContent,
@@ -22,14 +25,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/Dialog";
-import { Input } from "./ui/Input";
-import TextField from "./ui/TextField";
-import { TextArea } from "./ui/TextArea";
 import Dropzone from "./ui/Dropzone";
-import Button from "./ui/Button";
-import Link from "next/link";
-import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/Form";
+import { Input } from "./ui/Input";
+import { TextArea } from "./ui/TextArea";
 
 const formSchema = z.object({
   name: z.string().min(3, "Deve conter ao menos 3 caracteres"),

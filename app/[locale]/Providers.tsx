@@ -1,8 +1,8 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { ThemeProvider } from "next-themes";
 import { type AbstractIntlMessages, NextIntlClientProvider } from "next-intl";
+import { ThemeProvider } from "next-themes";
+import type { ReactNode } from "react";
 
 import { ReactQueryProvider } from "@/components/ReactQueryProvider";
 

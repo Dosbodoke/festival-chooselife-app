@@ -1,12 +1,13 @@
-import React from "react";
-import Link from "next/link";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import Link from "next/link";
+import { useFormatter } from "next-intl";
+import React from "react";
 
 import { transformSecondsToTimeString } from "@/utils/helperFunctions";
 import supabase, { type Tables } from "@/utils/supabase";
-import LoadingSkeleton from "./LoadingSkeleton";
+
 import SeeMore from "../SeeMore";
-import { useFormatter } from "next-intl";
+import LoadingSkeleton from "./LoadingSkeleton";
 
 interface Props {
   highline: Tables["highline"]["Row"];
