@@ -1,7 +1,8 @@
-import supabase from "@/utils/supabase";
-import Tabs from "@/components/tabs/Tabs";
-import RegistryEntry from "@/components/RegistryEntry";
 import HighlineImage from "@/components/HighlineImage";
+import RegistryEntry from "@/components/RegistryEntry";
+import Tabs from "@/components/tabs/Tabs";
+import supabase from "@/utils/supabase";
+
 import GoBack from "./_components/GoBack";
 
 export async function generateStaticParams() {

@@ -1,5 +1,5 @@
-import React from "react";
 import { Player } from "@lottiefiles/react-lottie-player";
+import React from "react";
 
 import succesAnimation from "@/assets/success-animation.json";
 

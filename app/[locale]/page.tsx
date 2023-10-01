@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import supabase, { type Tables } from "@/utils/supabase";
-import Highline from "@/components/Highline";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+
 import { SearchSvg } from "@/assets";
 import CreateHighline from "@/components/CreateHighline";
-import { useTranslations } from "next-intl";
+import Highline from "@/components/Highline";
+import supabase, { type Tables } from "@/utils/supabase";
 
 export default function Home() {
   const [highlines, setHighlines] = useState<Tables["highline"]["Row"][]>([]);

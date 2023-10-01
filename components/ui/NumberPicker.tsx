@@ -1,11 +1,9 @@
 "use client";
 
-import { PlusSvg } from "@/assets";
-import { MouseEventHandler, useEffect, useState } from "react";
 import { MinusIcon } from "@radix-ui/react-icons";
-
 import { motion } from "framer-motion";
 
+import { PlusSvg } from "@/assets";
 import { cn } from "@/utils/cn";
 
 interface Props {

@@ -1,19 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import supabase from "@/utils/supabase";
-import { transformTimeStringToSeconds } from "@/utils/helperFunctions";
-
 import { PlusSvg } from "@/assets";
+import { transformTimeStringToSeconds } from "@/utils/helperFunctions";
+import supabase from "@/utils/supabase";
+
 import { SuccessAnimation } from "./animations/SuccessAnimation";
-import { TextArea } from "./ui/TextArea";
 import Button from "./ui/Button";
-import NumberPicker from "./ui/NumberPicker";
 import {
   Dialog,
   DialogContent,
@@ -31,7 +30,8 @@ import {
   FormLabel,
 } from "./ui/Form";
 import { Input } from "./ui/Input";
-import { useTranslations } from "next-intl";
+import NumberPicker from "./ui/NumberPicker";
+import { TextArea } from "./ui/TextArea";
 
 const formSchema = z.object({
   instagram: z

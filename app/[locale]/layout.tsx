@@ -1,11 +1,13 @@
 import "./globals.css";
-import { Inter } from "next/font/google";
+
 import { Analytics } from "@vercel/analytics/react";
+import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 
-import Providers from "./Providers";
 import Footer from "@/components/Footer";
 import NavBar from "@/components/layout/navbar";
+
+import Providers from "./Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 

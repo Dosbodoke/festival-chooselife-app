@@ -1,10 +1,11 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
-import { type Category, type Categories } from "./index";
 import { ArrowDownSvg } from "@/assets";
-import { useTranslations } from "next-intl";
+
+import { type Categories, type Category } from "./index";
 
 interface Props {
   categories: Categories;

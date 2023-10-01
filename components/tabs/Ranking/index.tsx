@@ -1,15 +1,15 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import React, { useMemo, useState } from "react";
 
 import { type Tables } from "@/utils/supabase";
 
-import CategoryDropdown from "./CategoryDropdown";
-import Speedline from "./Speedline";
-import Distance from "./Distance";
 import Cadenas from "./Cadenas";
+import CategoryDropdown from "./CategoryDropdown";
+import Distance from "./Distance";
 import FullLine from "./FullLine";
-import { useTranslations } from "next-intl";
+import Speedline from "./Speedline";
 
 interface Props {
   highline: Tables["highline"]["Row"];
