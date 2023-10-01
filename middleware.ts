@@ -1,13 +1,15 @@
 import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
-import createIntlMiddleware from "next-intl/middleware";
 import { NextRequest } from "next/server";
+import createIntlMiddleware from "next-intl/middleware";
 
+import { locales } from "./navigation";
 import { Database } from "./utils/database.types";
 
 export default async function middleware(req: NextRequest) {
   const handleI18nRouting = createIntlMiddleware({
-    locales: ["en", "pt"],
+    locales,
     defaultLocale: "pt",
+    localePrefix: "as-needed",
   });
   const res = handleI18nRouting(req);
 

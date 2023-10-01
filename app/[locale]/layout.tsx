@@ -1,14 +1,20 @@
 import "./globals.css";
-import { Inter } from "next/font/google";
+
 import { Analytics } from "@vercel/analytics/react";
+import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import { useLocale, useMessages } from "next-intl";
 
-import Providers from "./Providers";
 import Footer from "@/components/Footer";
 import NavBar from "@/components/layout/navbar";
 
-const inter = Inter({ subsets: ["latin"] });
+import Providers from "./Providers";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
 
 export const metadata = {
   title: "Festival Chooselife",
@@ -35,16 +41,14 @@ export default function RootLayout({
     // refer to https://github.com/pacocoursey/next-themes#with-app
     <html lang={locale} suppressHydrationWarning>
       <body
-        className="min-h-screen bg-gradient-to-b from-white via-transparent to-gray-300 dark:from-gray-900 dark:to-black md:px-0"
-        style={inter.style}
+        className={`min-h-screen bg-gray-50 dark:bg-gray-900 md:px-0 ${inter.variable}`}
       >
         <Providers locale={locale} messages={messages}>
-          <main className="flex flex-col">
-            {/* @ts-expect-error Server Component */}
+          <div className="flex h-full min-h-screen flex-col">
             <NavBar />
             {children}
             <Footer />
-          </main>
+          </div>
         </Providers>
         <Analytics />
       </body>

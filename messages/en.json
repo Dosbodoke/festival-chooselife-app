@@ -71,7 +71,7 @@
         "placeholder": "E.g.: 4:20"
       },
       "witness": {
-        "label": "Witness", 
+        "label": "Witness",
         "description": "Input the instagram of two people, separated by a comma.",
         "placeholder": "E.g.: @festivalchooselife, @witness2"
       },
@@ -104,5 +104,21 @@
   },
   "LocaleSwitcher": {
     "label": "Change language"
+  },
+  "profile": {
+    "header": {
+      "notVerified": "This user isn't verified"
+    },
+    "stats": {
+      "walked": "walked",
+      "sent": "sent",
+      "fullLines": "full lines"
+    },
+    "lastWalks": {
+      "title": "Last walks",
+      "popover": {
+        "buttonLabel": "See more"
+      }
+    }
   }
 }

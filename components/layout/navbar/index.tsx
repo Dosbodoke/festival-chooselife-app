@@ -17,10 +17,12 @@ const NavBar = async () => {
   } = await supabase.auth.getSession();
 
   return (
-    <nav className="flex w-full items-center justify-end gap-4 py-2">
+    <nav className="flex w-full items-center justify-between gap-4 p-2 pb-8">
       <LocaleSwitcher />
-      <ThemeModeToggler />
-      <Profile session={session} />
+      <div>
+        <ThemeModeToggler />
+        <Profile session={session} />
+      </div>
     </nav>
   );
 };

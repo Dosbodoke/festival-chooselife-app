@@ -6,7 +6,7 @@ import Link from "next/link";
 function Footer() {
   const t = useTranslations("footer");
   return (
-    <footer className="w-full py-8 text-base text-gray-900 opacity-75 transition hover:opacity-100 dark:text-gray-400">
+    <footer className="w-full flex-grow-0 py-8 text-base text-gray-900 opacity-75 transition hover:opacity-100 dark:text-gray-400">
       <div className="flex items-center justify-center">
         <p>Festival Chooselife</p>
         <div className="mx-2 h-4 w-0 border border-gray-700 dark:border-gray-300" />

@@ -1,18 +1,18 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { usePathname, useRouter } from "next-intl/client";
 import { useTransition } from "react";
 
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
   SelectGroup,
-  SelectLabel,
   SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/Select";
+import { usePathname, useRouter } from "@/navigation";
 
 export default function LocaleSwitcher() {
   const t = useTranslations("LocaleSwitcher");
@@ -29,7 +29,7 @@ export default function LocaleSwitcher() {
 
   return (
     <Select onValueChange={onSelectChange} defaultValue={locale}>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-[142px] bg-white dark:bg-gray-700">
         <SelectValue placeholder="Select a fruit" />
       </SelectTrigger>
       <SelectContent>
