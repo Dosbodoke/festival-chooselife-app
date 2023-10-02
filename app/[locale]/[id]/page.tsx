@@ -10,9 +10,11 @@ export async function generateStaticParams() {
   return highlines ?? [];
 }
 
-export default async function Highline({ params }: { params: { id: string } }) {
-  const { id } = params;
-
+export default async function Highline({
+  params: { id },
+}: {
+  params: { id: string };
+}) {
   const { data: highline } = await supabase
     .from("highline")
     .select()
