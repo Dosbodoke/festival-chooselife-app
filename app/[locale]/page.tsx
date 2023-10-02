@@ -1,3 +1,5 @@
+import { unstable_setRequestLocale } from "next-intl/server";
+
 import Highline from "@/components/Highline";
 import supabase from "@/utils/supabase";
 
@@ -6,10 +8,13 @@ import Search from "./_components/search";
 export const dynamic = "force-dynamic";
 
 export default async function Home({
+  params: { locale },
   searchParams,
 }: {
+  params: { locale: "en" | "pt" };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
+  unstable_setRequestLocale(locale);
   const { q: searchValue } = searchParams as { [key: string]: string };
   const highlines = searchValue
     ? (
