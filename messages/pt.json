@@ -1,108 +1,108 @@
 {
-    "home": {
-      "searchPlaceholder": "Nome do Highline",
-      "newHighline": {
-        "trigger": "New Highline",
-        "title": "Registry Highline",
-        "success": {
-          "header": "BOA CHOOSEN",
-          "message": "O Highline foi criado, agora é so registrar o seu rolê!"
-        },
-        "successLink": "Ver Highline",
-        "description": "Adicione o seu Highline no aplicativo e tenha acesso ao histórico de rolês.",
-        "name": {
-          "label": "Nome da via",
-          "placeholder": "exemplo: Bongada de Jah"
-        },
-        "height": {
-          "label": "Altura",
-          "placeholder": "Altura do Highline em metros"
-        },
-        "length": {
-          "label": "Comprimento",
-          "placeholder": "Comprimento do Highline em metros"
-        },
-        "mainWebbing": {
-          "label": "Fita principal",
-          "placeholder": "Exemplo: Sky 2 (Bera)"
-        },
-        "backupWebbing": {
-          "label": "Fita backup",
-          "placeholder": "Exemplo: Sky 2 (Bera) + Sky 3d (Bera)"
-        },
-        "highlineDescription": {
-          "label": "Decrição",
-          "placeholder": "Fale um pouco sobre este Highline. Aqui é o lugar perfeito para dar informações de acesso, segurança, dica para montagem ou rolê, etc..."
-        },
-        "image": {
-          "label": "Clique para escolher a foto do Highline"
-        },
-        "submit": "Registrar"
+  "home": {
+    "searchPlaceholder": "Nome do Highline",
+    "newHighline": {
+      "trigger": "Novo Highline",
+      "title": "Registry Highline",
+      "success": {
+        "header": "BOA CHOOSEN",
+        "message": "O Highline foi criado, agora é so registrar o seu rolê!"
       },
-      "seeDetails": "Ver detalhes"
-    },
-    "highline": {
-      "goBack": "Ver todos os highlines",
-      "registry": {
-        "trigger": "Registrar rolê",
-        "title": "Registrar rolê",
-        "success": {
-          "header": "BOA CHOOSEN",
-          "message": "Seu rolê está registrado e será usado para calcular as suas estatísticas."
-        },
-        "description": "Registre como foi o seu rolê e tenha acesso as suas estatísticas.",
-        "instagram": {
-          "placeholder": "Seu @ do instragram"
-        },
-        "cadenas": {
-          "label": "Cadenas",
-          "description": "dropou no começo e foi até o final da fita sem cair."
-        },
-        "fullLines": {
-          "description": "Você cadenou a ida e a volta, sem descer na virada."
-        },
-        "distance": {
-          "label": "Distância caminhada",
-          "description": "Quantos metros você andou no total",
-          "placeholder": "Exemplo: 110"
-        },
-        "speedline": {
-          "description": "Seu melhor tempo para o ranking do Speedline nesta via",
-          "placeholder": "Exemplo: 2:59"
-        },
-        "witness": {
-          "label": "Testemunhas", 
-          "description": "Insira o instagram de duas pessoas, separado por vírgula.",
-          "placeholder": "Exemplo: @festivalchooselife, @testemunha2"
-        },
-        "comment": {
-          "label": "Comentário",
-          "placeholder": "Boa choosen 🤘🆑 Conta pra gente como foi ese rolê, o que achou da fita, da conexão..."
-        },
-        "submit": "Registrar"
+      "successLink": "Ver Highline",
+      "description": "Adicione o seu Highline no aplicativo e tenha acesso ao histórico de rolês.",
+      "name": {
+        "label": "Nome da via",
+        "placeholder": "exemplo: Bongada de Jah"
       },
-      "tabs": {
-        "informations": {
-          "label": "Informações",
-          "height": "Altura",
-          "length": "Comprimento",
-          "mainWebbing": "Fita principal",
-          "backupWebbing": "Fita backup",
-          "meters": "metros"
-        },
-        "comments": "Comentários",
-        "ranking": {
-          "changeModality": "Trocar modalidade",
-          "cadenas": "Cadenas",
-          "distance": "Distância"
-        },
-        "seeMore": "carregar mais"
-      }
+      "height": {
+        "label": "Altura",
+        "placeholder": "Altura do Highline em metros"
+      },
+      "length": {
+        "label": "Comprimento",
+        "placeholder": "Comprimento do Highline em metros"
+      },
+      "mainWebbing": {
+        "label": "Fita principal",
+        "placeholder": "Exemplo: Sky 2 (Bera)"
+      },
+      "backupWebbing": {
+        "label": "Fita backup",
+        "placeholder": "Exemplo: Sky 2 (Bera) + Sky 3d (Bera)"
+      },
+      "highlineDescription": {
+        "label": "Decrição",
+        "placeholder": "Fale um pouco sobre este Highline. Aqui é o lugar perfeito para dar informações de acesso, segurança, dica para montagem ou rolê, etc..."
+      },
+      "image": {
+        "label": "Clique para escolher a foto do Highline"
+      },
+      "submit": "Registrar"
     },
-    "footer": {
-      "desc": "Site criado por "
+    "seeDetails": "Ver detalhes"
+  },
+  "highline": {
+    "goBack": "Ver todos os highlines",
+    "registry": {
+      "trigger": "Registrar rolê",
+      "title": "Registrar rolê",
+      "success": {
+        "header": "BOA CHOOSEN",
+        "message": "Seu rolê está registrado e será usado para calcular as suas estatísticas."
+      },
+      "description": "Registre como foi o seu rolê e tenha acesso as suas estatísticas.",
+      "instagram": {
+        "placeholder": "Seu @ do instragram"
+      },
+      "cadenas": {
+        "label": "Cadenas",
+        "description": "dropou no começo e foi até o final da fita sem cair."
+      },
+      "fullLines": {
+        "description": "Você cadenou a ida e a volta, sem descer na virada."
+      },
+      "distance": {
+        "label": "Distância caminhada",
+        "description": "Quantos metros você andou no total",
+        "placeholder": "Exemplo: 110"
+      },
+      "speedline": {
+        "description": "Seu melhor tempo para o ranking do Speedline nesta via",
+        "placeholder": "Exemplo: 2:59"
+      },
+      "witness": {
+        "label": "Testemunhas",
+        "description": "Insira o instagram de duas pessoas, separado por vírgula.",
+        "placeholder": "Exemplo: @festivalchooselife, @testemunha2"
+      },
+      "comment": {
+        "label": "Comentário",
+        "placeholder": "Boa choosen 🤘🆑 Conta pra gente como foi ese rolê, o que achou da fita, da conexão..."
+      },
+      "submit": "Registrar"
     },
-    "LocaleSwitcher": {
-      "label": "Trocar idioma"
+    "tabs": {
+      "informations": {
+        "label": "Informações",
+        "height": "Altura",
+        "length": "Comprimento",
+        "mainWebbing": "Fita principal",
+        "backupWebbing": "Fita backup",
+        "meters": "metros"
+      },
+      "comments": "Comentários",
+      "ranking": {
+        "changeModality": "Trocar modalidade",
+        "cadenas": "Cadenas",
+        "distance": "Distância"
+      },
+      "seeMore": "carregar mais"
     }
+  },
+  "footer": {
+    "desc": "Site criado por "
+  },
+  "LocaleSwitcher": {
+    "label": "Trocar idioma"
   }
+}
