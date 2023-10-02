@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 import { ArrowLongLeftIcon } from "@/assets";
+import { Link } from "@/navigation";
 
 function GoBack() {
   const t = useTranslations("highline");

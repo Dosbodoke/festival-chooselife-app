@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -10,6 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 
 import { PlusSvg } from "@/assets";
+import { Link } from "@/navigation";
 import supabase, {
   ACCEPTED_IMAGE_TYPES,
   MAX_FILE_SIZE,

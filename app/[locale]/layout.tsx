@@ -3,9 +3,11 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
+import { useMessages } from "next-intl";
 
 import Footer from "@/components/Footer";
 import NavBar from "@/components/layout/navbar";
+import { locales } from "@/navigation";
 
 import Providers from "./Providers";
 
@@ -17,22 +19,20 @@ export const metadata = {
 };
 
 export function generateStaticParams() {
-  return [{ locale: "en" }, { locale: "pt" }];
+  return locales.map((locale) => ({ locale }));
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
   params: { locale },
 }: {
   children: React.ReactNode;
   params: { locale: "en" | "pt" };
 }) {
-  let messages;
-  try {
-    messages = (await import(`../../messages/${locale}.json`)).default;
-  } catch (error) {
-    notFound();
-  }
+  // Validate that the incoming `locale` parameter is valid
+  if (!locales.includes(locale as any)) notFound();
+
+  const messages = useMessages();
 
   return (
     // suppressHydrationWarning because of `next-themes`

@@ -1,8 +1,8 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import Link from "next/link";
 import { useFormatter } from "next-intl";
 import React from "react";
 
+import { Link } from "@/navigation";
 import { transformSecondsToTimeString } from "@/utils/helperFunctions";
 import supabase, { type Tables } from "@/utils/supabase";
 

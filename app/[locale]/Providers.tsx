@@ -8,7 +8,7 @@ import { ReactQueryProvider } from "@/components/ReactQueryProvider";
 
 interface Props {
   locale: "en" | "pt";
-  messages: AbstractIntlMessages;
+  messages: AbstractIntlMessages | undefined;
   children: ReactNode;
 }
 function Providers({ locale, messages, children }: Props) {
