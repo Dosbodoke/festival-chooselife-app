@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import Link from "next/link";
 import React from "react";
 
+import { Link } from "@/navigation";
 import supabase, { type Tables } from "@/utils/supabase";
 
 import SeeMore from "../SeeMore";
