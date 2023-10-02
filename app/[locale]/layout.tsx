@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import { useMessages } from "next-intl";
+import { unstable_setRequestLocale } from "next-intl/server";
 
 import Footer from "@/components/Footer";
 import NavBar from "@/components/layout/navbar";
@@ -29,6 +30,8 @@ export default function RootLayout({
   if (!locales.includes(locale as any)) notFound();
 
   const messages = useMessages();
+
+  unstable_setRequestLocale(locale);
 
   return (
     // suppressHydrationWarning because of `next-themes`

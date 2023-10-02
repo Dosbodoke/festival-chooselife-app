@@ -1,3 +1,5 @@
+import { unstable_setRequestLocale } from "next-intl/server";
+
 import HighlineImage from "@/components/HighlineImage";
 import RegistryEntry from "@/components/RegistryEntry";
 import Tabs from "@/components/tabs/Tabs";
@@ -11,10 +13,11 @@ export async function generateStaticParams() {
 }
 
 export default async function Highline({
-  params: { id },
+  params: { locale, id },
 }: {
-  params: { id: string };
+  params: { locale: "en" | "pt"; id: string };
 }) {
+  unstable_setRequestLocale(locale);
   const { data: highline } = await supabase
     .from("highline")
     .select()
