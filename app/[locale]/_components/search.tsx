@@ -10,10 +10,9 @@ import { createUrl } from "@/utils/helperFunctions";
 
 export default function Search() {
   const router = useRouter();
-
   const t = useTranslations("home");
-
   const searchParams = useSearchParams();
+
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const val = e.target as HTMLFormElement;
@@ -26,8 +25,9 @@ export default function Search() {
     }
     router.push(createUrl("/", newParams));
   }
+
   return (
-    <div className="mx-auto flex w-full items-center rounded-lg border border-gray-300 bg-gray-50 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:w-3/5">
+    <div className="mx-auto flex w-full items-center rounded-lg border border-gray-300 bg-white p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:w-3/5">
       <SearchSvg />
 
       <form onSubmit={onSubmit} className="flex-1">
