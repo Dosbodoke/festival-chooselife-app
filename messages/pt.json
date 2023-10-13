@@ -3,7 +3,7 @@
     "searchPlaceholder": "Nome do Highline",
     "newHighline": {
       "trigger": "Novo Highline",
-      "title": "Registry Highline",
+      "title": "Registrar highline",
       "success": {
         "header": "BOA CHOOSEN",
         "message": "O Highline foi criado, agora é so registrar o seu rolê!"
