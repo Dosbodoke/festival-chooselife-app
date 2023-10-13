@@ -47,7 +47,7 @@ export default function RootLayout({
         <Providers locale={locale} messages={messages}>
           <div className="flex h-full min-h-screen flex-col">
             <NavBar />
-            {children}
+            <main className="container mx-auto flex-1">{children}</main>
             <Footer />
           </div>
         </Providers>

@@ -27,7 +27,7 @@ export default async function Highline({
   if (!highline) return null;
 
   return (
-    <div className="relative mx-auto h-full w-full max-w-screen-md space-y-2">
+    <div className="relative mx-auto max-w-screen-md space-y-2">
       <GoBack />
       <div className="rounded-lg border border-gray-200 bg-white shadow-2xl dark:border-gray-700 dark:bg-gray-800">
         <div className="relative h-64 w-full rounded md:h-96">
