@@ -99,6 +99,30 @@
       "seeMore": "carregar mais"
     }
   },
+  "profile": {
+    "goBack": "Voltar para a página inicial",
+    "header": {
+      "notVerified": "Este usuário não é verificado"
+    },
+    "notFound": {
+      "title": "Usuário não existe",
+      "description": "Não conseguimos achar nenhum usuário com o nome",
+      "buttonLabel": "Voltar para a página inicial"
+    },
+    "stats": {
+      "walked": "caminhados",
+      "sent": "cadenas",
+      "fullLines": "full lines"
+    },
+    "lastWalks": {
+      "title": "Ultimos rolês",
+      "popover": {
+        "height": "Altura",
+        "length": "Comprimento",
+        "buttonLabel": "Ver mais"
+      }
+    }
+  },
   "footer": {
     "desc": "Site criado por "
   },
