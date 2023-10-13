@@ -99,6 +99,30 @@
       "seeMore": "see more"
     }
   },
+  "profile": {
+    "goBack": "Go back to home page",
+    "header": {
+      "notVerified": "This user is not verified"
+    },
+    "notFound": {
+      "title": "User don't exists",
+      "description": "We couldn't find a user with the name",
+      "buttonLabel": "Go back to home page"
+    },
+    "stats": {
+      "walked": "walked",
+      "sent": "sent",
+      "fullLines": "full lines"
+    },
+    "lastWalks": {
+      "title": "Last Walks",
+      "popover": {
+        "height": "Height",
+        "length": "Length",
+        "buttonLabel": "See more"
+      }
+    }
+  },
   "footer": {
     "desc": "Website create by "
   },
