@@ -24,7 +24,7 @@ export const ThemeModeToggler = () => {
   }
 
   return (
-    <button className="mr-3 h-8 w-8" onClick={toggleTheme}>
+    <button className="h-8 w-8" onClick={toggleTheme}>
       {theme === "dark" ? <SunIcon /> : <MoonIcon />}
     </button>
   );

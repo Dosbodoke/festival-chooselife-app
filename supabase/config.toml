@@ -71,6 +71,12 @@ redirect_uri = ""
 # or any other third-party OIDC providers.
 url = ""
 
+[auth.external.google]
+enabled = true
+client_id = "env(DEV_GOOGLE_CLIENT_ID)"
+secret = "env(DEV_GOOGLE_CLIENT_SECRET)"
+redirect_uri = "http://localhost:54321/auth/v1/callback"
+
 [analytics]
 enabled = false
 port = 54327
