@@ -14,8 +14,10 @@ import {
 } from "@/components/ui/Dialog";
 import { Input } from "@/components/ui/Input";
 import supabase from "@/utils/supabase";
+import { useTranslations } from "next-intl";
 
 function SignUp() {
+  const t = useTranslations();
   const [withEmail, setWithEmail] = useState(false);
 
   async function handleSignInWithGoogle() {
@@ -30,16 +32,15 @@ function SignUp() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button label="Sign Up" widthFit size="sm" />
+        <Button label={t("signUp.trigger")} widthFit size="sm" />
       </DialogTrigger>
       <DialogContent className="h-max grid-flow-row auto-rows-max">
         {withEmail ? (
           <>
             <DialogHeader>
-              <DialogTitle>Continue with an email link 💌</DialogTitle>
+              <DialogTitle>{t("signUp.email.title")}</DialogTitle>
               <DialogDescription>
-                An link will be sent to your email and that one can be used to
-                log in whitout typing any password
+                {t("signUp.email.description")}
               </DialogDescription>
             </DialogHeader>
             <div>
@@ -49,20 +50,18 @@ function SignUp() {
         ) : (
           <>
             <DialogHeader>
-              <DialogTitle>Crete a new profile ✨</DialogTitle>
-              <DialogDescription>
-                Get full acccess to all functionalities of the Chooselife APP
-              </DialogDescription>
+              <DialogTitle>{t("signUp.title")}</DialogTitle>
+              <DialogDescription>{t("signUp.description")}</DialogDescription>
             </DialogHeader>
             <Button
-              label="Sign in with Google"
+              label={t("signUp.google")}
               icon={<GoogleIcon className="-ml-1 mr-2 h-5 w-5" />}
               variant="outlined"
               color="secondary"
               onClick={handleSignInWithGoogle}
             />
             <button onClick={() => setWithEmail(true)}>
-              continue with email
+              {t("signUp.email.buttonLabel")}
             </button>
           </>
         )}
