@@ -1,13 +1,27 @@
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
+
 import LocaleSwitcher from "./LocaleSwitcher";
+import SignOut from "./SignOut";
+import SignUp from "./SignUp";
 import { ThemeModeToggler } from "./ThemeToggler";
 
-const NavBar = () => {
+export const dynamic = "force-dynamic";
+
+export default async function NavBar() {
+  const supabase = createServerComponentClient({ cookies });
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
   return (
-    <nav className="flex w-full items-center justify-end gap-4 py-2">
+    <nav className="flex w-full items-center justify-between gap-4 p-2 pb-4">
       <LocaleSwitcher />
-      <ThemeModeToggler />
+      <div className="flex items-center gap-2">
+        <ThemeModeToggler />
+        {session ? <SignOut /> : <SignUp />}
+      </div>
     </nav>
   );
-};
-
-export default NavBar;
+}

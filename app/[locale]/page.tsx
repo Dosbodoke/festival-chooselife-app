@@ -26,7 +26,7 @@ export default async function Home({
     : (await supabase.from("highline").select("*").limit(10)).data;
 
   return (
-    <div className="mt-4 space-y-12 ">
+    <div className="mt-2 space-y-6 px-2">
       <Search />
       <section className="flex flex-wrap justify-center gap-6">
         {highlines && highlines?.length > 0

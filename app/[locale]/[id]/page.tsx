@@ -7,10 +7,7 @@ import supabase from "@/utils/supabase";
 
 import GoBack from "./_components/GoBack";
 
-export async function generateStaticParams() {
-  const { data: highlines } = await supabase.from("highline").select("id");
-  return highlines ?? [];
-}
+export const dynamic = "force-dynamic";
 
 export default async function Highline({
   params: { locale, id },
