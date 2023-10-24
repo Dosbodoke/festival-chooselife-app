@@ -145,6 +145,9 @@
       "postDescription": "neste navegador"
     }
   },
+  "signOut": {
+    "trigger": "Sair"
+  },
   "footer": {
     "desc": "Site criado por "
   },
