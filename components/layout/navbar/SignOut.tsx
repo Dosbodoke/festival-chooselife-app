@@ -1,10 +1,13 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import Button from "@/components/ui/Button";
 import { useRouter } from "@/navigation";
 import supabase from "@/utils/supabase";
 
 function SignOut() {
+  const t = useTranslations();
   const router = useRouter();
 
   const handleSignOut = async () => {
@@ -14,7 +17,7 @@ function SignOut() {
 
   return (
     <Button
-      label="Log out"
+      label={t("signOut.trigger")}
       onClick={handleSignOut}
       size="sm"
       variant="outlined"

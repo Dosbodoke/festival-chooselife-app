@@ -145,6 +145,9 @@
       "postDescription": "in this browser"
     }
   },
+  "signOut": {
+    "trigger": "Sign Out"
+  },
   "footer": {
     "desc": "Website create by "
   },
