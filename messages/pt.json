@@ -125,16 +125,19 @@
   },
   "signUp": {
     "trigger": "Entrar",
-    "title": "Crie um novo perfil ✨",
-    "description": "Ganhe acesso a todas as funcionalidades do APP Chooselife",
-    "google": "Continuar com Google",
+    "initial": {
+      "title": "Crie um novo perfil ✨",
+      "description": "Ganhe acesso a todas as funcionalidades do APP Chooselife",
+      "google": "Continuar com Google"
+    },
     "email": {
       "buttonLabel": "Continuar com email",
       "title": "Continuar com um link de email 💌",
       "description": "Um link será enviado para seu e-mail e ele poderá ser usado para fazer login sem digitar nenhuma senha",
       "placeholder": "Insira seu email",
       "back": "Voltar",
-      "submit": "Enviar"
+      "submit": "Enviar",
+      "invalid": "Email invalido"
     },
     "inbox": {
       "title": "Cheque seu email! 🍄",

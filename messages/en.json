@@ -125,16 +125,19 @@
   },
   "signUp": {
     "trigger": "Sign Up",
-    "title": "Crete a new profile ✨",
-    "description": "Get full acccess to all functionalities of the Chooselife APP",
-    "google": "Continue with Google",
+    "initial": {
+      "title": "Crete a new profile ✨",
+      "description": "Get full acccess to all functionalities of the Chooselife APP",
+      "google": "Continue with Google"
+    },
     "email": {
       "buttonLabel": "Continue with email",
       "title": "Continue with an email link 💌",
       "description": "A link will be sent to your email and you can use it to log in without entering any password",
       "placeholder": "Input your email",
       "back": "Back",
-      "submit": "Submit"
+      "submit": "Submit",
+      "invalid": "Invalid email"
     },
     "inbox": {
       "title": "Check your inbox! 🍄",

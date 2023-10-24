@@ -1,7 +1,10 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import { GoogleIcon } from "@/assets";
 import Button from "@/components/ui/Button";
@@ -14,13 +17,31 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/Dialog";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
 import supabase from "@/utils/supabase";
+
+const formSchema = z.object({
+  email: z.string().email(),
+});
+
+type FormSchema = z.infer<typeof formSchema>;
 
 function SignUp() {
   const t = useTranslations();
   const [step, setStep] = useState<"initial" | "email" | "inbox">("initial");
-  const [email, setEmail] = useState("");
+  const form = useForm<FormSchema>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
 
   async function signInWithGoogle() {
     await supabase.auth.signInWithOAuth({
@@ -31,9 +52,9 @@ function SignUp() {
     });
   }
 
-  async function signInWithEmail() {
+  async function onSubmit(data: FormSchema) {
     const { error } = await supabase.auth.signInWithOtp({
-      email,
+      email: data.email,
       options: {
         shouldCreateUser: true,
         emailRedirectTo: `${location.origin}/auth/callback`,
@@ -48,11 +69,11 @@ function SignUp() {
   const dialogContentInitial = () => (
     <>
       <DialogHeader>
-        <DialogTitle>{t("signUp.title")}</DialogTitle>
-        <DialogDescription>{t("signUp.description")}</DialogDescription>
+        <DialogTitle>{t("signUp.initial.title")}</DialogTitle>
+        <DialogDescription>{t("signUp.initial.description")}</DialogDescription>
       </DialogHeader>
       <Button
-        label={t("signUp.google")}
+        label={t("signUp.initial.google")}
         icon={<GoogleIcon className="-ml-1 mr-2 h-5 w-5" />}
         variant="outlined"
         color="secondary"
@@ -70,32 +91,37 @@ function SignUp() {
         <DialogTitle>{t("signUp.email.title")}</DialogTitle>
         <DialogDescription>{t("signUp.email.description")}</DialogDescription>
       </DialogHeader>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          signInWithEmail();
-        }}
-        className="space-y-4"
-      >
-        <div>
-          <Input
-            placeholder={t("signUp.email.placeholder")}
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    placeholder={t("signUp.email.placeholder")}
+                    type="email"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage translatedMessage={t("signUp.email.invalid")} />
+              </FormItem>
+            )}
           />
-        </div>
-        <DialogFooter>
-          <Button
-            type="button"
-            label={t("signUp.email.back")}
-            variant="outlined"
-            color="secondary"
-            widthFit
-            onClick={() => setStep("initial")}
-          />
-          <Button type="submit" label={t("signUp.email.submit")} widthFit />
-        </DialogFooter>
-      </form>
+          <DialogFooter>
+            <Button
+              type="button"
+              label={t("signUp.email.back")}
+              variant="outlined"
+              color="secondary"
+              widthFit
+              onClick={() => setStep("initial")}
+            />
+            <Button type="submit" label={t("signUp.email.submit")} widthFit />
+          </DialogFooter>
+        </form>
+      </Form>
     </>
   );
 
@@ -105,7 +131,7 @@ function SignUp() {
         <DialogTitle>{t("signUp.inbox.title")}</DialogTitle>
         <DialogDescription>
           {t("signUp.inbox.preDescription")}
-          <span className="font-bold"> {email} </span>
+          <span className="font-bold"> {form.getValues("email")} </span>
           {t("signUp.inbox.postDescription")}
         </DialogDescription>
       </DialogHeader>
