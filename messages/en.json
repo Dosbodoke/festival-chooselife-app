@@ -132,7 +132,14 @@
       "buttonLabel": "Continue with email",
       "title": "Continue with an email link 💌",
       "description": "A link will be sent to your email and you can use it to log in without entering any password",
-      "placeholder": "Input your email"
+      "placeholder": "Input your email",
+      "back": "Back",
+      "submit": "Submit"
+    },
+    "inbox": {
+      "title": "Check your inbox! 🍄",
+      "preDescription": "Open the link sent to",
+      "postDescription": "in this browser"
     }
   },
   "footer": {

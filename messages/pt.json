@@ -132,7 +132,14 @@
       "buttonLabel": "Continuar com email",
       "title": "Continuar com um link de email 💌",
       "description": "Um link será enviado para seu e-mail e ele poderá ser usado para fazer login sem digitar nenhuma senha",
-      "placeholder": "Insira seu email"
+      "placeholder": "Insira seu email",
+      "back": "Voltar",
+      "submit": "Enviar"
+    },
+    "inbox": {
+      "title": "Cheque seu email! 🍄",
+      "preDescription": "Abra o link enviado para",
+      "postDescription": "neste navegador"
     }
   },
   "footer": {
