@@ -153,5 +153,20 @@
   },
   "LocaleSwitcher": {
     "label": "Change language"
+  },
+  "usernameDialog": {
+    "title": "Welcome to the CHOOSELIFE APP 👋",
+    "description": "We junst need a few more additional information to finish setting up your account.",
+    "fields": {
+      "username": {
+        "label": "Username",
+        "placeholder": "Your unique @username"
+      },
+      "displayName": {
+        "label": "Display name",
+        "placeholder": "Your full name"
+      }
+    },
+    "submit": "Continue"
   }
 }

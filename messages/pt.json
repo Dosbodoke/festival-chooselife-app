@@ -153,5 +153,20 @@
   },
   "LocaleSwitcher": {
     "label": "Trocar idioma"
+  },
+  "usernameDialog": {
+    "title": "Bem vindo ao APP CHOOSELIFE 👋",
+    "description": "Nos só precimaos de alguns detalhes para terminar de criar sua conta.",
+    "fields": {
+      "username": {
+        "label": "Nome de usuário",
+        "placeholder": "Seu @usuário único"
+      },
+      "displayName": {
+        "label": "Nome do perfil",
+        "placeholder": "Seu nome completo"
+      }
+    },
+    "submit": "Continuar"
   }
 }
