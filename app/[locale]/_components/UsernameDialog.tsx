@@ -2,7 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import React, { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -32,6 +33,7 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 export default function UsernameDialog() {
+  const t = useTranslations("usernameDialog");
   const supabase = createClientComponentClient<Database>();
   const [open, setOpen] = useState<boolean>(false);
 
@@ -39,6 +41,7 @@ export default function UsernameDialog() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
+      // TODO: When user signUp with Google, prefill name from user_metadata `full_name`
       displayName: "",
     },
   });
@@ -73,11 +76,8 @@ export default function UsernameDialog() {
     <Dialog open={open}>
       <DialogContent className="left-[50%] top-[50%] h-max translate-x-[-50%] translate-y-[-50%] grid-flow-row auto-rows-max rounded-lg data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]">
         <DialogHeader>
-          <DialogTitle>Bem vindo ao APP CHOOSELIFE 👋</DialogTitle>
-          <DialogDescription>
-            Nos só precimaos de alguns detalhes para terminar de criar sua
-            conta.
-          </DialogDescription>
+          <DialogTitle>{t("title")}</DialogTitle>
+          <DialogDescription>{t("description")}</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -86,9 +86,12 @@ export default function UsernameDialog() {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nome de usuário</FormLabel>
+                  <FormLabel>{t("fields.username.label")}</FormLabel>
                   <FormControl>
-                    <Input placeholder={"Seu @usuário único"} {...field} />
+                    <Input
+                      placeholder={t("fields.username.placeholder")}
+                      {...field}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -98,20 +101,17 @@ export default function UsernameDialog() {
               name="displayName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Seu perfil</FormLabel>
+                  <FormLabel>{t("fields.displayName.label")}</FormLabel>
                   <FormControl>
-                    <Input placeholder={"Seu nome completo"} {...field} />
+                    <Input
+                      placeholder={t("fields.displayName.placeholder")}
+                      {...field}
+                    />
                   </FormControl>
                 </FormItem>
               )}
             />
-
-            <Button
-              type="submit"
-              label={"Continuar"}
-              // icon={<PlusSvg />}
-              // loading={formMutation.isLoading}
-            />
+            <Button type="submit" label={t("submit")} />
           </form>
         </Form>
       </DialogContent>
