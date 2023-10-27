@@ -1,7 +1,9 @@
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 import { unstable_setRequestLocale } from "next-intl/server";
 
 import Highline from "@/components/Highline";
-import supabase from "@/utils/supabase";
+import { Database } from "@/utils/database.types";
 
 import Search from "./_components/search";
 
@@ -14,7 +16,11 @@ export default async function Home({
   params: { locale: "en" | "pt" };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  unstable_setRequestLocale(locale);
+  const cookieStore = cookies();
+  const supabase = createServerComponentClient<Database>({
+    cookies: () => cookieStore,
+  });
+
   const { q: searchValue } = searchParams as { [key: string]: string };
   const highlines = searchValue
     ? (

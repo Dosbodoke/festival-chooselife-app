@@ -5,7 +5,6 @@ import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 
 import { ReactQueryProvider } from "@/components/ReactQueryProvider";
-import supabase from "@/utils/supabase";
 
 interface Props {
   locale: "en" | "pt";

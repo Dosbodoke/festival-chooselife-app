@@ -1,3 +1,6 @@
+// Command used to generate the types
+// npx supabase gen types typescript --local --schema storage,public,functions > utils/database.types.ts
+
 export type Json =
   | string
   | number
@@ -7,31 +10,6 @@ export type Json =
   | Json[];
 
 export interface Database {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never;
-    };
-    Views: {
-      [_ in never]: never;
-    };
-    Functions: {
-      graphql: {
-        Args: {
-          operationName?: string;
-          query?: string;
-          variables?: Json;
-          extensions?: Json;
-        };
-        Returns: Json;
-      };
-    };
-    Enums: {
-      [_ in never]: never;
-    };
-    CompositeTypes: {
-      [_ in never]: never;
-    };
-  };
   public: {
     Tables: {
       entry: {
@@ -128,6 +106,28 @@ export interface Database {
             foreignKeyName: "highline_sector_id_fkey";
             columns: ["sector_id"];
             referencedRelation: "sector";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      profiles: {
+        Row: {
+          id: string;
+          username: string | null;
+        };
+        Insert: {
+          id: string;
+          username?: string | null;
+        };
+        Update: {
+          id?: string;
+          username?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey";
+            columns: ["id"];
+            referencedRelation: "users";
             referencedColumns: ["id"];
           }
         ];
@@ -317,12 +317,6 @@ export interface Database {
             foreignKeyName: "objects_bucketId_fkey";
             columns: ["bucket_id"];
             referencedRelation: "buckets";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "objects_owner_fkey";
-            columns: ["owner"];
-            referencedRelation: "users";
             referencedColumns: ["id"];
           }
         ];
