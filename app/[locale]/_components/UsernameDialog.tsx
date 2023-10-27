@@ -31,10 +31,7 @@ const formSchema = z.object({
 
 type FormSchema = z.infer<typeof formSchema>;
 
-interface Props {
-  hasUsername: boolean;
-}
-export default function UsernameDialog({ hasUsername }: Props) {
+export default function UsernameDialog() {
   const supabase = createClientComponentClient<Database>();
   const [open, setOpen] = useState<boolean>(false);
 

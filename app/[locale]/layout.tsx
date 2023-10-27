@@ -33,7 +33,6 @@ export default function RootLayout({
 }) {
   // Validate that the incoming `locale` parameter is valid
   if (!locales.includes(locale)) notFound();
-  const cookieStore = cookies();
   const messages = useMessages();
 
   return (
@@ -47,9 +46,7 @@ export default function RootLayout({
           <div className="flex h-full min-h-screen flex-col">
             <NavBar />
             <main className="container mx-auto flex-1">
-              <UsernameDialog
-                hasUsername={!!cookieStore.get("username")?.value}
-              />
+              <UsernameDialog />
               {children}
             </main>
             <Footer />
