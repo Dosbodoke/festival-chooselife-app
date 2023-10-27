@@ -1,5 +1,5 @@
 import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import createIntlMiddleware from "next-intl/middleware";
 
 import { locales } from "./navigation";
@@ -13,7 +13,7 @@ const handleI18nRouting = createIntlMiddleware({
 });
 
 export default async function middleware(req: NextRequest) {
-  const res = handleI18nRouting(req);
+  const res: NextResponse = handleI18nRouting(req);
 
   // Create a Supabase client configured to use cookies
   const supabase = createMiddlewareClient<Database>({ req, res });

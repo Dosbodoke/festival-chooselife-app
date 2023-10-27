@@ -2,14 +2,15 @@ import "./globals.css";
 
 import { Analytics } from "@vercel/analytics/react";
 import { Inter } from "next/font/google";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { useMessages } from "next-intl";
-import { unstable_setRequestLocale } from "next-intl/server";
 
 import Footer from "@/components/Footer";
 import NavBar from "@/components/layout/navbar";
 import { locales } from "@/navigation";
 
+import UsernameDialog from "./_components/UsernameDialog";
 import Providers from "./Providers";
 
 const inter = Inter({
@@ -31,11 +32,9 @@ export default function RootLayout({
   params: { locale: "en" | "pt" };
 }) {
   // Validate that the incoming `locale` parameter is valid
-  if (!locales.includes(locale as any)) notFound();
-
+  if (!locales.includes(locale)) notFound();
+  const cookieStore = cookies();
   const messages = useMessages();
-
-  unstable_setRequestLocale(locale);
 
   return (
     // suppressHydrationWarning because of `next-themes`
@@ -47,7 +46,12 @@ export default function RootLayout({
         <Providers locale={locale} messages={messages}>
           <div className="flex h-full min-h-screen flex-col">
             <NavBar />
-            <main className="container mx-auto flex-1">{children}</main>
+            <main className="container mx-auto flex-1">
+              <UsernameDialog
+                hasUsername={!!cookieStore.get("username")?.value}
+              />
+              {children}
+            </main>
             <Footer />
           </div>
         </Providers>
