@@ -30,7 +30,7 @@ export default function LocaleSwitcher() {
   return (
     <Select onValueChange={onSelectChange} defaultValue={locale}>
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Select a fruit" />
+        <SelectValue />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
