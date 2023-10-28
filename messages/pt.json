@@ -120,7 +120,8 @@
         "height": "Altura",
         "length": "Comprimento",
         "buttonLabel": "Ver mais"
-      }
+      },
+      "empty": "Este usuário ainda não registrou nenhum rolê"
     }
   },
   "signUp": {
