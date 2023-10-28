@@ -1,12 +1,18 @@
+// import supabase from "@/utils/supabase";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Metadata } from "next";
+import { cookies } from "next/headers";
+import { Suspense } from "react";
 
-import supabase from "@/utils/supabase";
+import { Database } from "@/utils/database.types";
 
 import GoBack from "./_components/GoBack";
-import LastWalks from "./_components/LastWalks";
+import LastWalks, { LastWalksSkeleton } from "./_components/LastWalks";
 import Stats from "./_components/Stats";
 import UserHeader from "./_components/UserHeader";
 import UserNotFound from "./_components/UserNotFound";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Profile",
@@ -18,25 +24,26 @@ export default async function Profile({
 }: {
   params: { username: string };
 }) {
-  const { data, error } = await supabase
+  const cookieStore = cookies();
+  const supabase = createServerComponentClient<Database>({
+    cookies: () => cookieStore,
+  });
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("username", username);
+
+  const { data } = await supabase
     .rpc("profile_stats", {
       username: `@${username}`,
     })
     .maybeSingle();
 
-  const { data: entries } = await supabase
-    .from("entry")
-    .select(
-      `
-      *,
-      highline (*)
-    `
-    )
-    .eq("instagram", `@${username}`)
-    .limit(5)
-    .order("created_at", { ascending: false });
-
-  if (!data || Object.values(data).every((value) => value === null)) {
+  if (
+    !profile &&
+    (!data || Object.values(data).every((value) => value === null))
+  ) {
     return (
       <div className="mx-auto max-w-screen-md">
         <UserNotFound username={username} />
@@ -49,11 +56,13 @@ export default async function Profile({
       <GoBack />
       <UserHeader username={username} />
       <Stats
-        total_cadenas={data.total_cadenas || 0}
-        total_distance_walked={data.total_distance_walked || 0}
-        total_full_lines={data.total_full_lines || 0}
+        total_cadenas={data?.total_cadenas || 0}
+        total_distance_walked={data?.total_distance_walked || 0}
+        total_full_lines={data?.total_full_lines || 0}
       />
-      <LastWalks entries={entries} />
+      <Suspense fallback={<LastWalksSkeleton />}>
+        <LastWalks username={username} />
+      </Suspense>
     </div>
   );
 }
