@@ -120,7 +120,8 @@
         "height": "Height",
         "length": "Length",
         "buttonLabel": "See more"
-      }
+      },
+      "empty": "This user hasn't registered any walk."
     }
   },
   "signUp": {
