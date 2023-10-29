@@ -45,11 +45,8 @@ function UserHeader({ profile, username }: Props) {
         </div>
       </div>
       <div>
-        <p className="font-medium">Juan Gabriel Sousa Andrade</p>
-        <p>
-          Olá, estou na Highlife desde 2020. Na busca da cadena ainda, mas esse
-          ano vem!! CHOOSELIFE
-        </p>
+        <p className="font-medium">{profile.name}</p>
+        <p>{profile.description}</p>
       </div>
     </header>
   );
