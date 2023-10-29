@@ -157,7 +157,8 @@
   },
   "usernameDialog": {
     "title": "Welcome to the CHOOSELIFE APP 👋",
-    "description": "We junst need a few more additional information to finish setting up your account.",
+    "description": "We just need a few more additional information to finish setting up your account.",
+    "alert": "If you have already used the APP, you must use the same @user as your Instagram so you don't lose your statistics",
     "fields": {
       "username": {
         "label": "Username",
