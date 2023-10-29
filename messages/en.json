@@ -161,11 +161,19 @@
     "fields": {
       "username": {
         "label": "Username",
-        "placeholder": "Your unique @username"
+        "placeholder": "Your unique @username",
+        "errors": {
+          "alreadyExits": "This username already exists",
+          "startWith@": "Username must start with a @",
+          "minLength": "Username should have at least 2 characters"
+        }
       },
       "displayName": {
         "label": "Display name",
-        "placeholder": "Your full name"
+        "placeholder": "Your full name",
+        "errors": {
+          "minLength": "Name should have at least 3 characters"
+        }
       }
     },
     "submit": "Continue"
