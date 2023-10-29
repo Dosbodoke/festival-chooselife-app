@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { Alert, AlertDescription } from "@/components/ui/Alert";
 import Button from "@/components/ui/Button";
 import {
   Dialog,
@@ -99,6 +100,9 @@ export default function UsernameDialog() {
         <DialogHeader>
           <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription>{t("description")}</DialogDescription>
+          <Alert variant="info" className="break-before-all text-left">
+            <AlertDescription>{t("alert")}</AlertDescription>
+          </Alert>
         </DialogHeader>
         <Form {...form}>
           <form
