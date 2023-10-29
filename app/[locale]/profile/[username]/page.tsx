@@ -32,13 +32,14 @@ export default async function Profile({
   const { data: profile } = await supabase
     .from("profiles")
     .select("*")
-    .eq("username", username);
+    .eq("username", `@${username}`)
+    .single();
 
   const { data } = await supabase
     .rpc("profile_stats", {
       username: `@${username}`,
     })
-    .maybeSingle();
+    .single();
 
   if (
     !profile &&
@@ -54,7 +55,7 @@ export default async function Profile({
   return (
     <div className="relative mx-auto max-w-screen-md space-y-4 rounded-lg px-2 pb-2 pt-0 md:space-y-6 md:pt-8">
       <GoBack />
-      <UserHeader username={username} />
+      <UserHeader profile={profile} username={username} />
       <Stats
         total_cadenas={data?.total_cadenas || 0}
         total_distance_walked={data?.total_distance_walked || 0}

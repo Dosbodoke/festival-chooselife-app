@@ -1,6 +1,3 @@
-// Command used to generate the types
-// npx supabase gen types typescript --local --schema storage,public,functions > utils/database.types.ts
-
 export type Json =
   | string
   | number
@@ -112,15 +109,24 @@ export interface Database {
       };
       profiles: {
         Row: {
+          birthday: string | null;
+          description: string | null;
           id: string;
+          name: string | null;
           username: string | null;
         };
         Insert: {
+          birthday?: string | null;
+          description?: string | null;
           id: string;
+          name?: string | null;
           username?: string | null;
         };
         Update: {
+          birthday?: string | null;
+          description?: string | null;
           id?: string;
+          name?: string | null;
           username?: string | null;
         };
         Relationships: [

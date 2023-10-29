@@ -161,11 +161,19 @@
     "fields": {
       "username": {
         "label": "Nome de usuário",
-        "placeholder": "Seu @usuário único"
+        "placeholder": "Seu @usuário único",
+        "errors": {
+          "alreadyExits": "Este nome de usuário já existe",
+          "startWith@": "Nome de usuário deve começar com @",
+          "minLength": "Nome de usuário deve ter pelo menos 2 caracteres"
+        }
       },
       "displayName": {
         "label": "Nome do perfil",
-        "placeholder": "Seu nome completo"
+        "placeholder": "Seu nome completo",
+        "errors": {
+          "minLength": "Nome deve ter pelo menos 3 caracteres"
+        }
       }
     },
     "submit": "Continuar"
