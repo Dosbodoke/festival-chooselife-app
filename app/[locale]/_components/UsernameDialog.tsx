@@ -32,11 +32,11 @@ import { Database } from "@/utils/database.types";
 const formSchema = z.object({
   username: z
     .string()
-    .min(3)
+    .min(3, "minLength")
     .refine((val) => val.startsWith("@"), {
-      message: "Username must start with a @",
+      message: "startWith@",
     }),
-  displayName: z.string().min(3),
+  displayName: z.string().min(3, "minLength"),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -66,7 +66,7 @@ export default function UsernameDialog() {
     // that already exists
     if (error?.code === "23505") {
       form.setError("username", {
-        message: t("fields.username.errors.alreadyExits"),
+        message: "alreadyExits",
       });
       return;
     }
@@ -77,6 +77,7 @@ export default function UsernameDialog() {
       } = await supabase.auth.updateUser({
         data,
       });
+      await supabase.auth.refreshSession();
       setUser(userData);
     }
   }
@@ -117,7 +118,16 @@ export default function UsernameDialog() {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage
+                    translatedMessage={
+                      form.formState.errors.username?.message
+                        ? t(
+                            // @ts-ignore: Workaround for error translations
+                            `fields.username.errors.${form.formState.errors.username.message}`
+                          )
+                        : undefined
+                    }
+                  />
                 </FormItem>
               )}
             />
@@ -133,7 +143,16 @@ export default function UsernameDialog() {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage
+                    translatedMessage={
+                      form.formState.errors.displayName?.message
+                        ? t(
+                            // @ts-ignore: Workaround for error translations
+                            `fields.displayName.errors.${form.formState.errors.displayName.message}`
+                          )
+                        : undefined
+                    }
+                  />
                 </FormItem>
               )}
             />
