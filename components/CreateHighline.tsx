@@ -73,7 +73,15 @@ const CreateHighline = () => {
   const highlineForm = useForm<FormSchema>({
     mode: "onTouched",
     resolver: zodResolver(formSchema),
-    defaultValues: {},
+    defaultValues: {
+      name: "",
+      height: undefined,
+      lenght: undefined,
+      backup_webbing: "",
+      main_webbing: "",
+      image: "",
+      description: "",
+    },
   });
 
   const createHighline = async ({
@@ -85,20 +93,20 @@ const CreateHighline = () => {
     description,
     image,
   }: FormSchema) => {
-    let imageName: string | null = null;
+    let imageID: string | null = null;
     if (image && image.length > 0) {
       const file = image[0];
       const extension = file.type.split("/")[1];
-      imageName = `${uuidv4()}.${extension}`;
+      imageID = `${uuidv4()}.${extension}`;
       // Create a new Blob from the file
       const blob = new Blob([await file.arrayBuffer()], { type: file.type });
       // Upload the blob
       const { error } = await supabase.storage
         .from("images")
-        .upload(imageName, blob);
+        .upload(imageID, blob);
       if (error) throw new Error("Couldn't upload the image");
     }
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("highline")
       .insert([
         {
@@ -108,7 +116,7 @@ const CreateHighline = () => {
           main_webbing,
           backup_webbing,
           description,
-          cover_image: imageName,
+          cover_image: imageID,
         },
       ])
       .select();
@@ -118,10 +126,9 @@ const CreateHighline = () => {
     return data[0].id;
   };
 
-  const { mutate, isLoading, error, isSuccess } = useMutation(createHighline, {
-    onError: (e) => {
-      console.log("Error");
-      console.log(e);
+  const { mutate, isLoading, isSuccess } = useMutation(createHighline, {
+    onError: (e: Error) => {
+      console.log(e.message);
     },
     onSuccess: (data) => {
       setNewHighlineUUID(data);
@@ -133,8 +140,7 @@ const CreateHighline = () => {
   };
 
   const onError = (e: unknown) => {
-    console.log("Error");
-    console.log(e);
+    console.log("Invalid form");
   };
 
   return (
@@ -191,6 +197,7 @@ const CreateHighline = () => {
                         type="number"
                         placeholder={t("height.placeholder")}
                         {...field}
+                        value={field.value || ""}
                       />
                     </FormControl>
                   </FormItem>
@@ -207,6 +214,7 @@ const CreateHighline = () => {
                         type="number"
                         placeholder={t("length.placeholder")}
                         {...field}
+                        value={field.value || ""}
                       />
                     </FormControl>
                   </FormItem>
