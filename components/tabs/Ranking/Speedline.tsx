@@ -8,6 +8,7 @@ import supabase, { type Tables } from "@/utils/supabase";
 
 import SeeMore from "../SeeMore";
 import LoadingSkeleton from "./LoadingSkeleton";
+import UsernameLink from "./UsernameLink";
 
 interface Props {
   highline: Tables["highline"]["Row"];
@@ -68,16 +69,7 @@ function Speedline({ highline }: Props) {
                   <div className="flex items-center space-x-4">
                     <div className="font-bold">{rankingPosition}</div>
                     <div className="min-w-0 flex-1">
-                      <Link
-                        href={`https://www.instagram.com/${entry.instagram.replace(
-                          "@",
-                          ""
-                        )}/`}
-                        target="_blank"
-                        className="truncate font-medium text-blue-700 dark:text-blue-500"
-                      >
-                        {entry.instagram}
-                      </Link>
+                      <UsernameLink username={entry.instagram} />
                       <div>
                         {format.dateTime(new Date(entry.created_at), {
                           dateStyle: "short",
