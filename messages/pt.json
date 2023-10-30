@@ -97,6 +97,10 @@
         "distance": "Distância"
       },
       "seeMore": "carregar mais"
+    },
+    "notFound": {
+      "title": "Highline não existe",
+      "buttonLabel": "Voltar para a página inicial"
     }
   },
   "profile": {
