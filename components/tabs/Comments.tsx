@@ -9,6 +9,7 @@ import supabase, { type Tables } from "@/utils/supabase";
 
 import LoadingSkeleton from "./Ranking/LoadingSkeleton";
 import SeeMore from "./SeeMore";
+import UsernameLink from "./Ranking/UsernameLink";
 
 interface Props {
   highline: Tables["highline"]["Row"];
@@ -69,24 +70,14 @@ function Comments({ highline }: Props) {
               className="bg border-t border-gray-200 py-6 text-base first:border-t-0 dark:border-gray-700"
             >
               <footer className="mb-2 flex items-center justify-between">
-                <div className="flex items-center">
-                  <Link
-                    href={`https://www.instagram.com/${comment.instagram.replace(
-                      "@",
-                      ""
-                    )}/`}
-                    target="_blank"
-                    className="mr-3 inline-flex items-center truncate text-sm font-medium text-blue-700 dark:text-blue-500"
-                  >
-                    {comment.instagram}
-                  </Link>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="flex items-end gap-3">
+                  <UsernameLink username={comment.instagram} />
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     {format.dateTime(new Date(comment.created_at), {
                       dateStyle: "medium",
                       timeStyle: "short",
                     })}
-                  </div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400"></p>
+                  </p>
                 </div>
               </footer>
               <p className="text-gray-500 dark:text-gray-400">
