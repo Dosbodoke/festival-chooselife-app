@@ -1,4 +1,4 @@
-import { unstable_setRequestLocale } from "next-intl/server";
+import { notFound } from "next/navigation";
 
 import HighlineImage from "@/components/HighlineImage";
 import RegistryEntry from "@/components/RegistryEntry";
@@ -10,18 +10,17 @@ import GoBack from "./_components/GoBack";
 export const dynamic = "force-dynamic";
 
 export default async function Highline({
-  params: { locale, id },
+  params: { id },
 }: {
-  params: { locale: "en" | "pt"; id: string };
+  params: { id: string };
 }) {
-  unstable_setRequestLocale(locale);
   const { data: highline } = await supabase
     .from("highline")
     .select()
     .match({ id })
     .single();
 
-  if (!highline) return null;
+  if (!highline) return notFound();
 
   return (
     <div className="relative mx-auto max-w-screen-md space-y-2">
