@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
 import { Database } from "@/utils/database.types";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   username: z
@@ -43,8 +44,10 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 export default function UsernameDialog() {
-  const t = useTranslations("usernameDialog");
   const supabase = createClientComponentClient<Database>();
+
+  const t = useTranslations("usernameDialog");
+  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -84,6 +87,7 @@ export default function UsernameDialog() {
       });
       await supabase.auth.refreshSession();
       setUser(userData);
+      router.push(`/profile/${data.username.replace("@", "")}`);
     }
   }
 
