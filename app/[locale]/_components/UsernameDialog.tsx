@@ -50,7 +50,6 @@ export default function UsernameDialog() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
-      // TODO: When user signUp with Google, prefill name from user_metadata `full_name`
       displayName: "",
     },
   });
@@ -60,7 +59,12 @@ export default function UsernameDialog() {
 
     const { error } = await supabase
       .from("profiles")
-      .update({ username: data.username, name: data.displayName })
+      .update({
+        username: data.username,
+        name: data.displayName,
+        // TODO: This is triggered only on the username setup, if user change profile picture lately it will not be updated on `profiles` table
+        profile_picture: user.user_metadata["picture"] || "",
+      })
       .eq("id", user.id);
 
     // Since `username` is unique, the error 235050 will be raised when you try to add a username
@@ -88,13 +92,17 @@ export default function UsernameDialog() {
       const {
         data: { session },
       } = await supabase.auth.getSession();
-      // If the user is logged in and do not have an username show the modal requesting it
       setUser(session?.user || null);
+      form.setValue(
+        "displayName",
+        session?.user.user_metadata["full_name"] || ""
+      );
     }
     getUser();
-  }, [supabase.auth]);
+  }, [supabase.auth, form]);
 
   return (
+    // If the user is logged in and do not have an username show the modal requesting it
     <Dialog open={user ? !user.user_metadata["username"] : false}>
       <DialogContent className="left-[50%] top-[50%] h-max translate-x-[-50%] translate-y-[-50%] grid-flow-row auto-rows-max rounded-lg data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]">
         <DialogHeader>

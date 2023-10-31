@@ -8,6 +8,12 @@ const nextConfig = {
         port: "54321",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "*.googleusercontent.com",
+        port: "",
+        pathname: "**",
+      },
     ],
     domains: [
       process.env.NEXT_PUBLIC_SUPABASE_URL.replace(/(^\w+:|^)\/\//, ""),

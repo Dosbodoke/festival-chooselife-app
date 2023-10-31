@@ -35,9 +35,10 @@ function UserHeader({ profile, username }: Props) {
       <div className="h- flex gap-4">
         <div className="relative h-24 w-24 sm:h-32 sm:w-32">
           <Image
-            src={"/default-profile-picture.png"}
+            src={profile.profile_picture || "/default-profile-picture.png"}
             fill={true}
             alt="Profile picture"
+            className="rounded-full"
           />
         </div>
         <div className="space-y-3">
