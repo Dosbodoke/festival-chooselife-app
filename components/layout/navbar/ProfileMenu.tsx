@@ -14,6 +14,8 @@ import { Link } from "@/navigation";
 
 import SignOut from "./SignOut";
 
+export const dynamic = "force-dynamic";
+
 export default async function ProfileMenu() {
   const cookieStore = cookies();
   const supabase = createServerComponentClient({
@@ -37,9 +39,12 @@ export default async function ProfileMenu() {
         sideOffset={8}
         className="max-w-[12rem] overflow-hidden"
       >
-        <ProfileSection
-          username={user?.user_metadata["username"].replace("@", "")}
-        />
+        {/* TODO: User can't see correct ProfileSection after set up username since this component would not know */}
+        {user?.user_metadata["username"] ? (
+          <ProfileSection
+            username={user.user_metadata["username"].replace("@", "")}
+          />
+        ) : null}
         <DropdownMenuSeparator />
         <SignOut />
       </DropdownMenuContent>
