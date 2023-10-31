@@ -2,7 +2,6 @@ import "./globals.css";
 
 import { Analytics } from "@vercel/analytics/react";
 import { Inter } from "next/font/google";
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { useMessages } from "next-intl";
 

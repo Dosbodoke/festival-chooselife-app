@@ -2,28 +2,25 @@
 
 import { useTranslations } from "next-intl";
 
-import Button from "@/components/ui/Button";
+import { LogOutIcon } from "@/assets";
+import { DropdownMenuItem } from "@/components/ui/DropdownMenu";
 import { useRouter } from "@/navigation";
 import supabase from "@/utils/supabase";
 
 function SignOut() {
-  const t = useTranslations();
+  const t = useTranslations("profileMenu");
   const router = useRouter();
 
-  const handleSignOut = async () => {
+  const signOut = async () => {
     await supabase.auth.signOut();
     router.refresh();
   };
 
   return (
-    <Button
-      label={t("signOut.trigger")}
-      onClick={handleSignOut}
-      size="sm"
-      variant="outlined"
-      color="secondary"
-      widthFit
-    />
+    <DropdownMenuItem className="flex justify-between" onClick={signOut}>
+      <span>{t("signOut")}</span>
+      <LogOutIcon className="h-4 w-4 dark:text-white" />
+    </DropdownMenuItem>
   );
 }
 

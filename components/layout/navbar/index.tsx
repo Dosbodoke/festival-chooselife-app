@@ -5,6 +5,7 @@ import LocaleSwitcher from "./LocaleSwitcher";
 import SignOut from "./SignOut";
 import SignUp from "./SignUp";
 import { ThemeModeToggler } from "./ThemeToggler";
+import ProfileMenu from "./ProfileMenu";
 
 export const dynamic = "force-dynamic";
 
@@ -20,7 +21,7 @@ export default async function NavBar() {
       <LocaleSwitcher />
       <div className="flex items-center gap-2">
         <ThemeModeToggler />
-        {session ? <SignOut /> : <SignUp />}
+        {session ? <ProfileMenu /> : <SignUp />}
       </div>
     </nav>
   );
