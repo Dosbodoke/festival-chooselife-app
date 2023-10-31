@@ -150,8 +150,9 @@
       "postDescription": "neste navegador"
     }
   },
-  "signOut": {
-    "trigger": "Sair"
+  "profileMenu": {
+    "myProfile": "Ver meu perfil",
+    "signOut": "Sair"
   },
   "footer": {
     "desc": "Site criado por "

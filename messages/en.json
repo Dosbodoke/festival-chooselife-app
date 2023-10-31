@@ -150,8 +150,9 @@
       "postDescription": "in this browser"
     }
   },
-  "signOut": {
-    "trigger": "Sign Out"
+  "profileMenu": {
+    "myProfile": "See my profile",
+    "signOut": "Sign Out"
   },
   "footer": {
     "desc": "Website create by "
