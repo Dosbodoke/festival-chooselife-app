@@ -28,8 +28,8 @@ import {
   FormMessage,
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
+import { useRouter } from "@/navigation";
 import { Database } from "@/utils/database.types";
-import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   username: z
