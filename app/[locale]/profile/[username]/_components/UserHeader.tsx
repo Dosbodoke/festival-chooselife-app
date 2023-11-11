@@ -31,7 +31,7 @@ function UserHeader({ profile, username }: Props) {
   }
 
   return (
-    <header className="max-w-screen-md space-y-2 rounded-xl border border-gray-200 bg-white px-2 py-4 shadow dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-800">
+    <header className="max-w-screen-md space-y-2 overflow-hidden rounded-xl border border-gray-200 bg-white px-2 py-4 shadow dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-800">
       <div className="h- flex gap-4">
         <div className="relative h-24 w-24 sm:h-32 sm:w-32">
           <Image
