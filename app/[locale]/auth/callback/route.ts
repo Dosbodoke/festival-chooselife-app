@@ -14,6 +14,7 @@ export async function GET(request: Request) {
   // by the Auth Helpers package. It exchanges an auth code for the user's session.
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
+  const redirectTo = requestUrl.searchParams.get("redirect_to");
 
   if (code) {
     const cookieStore = cookies();
@@ -23,5 +24,5 @@ export async function GET(request: Request) {
     await supabase.auth.exchangeCodeForSession(code);
   }
 
-  return NextResponse.redirect(requestUrl.origin);
+  return NextResponse.redirect(redirectTo || requestUrl.origin);
 }

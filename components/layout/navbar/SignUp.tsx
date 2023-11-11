@@ -47,7 +47,7 @@ function SignUp() {
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: `${location.origin}/auth/callback?redirect_to=${location.href}`,
       },
     });
   }
@@ -57,7 +57,7 @@ function SignUp() {
       email: data.email,
       options: {
         shouldCreateUser: true,
-        emailRedirectTo: `${location.origin}/auth/callback`,
+        emailRedirectTo: `${location.origin}/auth/callback?redirect_to=${location.href}`,
       },
     });
 
