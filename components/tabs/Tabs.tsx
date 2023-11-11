@@ -79,7 +79,7 @@ function Tabs({ highline }: Props) {
         ))}
       </ul>
 
-      <div className="overflow-y-auto">
+      <div className="overflow-y-auto overflow-x-hidden">
         {tabMapping(selectedTabId, highline)}
       </div>
     </div>

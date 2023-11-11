@@ -57,7 +57,10 @@ function LastWalksContent({ entries }: ContentProps) {
       <ul className="mt-4 divide-y divide-gray-200 dark:divide-gray-700">
         {entries.length > 0 ? (
           entries.map((entry) => (
-            <li key={entry.id} className="py-4 first:pt-0 last:pb-0">
+            <li
+              key={entry.id}
+              className="overflow-hidden py-4 first:pt-0 last:pb-0"
+            >
               <Popover>
                 <PopoverTrigger className="mb-0.5 truncate text-base font-semibold leading-none text-blue-500 dark:text-blue-400">
                   {entry.highline?.name}
