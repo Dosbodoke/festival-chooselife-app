@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 
-import type { Tables } from "@/utils/supabase";
+import type { Tables } from "@/utils/supabase/database.types";
 
 interface Props {
   highline: Tables["highline"]["Row"];

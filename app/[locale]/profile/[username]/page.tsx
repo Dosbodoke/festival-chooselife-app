@@ -1,10 +1,9 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import type { Metadata, ResolvingMetadata } from "next";
 import { cookies } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 
-import { Database } from "@/utils/database.types";
+import { useSupabaseServer } from "@/utils/supabase/server";
 
 import GoBack from "./_components/GoBack";
 import LastWalks, { LastWalksSkeleton } from "./_components/LastWalks";
@@ -32,9 +31,7 @@ export async function generateMetadata(
 
 export default async function Profile({ params: { username } }: Props) {
   const cookieStore = cookies();
-  const supabase = createServerComponentClient<Database>({
-    cookies: () => cookieStore,
-  });
+  const supabase = useSupabaseServer(cookieStore);
 
   const {
     data: { user },

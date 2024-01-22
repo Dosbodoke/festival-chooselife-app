@@ -1,9 +1,10 @@
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
 import HighlineImage from "@/components/HighlineImage";
 import RegistryEntry from "@/components/RegistryEntry";
 import Tabs from "@/components/tabs/Tabs";
-import supabase from "@/utils/supabase";
+import { useSupabaseServer } from "@/utils/supabase/server";
 
 import GoBack from "./_components/GoBack";
 
@@ -14,6 +15,9 @@ export default async function Highline({
 }: {
   params: { id: string };
 }) {
+  const cookieStore = cookies();
+  const supabase = useSupabaseServer(cookieStore);
+
   const { data: highline } = await supabase
     .from("highline")
     .select()

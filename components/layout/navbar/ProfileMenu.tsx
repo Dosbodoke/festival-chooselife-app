@@ -1,8 +1,9 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+"use client";
+
+import { User } from "@supabase/supabase-js";
 import { useTranslations } from "next-intl";
 
-import { UserCircleIcon } from "@/assets";
+import { LogOutIcon, UserCircleIcon } from "@/assets";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,20 +11,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
-import { Link } from "@/navigation";
+import { Link, useRouter } from "@/navigation";
+import useSupabaseBrowser from "@/utils/supabase/client";
 
-import SignOut from "./SignOut";
-import UpdateProfile from "./UpdateProfile";
+export default async function ProfileMenu({ user }: { user: User }) {
+  const supabase = useSupabaseBrowser();
+  const t = useTranslations("profileMenu");
+  const router = useRouter();
 
-export default async function ProfileMenu() {
-  const cookieStore = cookies();
-  const supabase = createServerComponentClient({
-    cookies: () => cookieStore,
-  });
+  const username: string | null = user.user_metadata["username"];
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    router.refresh();
+  };
 
   return (
     <DropdownMenu>
@@ -38,24 +39,19 @@ export default async function ProfileMenu() {
         sideOffset={8}
         className="max-w-[12rem] overflow-hidden"
       >
-        <ProfileSection username={user?.user_metadata["username"]} />
+        {username ? (
+          <DropdownMenuItem asChild>
+            <Link href={`/profile/${username.replace("@", "")}`}>
+              {t("myProfile")}
+            </Link>
+          </DropdownMenuItem>
+        ) : null}
         <DropdownMenuSeparator />
-        <SignOut />
+        <DropdownMenuItem className="flex justify-between" onClick={signOut}>
+          <span>{t("signOut")}</span>
+          <LogOutIcon className="h-4 w-4 dark:text-white" />
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
-}
-
-function ProfileSection({ username }: { username: string | null }) {
-  const t = useTranslations("profileMenu");
-
-  if (!username) return null;
-
-  return (
-    <DropdownMenuItem asChild>
-      <Link href={`/profile/${username.replace("@", "")}`}>
-        {t("myProfile")}
-      </Link>
-    </DropdownMenuItem>
   );
 }

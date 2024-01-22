@@ -25,7 +25,7 @@ import {
   FormMessage,
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
-import supabase from "@/utils/supabase";
+import useSupabaseBrowser from "@/utils/supabase/client";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -34,6 +34,7 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 function SignUp() {
+  const supabase = useSupabaseBrowser();
   const t = useTranslations();
   const [step, setStep] = useState<"initial" | "email" | "inbox">("initial");
   const form = useForm<FormSchema>({

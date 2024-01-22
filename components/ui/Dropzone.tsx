@@ -2,7 +2,7 @@ import Image from "next/image";
 import React from "react";
 
 import { UploadCloudIcon } from "@/assets";
-import { ACCEPTED_IMAGE_TYPES } from "@/utils/supabase";
+import { ACCEPTED_IMAGE_TYPES } from "@/utils/supabase/constants";
 
 interface Props {
   id: string;

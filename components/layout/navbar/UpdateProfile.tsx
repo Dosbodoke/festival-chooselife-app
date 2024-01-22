@@ -1,10 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  createClientComponentClient,
-  User,
-} from "@supabase/auth-helpers-nextjs";
+import type { User } from "@supabase/supabase-js";
 import { useMutation } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -29,7 +26,8 @@ import {
 import { Input } from "@/components/ui/Input";
 import { TextArea } from "@/components/ui/TextArea";
 import { useRouter } from "@/navigation";
-import { Database } from "@/utils/database.types";
+import useSupabaseBrowser from "@/utils/supabase/client";
+import { Database } from "@/utils/supabase/database.types";
 
 const formSchema = z.object({
   name: z.string().min(3, "Deve conter ao menos 3 caracteres"),
@@ -49,7 +47,7 @@ export default function UpdateProfile({
 
   const t = useTranslations("updateProfile");
   const router = useRouter();
-  const supabase = createClientComponentClient<Database>();
+  const supabase = useSupabaseBrowser();
   const profileForm = useForm<FormSchema>({
     mode: "onTouched",
     resolver: zodResolver(formSchema),

@@ -9,7 +9,7 @@ import { z } from "zod";
 
 import { PlusSvg } from "@/assets";
 import { transformTimeStringToSeconds } from "@/utils/helperFunctions";
-import supabase from "@/utils/supabase";
+import useSupabaseBrowser from "@/utils/supabase/client";
 
 import { SuccessAnimation } from "./animations/SuccessAnimation";
 import Button from "./ui/Button";
@@ -73,8 +73,9 @@ interface Props {
 }
 
 const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const supabase = useSupabaseBrowser();
 
+  const [dialogOpen, setDialogOpen] = useState(false);
   const t = useTranslations("highline.registry");
   const queryClient = useQueryClient();
 

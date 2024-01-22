@@ -1,5 +1,6 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
+
+import { useSupabaseServer } from "@/utils/supabase/server";
 
 import LocaleSwitcher from "./LocaleSwitcher";
 import ProfileMenu from "./ProfileMenu";
@@ -9,7 +10,8 @@ import { ThemeModeToggler } from "./ThemeToggler";
 export const dynamic = "force-dynamic";
 
 export default async function NavBar() {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = cookies();
+  const supabase = useSupabaseServer(cookieStore);
 
   const {
     data: { session },
@@ -20,7 +22,7 @@ export default async function NavBar() {
       <LocaleSwitcher />
       <div className="flex items-center gap-2">
         <ThemeModeToggler />
-        {session ? <ProfileMenu /> : <SignUp />}
+        {session ? <ProfileMenu user={session.user} /> : <SignUp />}
       </div>
     </nav>
   );

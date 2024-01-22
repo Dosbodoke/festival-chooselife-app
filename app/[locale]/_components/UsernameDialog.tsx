@@ -1,10 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  createClientComponentClient,
-  User,
-} from "@supabase/auth-helpers-nextjs";
+import type { User } from "@supabase/supabase-js";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -29,7 +26,7 @@ import {
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
 import { useRouter } from "@/navigation";
-import { Database } from "@/utils/database.types";
+import useSupabaseBrowser from "@/utils/supabase/client";
 
 const formSchema = z.object({
   username: z
@@ -44,7 +41,7 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 export default function UsernameDialog() {
-  const supabase = createClientComponentClient<Database>();
+  const supabase = useSupabaseBrowser();
 
   const t = useTranslations("usernameDialog");
   const router = useRouter();
