@@ -21,7 +21,9 @@ export default async function Home({
     cookies: () => cookieStore,
   });
 
-  const { q: searchValue } = searchParams as { [key: string]: string };
+  const { q: searchValue } = searchParams as {
+    [key: string]: string;
+  };
   const highlines = searchValue
     ? (
         await supabase

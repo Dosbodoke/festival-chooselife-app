@@ -2,10 +2,9 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
 import LocaleSwitcher from "./LocaleSwitcher";
-import SignOut from "./SignOut";
+import ProfileMenu from "./ProfileMenu";
 import SignUp from "./SignUp";
 import { ThemeModeToggler } from "./ThemeToggler";
-import ProfileMenu from "./ProfileMenu";
 
 export const dynamic = "force-dynamic";
 

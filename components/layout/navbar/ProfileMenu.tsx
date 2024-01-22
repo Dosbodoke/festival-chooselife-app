@@ -13,8 +13,7 @@ import {
 import { Link } from "@/navigation";
 
 import SignOut from "./SignOut";
-
-export const dynamic = "force-dynamic";
+import UpdateProfile from "./UpdateProfile";
 
 export default async function ProfileMenu() {
   const cookieStore = cookies();
@@ -39,12 +38,7 @@ export default async function ProfileMenu() {
         sideOffset={8}
         className="max-w-[12rem] overflow-hidden"
       >
-        {/* TODO: User can't see correct ProfileSection after set up username since this component would not know */}
-        {user?.user_metadata["username"] ? (
-          <ProfileSection
-            username={user.user_metadata["username"].replace("@", "")}
-          />
-        ) : null}
+        <ProfileSection username={user?.user_metadata["username"]} />
         <DropdownMenuSeparator />
         <SignOut />
       </DropdownMenuContent>
@@ -52,11 +46,16 @@ export default async function ProfileMenu() {
   );
 }
 
-function ProfileSection({ username }: { username: string }) {
+function ProfileSection({ username }: { username: string | null }) {
   const t = useTranslations("profileMenu");
+
+  if (!username) return null;
+
   return (
     <DropdownMenuItem asChild>
-      <Link href={`/profile/${username}`}>{t("myProfile")}</Link>
+      <Link href={`/profile/${username.replace("@", "")}`}>
+        {t("myProfile")}
+      </Link>
     </DropdownMenuItem>
   );
 }

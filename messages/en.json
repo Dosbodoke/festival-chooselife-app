@@ -183,5 +183,20 @@
       }
     },
     "submit": "Continue"
+  },
+  "updateProfile": {
+    "trigger": "Edit profile",
+    "title": "My profile",
+    "fields": {
+      "name": {
+        "label": "Name",
+        "placeholder": "Full name"
+      },
+      "description": {
+        "label": "Bio",
+        "placeholder": "Tell us a bit about yourself"
+      },
+      "submit": "Save"
+    }
   }
 }
