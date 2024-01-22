@@ -66,26 +66,6 @@ function CategoryDropdown({
                 </label>
               </li>
             ))}
-            {/* {categories.map((c) => (
-              <li key={c}>
-                <label
-                  htmlFor={c}
-                  className="flex items-center rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-500"
-                >
-                  <input
-                    id={c}
-                    type="radio"
-                    value={c}
-                    checked={selectedCategory === c}
-                    onChange={() => handleCategorySelect(c)}
-                    className="h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                  />
-                  <span className="ml-2 w-full rounded text-sm font-medium text-gray-500 dark:text-gray-300">
-                    {c}
-                  </span>
-                </label>
-              </li>
-            ))} */}
           </ul>
         </div>
       )}

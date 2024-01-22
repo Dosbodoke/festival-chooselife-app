@@ -1,8 +1,10 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import React, { useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 
+import { usePathname, useRouter } from "@/navigation";
 import type { Tables } from "@/utils/supabase/database.types";
 
 import Cadenas from "./Cadenas";
@@ -20,6 +22,9 @@ export type Categories = Record<Category, { label: string }>;
 
 function Ranking({ highline }: Props) {
   const t = useTranslations("highline.tabs.ranking");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const categories = useMemo<Categories>(
     () => ({
       speedline: { label: "Speedline" },
@@ -29,13 +34,24 @@ function Ranking({ highline }: Props) {
     }),
     [t]
   );
-  const [selectedCategory, setSelectedCategory] = useState<Category>(
-    () => (localStorage.getItem("selectedCategory") as Category) || "speedline"
+
+  const selectedCategory: Category =
+    (searchParams.get("category") as Category) || "speedline";
+
+  // Get a new searchParams string by merging the current
+  // searchParams with a provided key/value pair
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
   );
 
   function handleCategoryChange(category: Category) {
-    localStorage.setItem("selectedCategory", category);
-    setSelectedCategory(category);
+    router.push(pathname + "?" + createQueryString("category", category));
   }
 
   function renderCategory() {
