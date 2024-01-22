@@ -1,6 +1,7 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import type { Metadata, ResolvingMetadata } from "next";
 import { cookies } from "next/headers";
+import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 
 import { Database } from "@/utils/database.types";
@@ -22,9 +23,10 @@ export async function generateMetadata(
   { params, searchParams }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
+  const t = await getTranslations("profileMetadata");
   return {
-    title: `Perfil de @${params.username}`,
-    description: "User profile",
+    title: t("title", { username: `@${params.username}` }),
+    description: t("description"),
   };
 }
 

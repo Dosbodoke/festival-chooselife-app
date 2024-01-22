@@ -185,7 +185,8 @@
     "submit": "Continuar"
   },
   "profileMetadata": {
-    "description": "User profile"
+    "title": "Perfil de {username}",
+    "description": "Veja o histórico deste atleta"
   },
   "updateProfile": {
     "trigger": "Editar perfil",

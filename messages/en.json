@@ -184,6 +184,10 @@
     },
     "submit": "Continue"
   },
+  "profileMetadata": {
+    "title": "{username} profile",
+    "description": "See this athlete's history"
+  },
   "updateProfile": {
     "trigger": "Edit profile",
     "title": "My profile",
