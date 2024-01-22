@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 
 import { ArrowIcon } from "@/assets";
 import { Link } from "@/navigation";
-import type { Tables } from "@/utils/supabase";
+import type { Tables } from "@/utils/supabase/database.types";
 
 import HighlineImage from "./HighlineImage";
 

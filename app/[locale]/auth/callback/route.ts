@@ -1,11 +1,10 @@
 // Refer to the following documentation for more context
 // https://supabase.com/docs/guides/auth/auth-helpers/nextjs#managing-sign-in-with-code-exchange
 
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { Database } from "@/utils/database.types";
+import { useSupabaseServer } from "@/utils/supabase/server";
 
 export const dynamic = "force-dynamic";
 
@@ -18,9 +17,9 @@ export async function GET(request: Request) {
 
   if (code) {
     const cookieStore = cookies();
-    const supabase = createRouteHandlerClient<Database>({
-      cookies: () => cookieStore,
-    });
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const supabase = useSupabaseServer(cookieStore);
+
     await supabase.auth.exchangeCodeForSession(code);
   }
 

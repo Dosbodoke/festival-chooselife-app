@@ -14,7 +14,11 @@ interface Props {
 function Providers({ locale, messages, children }: Props) {
   return (
     <ReactQueryProvider>
-      <NextIntlClientProvider locale={locale} messages={messages}>
+      <NextIntlClientProvider
+        locale={locale}
+        messages={messages}
+        timeZone={"America/Sao_Paulo"}
+      >
         <ThemeProvider attribute="class">{children}</ThemeProvider>
       </NextIntlClientProvider>
     </ReactQueryProvider>

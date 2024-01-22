@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import React, { useMemo, useState } from "react";
 
-import { type Tables } from "@/utils/supabase";
+import type { Tables } from "@/utils/supabase/database.types";
 
 import Cadenas from "./Cadenas";
 import CategoryDropdown from "./CategoryDropdown";

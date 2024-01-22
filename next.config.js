@@ -14,9 +14,15 @@ const nextConfig = {
         port: "",
         pathname: "**",
       },
-    ],
-    domains: [
-      process.env.NEXT_PUBLIC_SUPABASE_URL.replace(/(^\w+:|^)\/\//, ""),
+      {
+        protocol: "https",
+        hostname: process.env.NEXT_PUBLIC_SUPABASE_URL.replace(
+          /(^\w+:|^)\/\//,
+          ""
+        ),
+        port: "",
+        pathname: "**",
+      },
     ],
   },
 };

@@ -1,8 +1,8 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
 
-import { Link } from "@/navigation";
-import supabase, { type Tables } from "@/utils/supabase";
+import useSupabaseBrowser from "@/utils/supabase/client";
+import type { Tables } from "@/utils/supabase/database.types";
 
 import SeeMore from "../SeeMore";
 import LoadingSkeleton from "./LoadingSkeleton";
@@ -15,6 +15,8 @@ interface Props {
 const PAGE_SIZE = 5;
 
 function Cadenas({ highline }: Props) {
+  const supabase = useSupabaseBrowser();
+
   const fetchCadenas = async ({ pageParam = 1 }) => {
     const { data, error } = await supabase.rpc("get_total_cadenas", {
       highline_id: highline.id,

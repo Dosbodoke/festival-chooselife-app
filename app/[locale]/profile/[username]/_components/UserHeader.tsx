@@ -1,9 +1,9 @@
-import { User } from "@supabase/auth-helpers-nextjs";
+import { User } from "@supabase/supabase-js";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 import UpdateProfile from "@/components/layout/navbar/UpdateProfile";
-import { Database } from "@/utils/database.types";
+import { Database } from "@/utils/supabase/database.types";
 
 interface Props {
   user: User | null;

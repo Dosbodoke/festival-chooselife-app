@@ -1,5 +1,4 @@
 import { ChevronRightIcon } from "@radix-ui/react-icons";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
@@ -10,8 +9,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/Popover";
-import { Database } from "@/utils/database.types";
 import { transformSecondsToTimeString } from "@/utils/helperFunctions";
+import type { Database } from "@/utils/supabase/database.types";
+import { useSupabaseServer } from "@/utils/supabase/server";
 
 import FormattedDate from "./FormattedDate";
 
@@ -23,9 +23,7 @@ interface Props {
 
 export default async function LastWalks({ username }: Props) {
   const cookieStore = cookies();
-  const supabase = createServerComponentClient<Database>({
-    cookies: () => cookieStore,
-  });
+  const supabase = useSupabaseServer(cookieStore);
 
   const { data: entries } = await supabase
     .from("entry")

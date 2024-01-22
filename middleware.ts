@@ -1,25 +1,40 @@
-import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
-import { NextRequest, NextResponse } from "next/server";
+import { type CookieOptions } from "@supabase/ssr";
+import { getCookie, setCookie } from "cookies-next";
+import { type NextRequest, type NextResponse } from "next/server";
 import createIntlMiddleware from "next-intl/middleware";
 
-import { locales } from "./navigation";
-import { Database } from "./utils/database.types";
+import { composeDbServerClient } from "@/utils/supabase/compose-db-server-client";
 
-const handleI18nRouting = createIntlMiddleware({
-  locales,
-  // If this locale is matched, pathnames work without a prefix (e.g. `/about`)
-  defaultLocale: "pt",
-  localePrefix: "as-needed",
-});
+import { locales } from "./navigation";
+
+/**
+ * Function that returns an object with methods for handling cookies. Can be used as an argument to the createDbServerClient method in server scenarios.
+ */
+export const composeDbReqResClient = (req: NextRequest, res: NextResponse) => {
+  return composeDbServerClient({
+    cookieMethods: () => ({
+      get(name: string) {
+        return getCookie(name, { req, res });
+      },
+      set(name: string, value: string, options: CookieOptions) {
+        return setCookie(name, value, { req, res, ...options });
+      },
+      remove(name: string, options: CookieOptions) {
+        return setCookie(name, "", { req, res, ...options });
+      },
+    }),
+  });
+};
 
 export default async function middleware(req: NextRequest) {
-  const res: NextResponse = handleI18nRouting(req);
+  const handleI18nRouting = createIntlMiddleware({
+    locales,
+    defaultLocale: "pt",
+  });
+  const res = handleI18nRouting(req);
 
-  // Create a Supabase client configured to use cookies
-  const supabase = createMiddlewareClient<Database>({ req, res });
-  // Refresh session if expired - required for Server Components
-  // https://supabase.com/docs/guides/auth/auth-helpers/nextjs#managing-session-with-middleware
-  await supabase.auth.getSession();
+  const { dbServerClient } = composeDbReqResClient(req, res);
+  await dbServerClient.auth.getSession(); // automatically refreshes the session if expired
 
   return res;
 }

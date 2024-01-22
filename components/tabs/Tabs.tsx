@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 
-import type { Tables } from "@/utils/supabase";
+import type { Tables } from "@/utils/supabase/database.types";
 
 import Comments from "./Comments";
 import Info from "./Info";

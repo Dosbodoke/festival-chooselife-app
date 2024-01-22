@@ -4,12 +4,12 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useFormatter } from "next-intl";
 import React from "react";
 
-import { Link } from "@/navigation";
-import supabase, { type Tables } from "@/utils/supabase";
+import useSupabaseBrowser from "@/utils/supabase/client";
+import type { Tables } from "@/utils/supabase/database.types";
 
 import LoadingSkeleton from "./Ranking/LoadingSkeleton";
-import SeeMore from "./SeeMore";
 import UsernameLink from "./Ranking/UsernameLink";
+import SeeMore from "./SeeMore";
 
 interface Props {
   highline: Tables["highline"]["Row"];
@@ -18,6 +18,7 @@ interface Props {
 const PAGE_SIZE = 5;
 
 function Comments({ highline }: Props) {
+  const supabase = useSupabaseBrowser();
   const format = useFormatter();
 
   const fetchComments = async ({ pageParam = 1 }) => {

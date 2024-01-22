@@ -10,10 +10,11 @@ import { z } from "zod";
 
 import { PlusSvg } from "@/assets";
 import { Link } from "@/navigation";
-import supabase, {
+import useSupabaseBrowser from "@/utils/supabase/client";
+import {
   ACCEPTED_IMAGE_TYPES,
   MAX_FILE_SIZE,
-} from "@/utils/supabase";
+} from "@/utils/supabase/constants";
 
 import { SuccessAnimation } from "./animations/SuccessAnimation";
 import Button from "./ui/Button";
@@ -66,6 +67,8 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 const CreateHighline = () => {
+  const supabase = useSupabaseBrowser();
+
   const t = useTranslations("home.newHighline");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [newHighlineUUID, setNewHighlineUUID] = useState<string | null>(null);
