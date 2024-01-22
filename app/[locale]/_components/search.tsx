@@ -9,8 +9,8 @@ import { useRouter } from "@/navigation";
 import { createUrl } from "@/utils/helperFunctions";
 
 export default function Search() {
-  const router = useRouter();
   const t = useTranslations("home");
+  const router = useRouter();
   const searchParams = useSearchParams();
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {

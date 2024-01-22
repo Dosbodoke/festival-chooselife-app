@@ -1,9 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 
+import { usePathname, useRouter } from "@/navigation";
 import type { Tables } from "@/utils/supabase/database.types";
 
 import Comments from "./Comments";
@@ -34,6 +36,24 @@ function tabMapping(tab: string, highline: Tables["highline"]["Row"]) {
 
 function Tabs({ highline }: Props) {
   const t = useTranslations("highline.tabs");
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const tab = searchParams.get("tab") || "info";
+
+  // Get a new searchParams string by merging the current
+  // searchParams with a provided key/value pair
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+      params.delete("category");
+
+      return params.toString();
+    },
+    [searchParams]
+  );
 
   const tabs = useMemo<Tab[]>(
     () => [
@@ -52,7 +72,6 @@ function Tabs({ highline }: Props) {
     ],
     [t]
   );
-  const [selectedTabId, setSelectedTabId] = useState(tabs[0].id);
 
   return (
     <div className="h-full">
@@ -61,14 +80,15 @@ function Tabs({ highline }: Props) {
           <li
             key={item.id}
             className={`relative flex-auto cursor-pointer rounded-t-md text-base md:text-lg ${
-              item.id === selectedTabId
-                ? "text-blue-600 dark:text-blue-500"
-                : ""
+              item.id === tab ? "text-blue-600 dark:text-blue-500" : ""
             }`}
-            onClick={() => setSelectedTabId(item.id)}
+            onClick={(e) => {
+              e.preventDefault();
+              router.push(pathname + "?" + createQueryString("tab", item.id));
+            }}
           >
             {item.label}
-            {item.id === selectedTabId ? (
+            {item.id === tab ? (
               <motion.div
                 className="absolute -bottom-px left-0 right-0 h-px bg-blue-700"
                 layout
@@ -80,7 +100,7 @@ function Tabs({ highline }: Props) {
       </ul>
 
       <div className="overflow-y-auto overflow-x-hidden">
-        {tabMapping(selectedTabId, highline)}
+        {tabMapping(tab, highline)}
       </div>
     </div>
   );
