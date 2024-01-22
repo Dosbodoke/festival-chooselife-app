@@ -1,5 +1,5 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 import { cookies } from "next/headers";
 import { Suspense } from "react";
 
@@ -13,20 +13,30 @@ import UserNotFound from "./_components/UserNotFound";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Profile",
-  description: "User profile",
+type Props = {
+  params: { locale: string; username: string };
+  searchParams: { [key: string]: string | string[] | undefined };
 };
 
-export default async function Profile({
-  params: { username },
-}: {
-  params: { username: string };
-}) {
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  return {
+    title: `Perfil de @${params.username}`,
+    description: "User profile",
+  };
+}
+
+export default async function Profile({ params: { username } }: Props) {
   const cookieStore = cookies();
   const supabase = createServerComponentClient<Database>({
     cookies: () => cookieStore,
   });
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const { data: profile } = await supabase
     .from("profiles")
@@ -54,7 +64,7 @@ export default async function Profile({
   return (
     <div className="mx-auto max-w-screen-md space-y-4 rounded-lg px-2 pb-2 pt-0 md:space-y-6 md:pt-8">
       <GoBack />
-      <UserHeader profile={profile} username={username} />
+      <UserHeader user={user} profile={profile} username={username} />
       <Stats
         total_cadenas={data?.total_cadenas || 0}
         total_distance_walked={data?.total_distance_walked || 0}

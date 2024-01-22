@@ -183,5 +183,23 @@
       }
     },
     "submit": "Continuar"
+  },
+  "profileMetadata": {
+    "description": "User profile"
+  },
+  "updateProfile": {
+    "trigger": "Editar perfil",
+    "title": "Meu perfil",
+    "fields": {
+      "name": {
+        "label": "Nome",
+        "placeholder": "Seu nome completo"
+      },
+      "description": {
+        "label": "Bio",
+        "placeholder": "Fale um pouco sobre você"
+      },
+      "submit": "Salvar"
+    }
   }
 }

@@ -1,14 +1,17 @@
+import { User } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
+import UpdateProfile from "@/components/layout/navbar/UpdateProfile";
 import { Database } from "@/utils/database.types";
 
 interface Props {
+  user: User | null;
   profile: Database["public"]["Tables"]["profiles"]["Row"] | null;
   username: string;
 }
 
-function UserHeader({ profile, username }: Props) {
+function UserHeader({ user, profile, username }: Props) {
   const t = useTranslations("profile.header");
 
   if (!profile) {
@@ -32,7 +35,7 @@ function UserHeader({ profile, username }: Props) {
 
   return (
     <header className="max-w-screen-md space-y-2 overflow-hidden rounded-xl border border-gray-200 bg-white px-2 py-4 shadow dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-800">
-      <div className="h- flex gap-4">
+      <div className="flex gap-4">
         <div className="relative h-24 w-24 sm:h-32 sm:w-32">
           <Image
             src={profile.profile_picture || "/default-profile-picture.png"}
@@ -41,8 +44,11 @@ function UserHeader({ profile, username }: Props) {
             className="rounded-full"
           />
         </div>
-        <div className="space-y-3">
-          <h1 className="text-xl font-semibold">@{username}</h1>
+        <div className="flex-1 space-y-3">
+          <h1 className="flex-1 text-xl font-semibold">@{username}</h1>
+          {user && user.id === profile.id ? (
+            <UpdateProfile user={user} profile={profile} />
+          ) : null}
         </div>
       </div>
       <div>
