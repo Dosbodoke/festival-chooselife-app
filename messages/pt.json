@@ -131,7 +131,7 @@
   "signUp": {
     "trigger": "Entrar",
     "initial": {
-      "title": "Crie um novo perfil ✨",
+      "title": "Criar ou entrar na sua conta ✨",
       "description": "Ganhe acesso a todas as funcionalidades do APP Chooselife",
       "google": "Continuar com Google"
     },
