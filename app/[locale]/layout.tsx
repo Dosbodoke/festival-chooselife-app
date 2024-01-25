@@ -78,7 +78,7 @@ export default function RootLayout({
               <UsernameDialog />
               {children}
             </main>
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </Providers>
         <Analytics />

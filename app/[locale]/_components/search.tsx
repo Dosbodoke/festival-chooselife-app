@@ -18,9 +18,9 @@ export default function Search() {
     const search = val.search as HTMLInputElement;
     const newParams = new URLSearchParams(searchParams.toString());
     if (search.value) {
-      newParams.set("q", search.value);
+      newParams.set("nameFilter", search.value);
     } else {
-      newParams.delete("q");
+      newParams.delete("nameFilter");
     }
     router.push(createUrl("/", newParams));
   }
@@ -31,12 +31,12 @@ export default function Search() {
 
       <form onSubmit={onSubmit} className="flex-1">
         <input
-          key={searchParams?.get("q")}
+          key={searchParams?.get("nameFilter")}
           type="text"
           name="search"
           placeholder={t("searchPlaceholder")}
           autoComplete="off"
-          defaultValue={searchParams?.get("q") || ""}
+          defaultValue={searchParams?.get("nameFilter") || ""}
           className="w-full bg-transparent pl-2 text-base text-gray-900 dark:text-white  dark:placeholder-gray-400"
         />
       </form>
