@@ -7,7 +7,6 @@ import { Marker, useMap } from "react-leaflet";
 
 export default function LocationMarker() {
   const [position, setPosition] = useState<LatLng | null>(null);
-  const [bbox, setBbox] = useState<string[]>([]);
 
   const map = useMap();
 
