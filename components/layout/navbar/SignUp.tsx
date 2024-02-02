@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { GoogleIcon } from "@/assets";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -73,16 +73,13 @@ function SignUp() {
         <DialogTitle>{t("signUp.initial.title")}</DialogTitle>
         <DialogDescription>{t("signUp.initial.description")}</DialogDescription>
       </DialogHeader>
-      <Button
-        label={t("signUp.initial.google")}
-        icon={<GoogleIcon className="-ml-1 mr-2 h-5 w-5" />}
-        variant="outlined"
-        color="secondary"
-        onClick={signInWithGoogle}
-      />
-      <button onClick={() => setStep("email")}>
+      <Button onClick={signInWithGoogle}>
+        <GoogleIcon className="-ml-1 mr-2 h-5 w-5" />
+        {t("signUp.initial.google")}
+      </Button>
+      <Button variant="link" onClick={() => setStep("email")}>
         {t("signUp.email.buttonLabel")}
-      </button>
+      </Button>
     </>
   );
 
@@ -113,13 +110,12 @@ function SignUp() {
           <DialogFooter>
             <Button
               type="button"
-              label={t("signUp.email.back")}
-              variant="outlined"
-              color="secondary"
-              widthFit
+              variant="outline"
               onClick={() => setStep("initial")}
-            />
-            <Button type="submit" label={t("signUp.email.submit")} widthFit />
+            >
+              {t("signUp.email.back")}
+            </Button>
+            <Button type="submit">{t("signUp.email.submit")}</Button>
           </DialogFooter>
         </form>
       </Form>
@@ -154,7 +150,7 @@ function SignUp() {
       }}
     >
       <DialogTrigger asChild>
-        <Button label={t("signUp.trigger")} widthFit size="sm" />
+        <Button size="default">{t("signUp.trigger")}</Button>
       </DialogTrigger>
       <DialogContent className="left-[50%] top-[50%] h-max translate-x-[-50%] translate-y-[-50%] grid-flow-row auto-rows-max rounded-lg data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]">
         {dialogContent[step]()}
