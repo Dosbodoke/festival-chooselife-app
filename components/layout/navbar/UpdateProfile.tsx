@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -105,7 +105,7 @@ export default function UpdateProfile({
       }}
     >
       <DialogTrigger asChild>
-        <Button color="secondary" widthFit label={t("trigger")} />
+        <Button variant="secondary">{t("trigger")}</Button>
       </DialogTrigger>
       <DialogContent className="h-fit">
         <DialogHeader>
@@ -153,9 +153,10 @@ export default function UpdateProfile({
             />
             <Button
               type="submit"
-              label={t("fields.submit")}
-              loading={profileMutation.isLoading}
-            />
+              // loading={profileMutation.isLoading}
+            >
+              {t("fields.submit")}
+            </Button>
           </form>
         </Form>
       </DialogContent>

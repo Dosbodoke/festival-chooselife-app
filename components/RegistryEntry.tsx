@@ -8,11 +8,11 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { PlusSvg } from "@/assets";
+import { Button, ButtonLoading } from "@/components/ui/button";
 import { transformTimeStringToSeconds } from "@/utils/helperFunctions";
 import useSupabaseBrowser from "@/utils/supabase/client";
 
 import { SuccessAnimation } from "./animations/SuccessAnimation";
-import Button from "./ui/Button";
 import {
   Dialog,
   DialogContent,
@@ -156,7 +156,7 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen} modal>
       <DialogTrigger asChild>
-        <Button label={t("trigger")} widthFit />
+        <Button>{t("trigger")}</Button>
       </DialogTrigger>
 
       {formMutation.isSuccess ? (
@@ -164,7 +164,7 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
           <SuccessAnimation
             header={t("success.header")}
             message={t("success.message")}
-            button={<Button label="fechar" onClick={closeDialog} />}
+            button={<Button onClick={closeDialog}>fechar</Button>}
           />
         </DialogContent>
       ) : (
@@ -320,12 +320,14 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
                   </FormItem>
                 )}
               />
-              <Button
-                type="submit"
-                label={t("submit")}
-                icon={<PlusSvg />}
-                loading={formMutation.isLoading}
-              />
+              {formMutation.isLoading ? (
+                <ButtonLoading />
+              ) : (
+                <Button type="submit">
+                  <PlusSvg />
+                  {t("submit")}
+                </Button>
+              )}
             </form>
           </Form>
         </DialogContent>

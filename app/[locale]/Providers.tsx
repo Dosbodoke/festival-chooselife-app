@@ -19,7 +19,9 @@ function Providers({ locale, messages, children }: Props) {
         messages={messages}
         timeZone={"America/Sao_Paulo"}
       >
-        <ThemeProvider attribute="class">{children}</ThemeProvider>
+        <ThemeProvider attribute="class" defaultTheme="system">
+          {children}
+        </ThemeProvider>
       </NextIntlClientProvider>
     </ReactQueryProvider>
   );

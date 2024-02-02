@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 
 import { PlusSvg } from "@/assets";
+import { Button, ButtonLoading } from "@/components/ui/button";
 import { Link } from "@/navigation";
 import useSupabaseBrowser from "@/utils/supabase/client";
 import {
@@ -17,7 +18,6 @@ import {
 } from "@/utils/supabase/constants";
 
 import { SuccessAnimation } from "./animations/SuccessAnimation";
-import Button from "./ui/Button";
 import {
   Dialog,
   DialogContent,
@@ -149,7 +149,7 @@ const CreateHighline = () => {
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen} modal>
       <DialogTrigger asChild>
-        <Button label={t("trigger")} widthFit />
+        <Button>{t("trigger")}</Button>
       </DialogTrigger>
       {isSuccess ? (
         <DialogContent className="h-fit">
@@ -292,12 +292,14 @@ const CreateHighline = () => {
                   </FormItem>
                 )}
               />
-              <Button
-                type="submit"
-                label={t("submit")}
-                icon={<PlusSvg />}
-                loading={isLoading}
-              />
+              {isLoading ? (
+                <ButtonLoading />
+              ) : (
+                <Button type="submit">
+                  <PlusSvg className="mr-2 h-4 w-4" />
+                  {t("submit")}
+                </Button>
+              )}
             </form>
           </Form>
         </DialogContent>
