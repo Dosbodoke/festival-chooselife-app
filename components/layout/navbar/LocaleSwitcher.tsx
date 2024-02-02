@@ -11,7 +11,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/Select";
+} from "@/components/ui/select";
 import { usePathname, useRouter } from "@/navigation";
 
 export default function LocaleSwitcher() {
