@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Alert, AlertDescription } from "@/components/ui/Alert";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -169,7 +169,7 @@ export default function UsernameDialog() {
                 </FormItem>
               )}
             />
-            <Button type="submit" label={t("submit")} />
+            <Button type="submit">{t("submit")}</Button>
           </form>
         </Form>
       </DialogContent>
