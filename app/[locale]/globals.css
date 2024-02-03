@@ -75,3 +75,20 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 12px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: rgba(0, 0, 0, 0);
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #6B7280;
+    border-radius: 100vh;
+  }
+}

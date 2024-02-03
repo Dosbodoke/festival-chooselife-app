@@ -6,7 +6,7 @@ import { useSupabaseServer } from "@/utils/supabase/server";
 export async function HighlineList({
   searchValue,
 }: {
-  searchValue: string | undefined;
+  searchValue: string | null;
 }) {
   const cookieStore = cookies();
   const supabase = useSupabaseServer(cookieStore);
@@ -21,7 +21,7 @@ export async function HighlineList({
     : (await supabase.from("highline").select("*").limit(10)).data;
 
   return (
-    <section className="flex flex-wrap justify-center gap-6">
+    <section className="grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 md:grid-cols-3">
       {highlines && highlines?.length > 0
         ? highlines.map((highline) => (
             <Highline key={highline.id} highline={highline} />

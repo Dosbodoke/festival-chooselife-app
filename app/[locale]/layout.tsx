@@ -38,9 +38,7 @@ export default function RootLayout({
     // suppressHydrationWarning because of `next-themes`
     // refer to https://github.com/pacocoursey/next-themes#with-app
     <html lang={locale} suppressHydrationWarning>
-      <body
-        className={`min-h-screen bg-gray-50 dark:bg-gray-900 md:px-0 ${inter.variable} font-sans`}
-      >
+      <body className={`min-h-screen md:px-0 ${inter.variable} font-sans`}>
         <Providers locale={locale} messages={messages}>
           <div className="relative flex h-full min-h-screen flex-col">
             <NavBar />

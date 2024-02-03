@@ -12,10 +12,10 @@ export default async function Home({
   searchParams: { [key: string]: string | undefined };
 }) {
   return (
-    <div className="mt-2 space-y-6 px-2">
+    <div className="space-y-6">
       <Search />
       <Suspense fallback={<HighlineListSkeleton />}>
-        <HighlineList searchValue={searchParams["nameFilter"]} />
+        <HighlineList searchValue={searchParams["nameFilter"] || null} />
       </Suspense>
     </div>
   );
