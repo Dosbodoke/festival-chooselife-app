@@ -30,7 +30,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from "./ui/Form";
+} from "./ui/form";
 import { Input } from "./ui/Input";
 import NumberPicker from "./ui/NumberPicker";
 import { TextArea } from "./ui/TextArea";

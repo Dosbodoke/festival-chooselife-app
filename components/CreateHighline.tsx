@@ -29,7 +29,7 @@ import {
 
 import { SuccessAnimation } from "./animations/SuccessAnimation";
 import Dropzone from "./ui/Dropzone";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/Form";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 import { Input } from "./ui/Input";
 import { TextArea } from "./ui/TextArea";
 
