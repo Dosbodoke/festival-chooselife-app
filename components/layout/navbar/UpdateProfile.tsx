@@ -1,21 +1,21 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { User } from "@supabase/supabase-js";
 import { useMutation } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
+import { Button, ButtonLoading } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/Dialog";
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import {
   Form,
   FormControl,
@@ -37,14 +37,10 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 export default function UpdateProfile({
-  user,
   profile,
 }: {
-  user: User | null;
   profile: Database["public"]["Tables"]["profiles"]["Row"];
 }) {
-  const [open, setOpen] = useState(false);
-
   const t = useTranslations("updateProfile");
   const router = useRouter();
   const supabase = useSupabaseBrowser();
@@ -77,7 +73,6 @@ export default function UpdateProfile({
   const profileMutation = useMutation(updateProfile, {
     onSuccess: () => {
       router.refresh();
-      setOpen(false);
     },
     onError: (e) => {
       profileForm.setError("root", {
@@ -95,71 +90,68 @@ export default function UpdateProfile({
   };
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={(o) => {
-        if (o) {
-          profileForm.reset();
-        }
-        setOpen(o);
-      }}
-    >
-      <DialogTrigger asChild>
+    <Drawer>
+      <DrawerTrigger asChild>
         <Button variant="secondary">{t("trigger")}</Button>
-      </DialogTrigger>
-      <DialogContent className="h-fit">
-        <DialogHeader>
-          <DialogTitle>{t("title")}</DialogTitle>
-          <p className={"text-sm font-medium text-red-700 dark:text-red-500"}>
-            {profileForm.formState.errors.root?.message}
-          </p>
-        </DialogHeader>
-        <Form {...profileForm}>
-          <form
-            onSubmit={profileForm.handleSubmit(onSubmit, onError)}
-            className="space-y-6"
-          >
-            <FormField
-              control={profileForm.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("fields.name.label")}</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={t("fields.name.placeholder")}
-                      {...field}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={profileForm.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("fields.description.label")}</FormLabel>
-                  <FormControl>
-                    <TextArea
-                      {...field}
-                      placeholder={t("fields.description.placeholder")}
-                      rows={3}
-                      className="resize-none"
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <Button
-              type="submit"
-              // loading={profileMutation.isLoading}
+      </DrawerTrigger>
+      <DrawerContent>
+        <div className="scrollbar mx-auto flex w-full max-w-md flex-col overflow-auto rounded-t-[10px] p-4">
+          <DrawerHeader>
+            <DrawerTitle>{t("title")}</DrawerTitle>
+          </DrawerHeader>
+          <Form {...profileForm}>
+            <form
+              onSubmit={profileForm.handleSubmit(onSubmit, onError)}
+              className="space-y-6"
             >
-              {t("fields.submit")}
-            </Button>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+              <FormField
+                control={profileForm.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("fields.name.label")}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={t("fields.name.placeholder")}
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={profileForm.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("fields.description.label")}</FormLabel>
+                    <FormControl>
+                      <TextArea
+                        {...field}
+                        placeholder={t("fields.description.placeholder")}
+                        rows={3}
+                        className="resize-none"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <DrawerFooter className="p-0">
+                {profileMutation.isLoading ? (
+                  <ButtonLoading />
+                ) : (
+                  <>
+                    <Button type="submit">{t("fields.submit")}</Button>
+                    <DrawerClose asChild>
+                      <Button variant="outline">Cancel</Button>
+                    </DrawerClose>
+                  </>
+                )}
+              </DrawerFooter>
+            </form>
+          </Form>
+        </div>
+      </DrawerContent>
+    </Drawer>
   );
 }

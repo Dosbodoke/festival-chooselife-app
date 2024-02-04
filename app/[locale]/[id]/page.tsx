@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
 import HighlineImage from "@/components/HighlineImage";
-import RegistryEntry from "@/components/RegistryEntry";
+import { RegistryEntry } from "@/components/RegistryEntry";
 import Tabs from "@/components/tabs/Tabs";
 import { useSupabaseServer } from "@/utils/supabase/server";
 
@@ -34,7 +34,7 @@ export default async function Highline({
           <HighlineImage coverImageId={highline.cover_image} />
         </div>
         <div className="h-full w-full space-y-2 px-2 pb-4 md:px-4 md:pb-6">
-          <h1 className="my-2 text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white">
             {highline.name}
           </h1>
           <RegistryEntry

@@ -1,26 +1,14 @@
-import { Player } from "@lottiefiles/react-lottie-player";
-import React from "react";
+import "./succesAnimation.css";
 
-import succesAnimation from "@/assets/success-animation.json";
-
-interface SuccessProps {
-  header: string;
-  message: string;
-  button: React.ReactNode;
-}
-export function SuccessAnimation({ header, message, button }: SuccessProps) {
+export function SuccessAnimation() {
   return (
-    <div>
-      <h1 className="text-center text-4xl font-bold">{header}</h1>
-      <span className="block text-center"> 🆑 🆑 🆑 🆑 🆑</span>
-      <p className="mt-3 text-center text-lg">{message}</p>
-      <Player
-        src={succesAnimation}
-        className="h-max w-full"
-        autoplay
-        keepLastFrame
-      />
-      {button}
+    <div className="success-checkmark">
+      <div className="check-icon">
+        <span className="icon-line line-tip"></span>
+        <span className="icon-line line-long"></span>
+        <div className="icon-circle"></div>
+        <div className="icon-fix"></div>
+      </div>
     </div>
   );
 }

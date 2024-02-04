@@ -48,7 +48,8 @@
       "title": "Registry",
       "success": {
         "header": "NICE CHOOSEN",
-        "message": "Your walk is registered and will be used to calculate your stats."
+        "message": "Your walk is registered and will be used to calculate your stats.",
+        "close": "close"
       },
       "description": "Registry your walk and get access to your statistics.",
       "instagram": {
