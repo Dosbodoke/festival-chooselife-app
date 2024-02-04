@@ -22,7 +22,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from "@/components/ui/Form";
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/Input";
 import { TextArea } from "@/components/ui/TextArea";
 import { useRouter } from "@/navigation";
