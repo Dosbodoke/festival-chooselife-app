@@ -10,6 +10,16 @@ import { z } from "zod";
 
 import { PlusSvg } from "@/assets";
 import { Button, ButtonLoading } from "@/components/ui/button";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import { Link } from "@/navigation";
 import useSupabaseBrowser from "@/utils/supabase/client";
 import {
@@ -18,14 +28,6 @@ import {
 } from "@/utils/supabase/constants";
 
 import { SuccessAnimation } from "./animations/SuccessAnimation";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "./ui/Dialog";
 import Dropzone from "./ui/Dropzone";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/Form";
 import { Input } from "./ui/Input";
@@ -70,7 +72,6 @@ const CreateHighline = () => {
   const supabase = useSupabaseBrowser();
 
   const t = useTranslations("home.newHighline");
-  const [dialogOpen, setDialogOpen] = useState(false);
   const [newHighlineUUID, setNewHighlineUUID] = useState<string | null>(null);
 
   const highlineForm = useForm<FormSchema>({
@@ -147,164 +148,173 @@ const CreateHighline = () => {
   };
 
   return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen} modal>
-      <DialogTrigger asChild>
-        <Button>{t("trigger")}</Button>
-      </DialogTrigger>
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button variant="outline">{t("trigger")}</Button>
+      </DrawerTrigger>
+
       {isSuccess ? (
-        <DialogContent className="h-fit">
-          <SuccessAnimation
-            header={t("success.header")}
-            message={t("success.message")}
-            button={
-              <Link
-                href={`/${newHighlineUUID}`}
-                className="block w-full rounded-lg border border-blue-600 bg-blue-700 px-4 py-2 text-center font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                {t("successLink")}
-              </Link>
-            }
-          />
-        </DialogContent>
+        <DrawerContent className="h-fit">
+          <DrawerHeader>
+            <DrawerTitle>{t("success.header")}</DrawerTitle>
+            <span className="block text-center"> 🆑 🆑 🆑 🆑 🆑</span>
+            <DrawerDescription>{t("success.message")}</DrawerDescription>
+          </DrawerHeader>
+          <SuccessAnimation />
+          <DrawerFooter>
+            <Button asChild>
+              <Link href={`/${newHighlineUUID}`}>{t("successLink")}</Link>
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
       ) : (
-        <DialogContent className="h-5/6">
-          <DialogHeader>
-            <DialogTitle>{t("title")}</DialogTitle>
-            <DialogDescription>{t("description")}</DialogDescription>
-          </DialogHeader>
-          <Form {...highlineForm}>
-            <form
-              onSubmit={highlineForm.handleSubmit(onSubmit, onError)}
-              className="space-y-6"
-            >
-              <FormField
-                control={highlineForm.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("name.label")}</FormLabel>
-                    <FormControl>
-                      <Input placeholder={t("name.placeholder")} {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={highlineForm.control}
-                name="height"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("height.label")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder={t("height.placeholder")}
-                        {...field}
-                        value={field.value || ""}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={highlineForm.control}
-                name="lenght"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("length.label")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder={t("length.placeholder")}
-                        {...field}
-                        value={field.value || ""}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={highlineForm.control}
-                name="main_webbing"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("mainWebbing.label")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t("mainWebbing.placeholder")}
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={highlineForm.control}
-                name="backup_webbing"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("backupWebbing.label")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t("backupWebbing.placeholder")}
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={highlineForm.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("highlineDescription.label")}</FormLabel>
-                    <FormControl>
-                      <TextArea
-                        {...field}
-                        placeholder={t("highlineDescription.placeholder")}
-                        rows={3}
-                        className="resize-none"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={highlineForm.control}
-                name="image"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Dropzone
-                        id="image"
-                        label={t("image.label")}
-                        file={field.value}
-                        errorMessage={highlineForm.formState.errors.image?.message?.toString()}
-                        onChange={(e) => {
-                          if (e.target.files && e.target.files[0]) {
-                            // Call the provided onChange with the actual File object
-                            field.onChange(e.target.files[0]);
-                          }
-                        }}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              {isLoading ? (
-                <ButtonLoading />
-              ) : (
-                <Button type="submit">
-                  <PlusSvg className="mr-2 h-4 w-4" />
-                  {t("submit")}
-                </Button>
-              )}
-            </form>
-          </Form>
-        </DialogContent>
+        <DrawerContent>
+          <div className="scrollbar mx-auto flex w-full max-w-md flex-col overflow-auto rounded-t-[10px] p-4">
+            <DrawerHeader>
+              <DrawerTitle>{t("title")}</DrawerTitle>
+              <DrawerDescription>{t("description")}</DrawerDescription>
+            </DrawerHeader>
+            <Form {...highlineForm}>
+              <form
+                onSubmit={highlineForm.handleSubmit(onSubmit, onError)}
+                className="space-y-6"
+              >
+                <FormField
+                  control={highlineForm.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("name.label")}</FormLabel>
+                      <FormControl>
+                        <Input placeholder={t("name.placeholder")} {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={highlineForm.control}
+                  name="height"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("height.label")}</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder={t("height.placeholder")}
+                          {...field}
+                          value={field.value || ""}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={highlineForm.control}
+                  name="lenght"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("length.label")}</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder={t("length.placeholder")}
+                          {...field}
+                          value={field.value || ""}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={highlineForm.control}
+                  name="main_webbing"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("mainWebbing.label")}</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder={t("mainWebbing.placeholder")}
+                          {...field}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={highlineForm.control}
+                  name="backup_webbing"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("backupWebbing.label")}</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder={t("backupWebbing.placeholder")}
+                          {...field}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={highlineForm.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("highlineDescription.label")}</FormLabel>
+                      <FormControl>
+                        <TextArea
+                          {...field}
+                          placeholder={t("highlineDescription.placeholder")}
+                          rows={3}
+                          className="resize-none"
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={highlineForm.control}
+                  name="image"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Dropzone
+                          id="image"
+                          label={t("image.label")}
+                          file={field.value}
+                          errorMessage={highlineForm.formState.errors.image?.message?.toString()}
+                          onChange={(e) => {
+                            if (e.target.files && e.target.files[0]) {
+                              // Call the provided onChange with the actual File object
+                              field.onChange(e.target.files[0]);
+                            }
+                          }}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <DrawerFooter className="p-0">
+                  {isLoading ? (
+                    <ButtonLoading />
+                  ) : (
+                    <>
+                      <Button type="submit">
+                        <PlusSvg className="mr-2 h-4 w-4" />
+                        {t("submit")}
+                      </Button>
+                      <DrawerClose asChild>
+                        <Button variant="outline">Cancel</Button>
+                      </DrawerClose>
+                    </>
+                  )}
+                </DrawerFooter>
+              </form>
+            </Form>
+          </div>
+        </DrawerContent>
       )}
-    </Dialog>
+    </Drawer>
   );
 };
 

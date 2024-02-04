@@ -3,24 +3,26 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { PlusSvg } from "@/assets";
 import { Button, ButtonLoading } from "@/components/ui/button";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import { transformTimeStringToSeconds } from "@/utils/helperFunctions";
 import useSupabaseBrowser from "@/utils/supabase/client";
 
 import { SuccessAnimation } from "./animations/SuccessAnimation";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "./ui/Dialog";
 import {
   Form,
   FormControl,
@@ -72,10 +74,9 @@ interface Props {
   highlineDistance: number;
 }
 
-const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
+export const RegistryEntry = ({ highlineId, highlineDistance }: Props) => {
   const supabase = useSupabaseBrowser();
 
-  const [dialogOpen, setDialogOpen] = useState(false);
   const t = useTranslations("highline.registry");
   const queryClient = useQueryClient();
 
@@ -148,192 +149,204 @@ const CreateHighline = ({ highlineId, highlineDistance }: Props) => {
     console.log(e);
   };
 
-  function closeDialog() {
-    setDialogOpen(false);
-    formMutation.reset();
-  }
-
   return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen} modal>
-      <DialogTrigger asChild>
-        <Button>{t("trigger")}</Button>
-      </DialogTrigger>
+    <Drawer
+      onClose={() => {
+        if (formMutation.isSuccess) formMutation.reset();
+      }}
+    >
+      <DrawerTrigger asChild>
+        <Button variant="default">{t("trigger")}</Button>
+      </DrawerTrigger>
 
       {formMutation.isSuccess ? (
-        <DialogContent className="h-fit">
-          <SuccessAnimation
-            header={t("success.header")}
-            message={t("success.message")}
-            button={<Button onClick={closeDialog}>fechar</Button>}
-          />
-        </DialogContent>
+        <DrawerContent className="h-fit">
+          <DrawerHeader>
+            <DrawerTitle>{t("success.header")}</DrawerTitle>
+            <span className="block text-center"> 🆑 🆑 🆑 🆑 🆑</span>
+            <DrawerDescription>{t("success.message")}</DrawerDescription>
+          </DrawerHeader>
+          <SuccessAnimation />
+          <DrawerFooter>
+            <DrawerClose asChild>
+              <Button>{t("success.close")}</Button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
       ) : (
-        <DialogContent className="h-5/6">
-          <DialogHeader>
-            <DialogTitle>{t("title")}</DialogTitle>
-            <DialogDescription>{t("description")}</DialogDescription>
-          </DialogHeader>
-          <Form {...entryForm}>
-            <form
-              onSubmit={entryForm.handleSubmit(onSubmit, onError)}
-              className="space-y-6"
-            >
-              <FormField
-                control={entryForm.control}
-                name="instagram"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Instagram</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t("instagram.placeholder")}
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+        <DrawerContent>
+          <div className="scrollbar mx-auto flex w-full max-w-md flex-col overflow-auto rounded-t-[10px] p-4">
+            <DrawerHeader>
+              <DrawerTitle>{t("title")}</DrawerTitle>
+              <DrawerDescription>{t("description")}</DrawerDescription>
+            </DrawerHeader>
+            <Form {...entryForm}>
+              <form
+                onSubmit={entryForm.handleSubmit(onSubmit, onError)}
+                className="space-y-6"
+              >
+                <FormField
+                  control={entryForm.control}
+                  name="instagram"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Instagram</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder={t("instagram.placeholder")}
+                          {...field}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={entryForm.control}
-                name="cadenas"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="flex justify-between gap-4">
+                <FormField
+                  control={entryForm.control}
+                  name="cadenas"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex justify-between gap-4">
+                        <div>
+                          <FormLabel>{t("cadenas.label")}</FormLabel>
+                          <FormDescription>
+                            {t("cadenas.description")}
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <NumberPicker
+                            value={field.value}
+                            onChange={field.onChange}
+                            className="self-end"
+                          />
+                        </FormControl>
+                      </div>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={entryForm.control}
+                  name="full_lines"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex justify-between gap-4">
+                        <div>
+                          <FormLabel>Full lines</FormLabel>
+                          <FormDescription>
+                            {t("fullLines.description")}
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <NumberPicker
+                            value={field.value}
+                            onChange={field.onChange}
+                            className="self-end"
+                          />
+                        </FormControl>
+                      </div>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={entryForm.control}
+                  name="distance"
+                  render={({ field }) => (
+                    <FormItem>
                       <div>
-                        <FormLabel>{t("cadenas.label")}</FormLabel>
+                        <FormLabel>{t("distance.label")}</FormLabel>
                         <FormDescription>
-                          {t("cadenas.description")}
+                          {t("distance.description")}
                         </FormDescription>
                       </div>
                       <FormControl>
-                        <NumberPicker
-                          value={field.value}
-                          onChange={field.onChange}
-                          className="self-end"
+                        <Input
+                          type="number"
+                          placeholder={t("distance.placeholder")}
+                          {...field}
                         />
                       </FormControl>
-                    </div>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={entryForm.control}
-                name="full_lines"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="flex justify-between gap-4">
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={entryForm.control}
+                  name="time"
+                  render={({ field }) => (
+                    <FormItem>
                       <div>
-                        <FormLabel>Full lines</FormLabel>
+                        <FormLabel optional>Speedline</FormLabel>
                         <FormDescription>
-                          {t("fullLines.description")}
+                          {t("speedline.description")}
                         </FormDescription>
                       </div>
                       <FormControl>
-                        <NumberPicker
-                          value={field.value}
-                          onChange={field.onChange}
-                          className="self-end"
+                        <Input
+                          placeholder={t("speedline.placeholder")}
+                          {...field}
                         />
                       </FormControl>
-                    </div>
-                  </FormItem>
-                )}
-              />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={entryForm.control}
+                  name="witness"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div>
+                        <FormLabel>{t("witness.label")}</FormLabel>
+                        <FormDescription>
+                          {t("witness.description")}
+                        </FormDescription>
+                      </div>
 
-              <FormField
-                control={entryForm.control}
-                name="distance"
-                render={({ field }) => (
-                  <FormItem>
-                    <div>
-                      <FormLabel>{t("distance.label")}</FormLabel>
-                      <FormDescription>
-                        {t("distance.description")}
-                      </FormDescription>
-                    </div>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder={t("distance.placeholder")}
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={entryForm.control}
-                name="time"
-                render={({ field }) => (
-                  <FormItem>
-                    <div>
-                      <FormLabel optional>Speedline</FormLabel>
-                      <FormDescription>
-                        {t("speedline.description")}
-                      </FormDescription>
-                    </div>
-                    <FormControl>
-                      <Input
-                        placeholder={t("speedline.placeholder")}
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={entryForm.control}
-                name="witness"
-                render={({ field }) => (
-                  <FormItem>
-                    <div>
-                      <FormLabel>{t("witness.label")}</FormLabel>
-                      <FormDescription>
-                        {t("witness.description")}
-                      </FormDescription>
-                    </div>
-
-                    <FormControl>
-                      <Input
-                        placeholder={t("witness.placeholder")}
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={entryForm.control}
-                name="comment"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel optional>{t("comment.label")}</FormLabel>
-                    <FormControl>
-                      <TextArea
-                        {...field}
-                        placeholder={t("comment.placeholder")}
-                        rows={3}
-                        className="resize-none"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              {formMutation.isLoading ? (
-                <ButtonLoading />
-              ) : (
-                <Button type="submit">
-                  <PlusSvg />
-                  {t("submit")}
-                </Button>
-              )}
-            </form>
-          </Form>
-        </DialogContent>
+                      <FormControl>
+                        <Input
+                          placeholder={t("witness.placeholder")}
+                          {...field}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={entryForm.control}
+                  name="comment"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel optional>{t("comment.label")}</FormLabel>
+                      <FormControl>
+                        <TextArea
+                          {...field}
+                          placeholder={t("comment.placeholder")}
+                          rows={3}
+                          className="resize-none"
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <DrawerFooter className="p-0">
+                  {formMutation.isLoading ? (
+                    <ButtonLoading />
+                  ) : (
+                    <>
+                      <Button type="submit">
+                        <PlusSvg className="mr-2 h-4 w-4" />
+                        {t("submit")}
+                      </Button>
+                      <DrawerClose asChild>
+                        <Button variant="outline">Cancel</Button>
+                      </DrawerClose>
+                    </>
+                  )}
+                </DrawerFooter>
+              </form>
+            </Form>
+          </div>
+        </DrawerContent>
       )}
-    </Dialog>
+    </Drawer>
   );
 };
-
-export default CreateHighline;
