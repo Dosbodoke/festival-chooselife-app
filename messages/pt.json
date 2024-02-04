@@ -48,7 +48,8 @@
       "title": "Registrar rolê",
       "success": {
         "header": "BOA CHOOSEN",
-        "message": "Seu rolê está registrado e será usado para calcular as suas estatísticas."
+        "message": "Seu rolê está registrado e será usado para calcular as suas estatísticas.",
+        "close": "fechar"
       },
       "description": "Registre como foi o seu rolê e tenha acesso as suas estatísticas.",
       "instagram": {

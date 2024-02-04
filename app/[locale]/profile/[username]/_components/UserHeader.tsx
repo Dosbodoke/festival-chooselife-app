@@ -46,9 +46,7 @@ function UserHeader({ user, profile, username }: Props) {
         </div>
         <div className="flex-1 space-y-3">
           <h1 className="flex-1 text-xl font-semibold">@{username}</h1>
-          {user && user.id === profile.id ? (
-            <UpdateProfile user={user} profile={profile} />
-          ) : null}
+          {user?.id === profile.id ? <UpdateProfile profile={profile} /> : null}
         </div>
       </div>
       <div>
