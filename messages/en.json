@@ -202,5 +202,11 @@
       },
       "submit": "Save"
     }
+  },
+  "themeToggler": {
+    "screenReader": "Toggle theme",
+    "light": "light",
+    "dark": "dark",
+    "system": "system"
   }
 }
