@@ -22,7 +22,7 @@ function Highline({ highline }: Props) {
   const t = useTranslations("home");
 
   return (
-    <Card className="flex w-full max-w-[24rem] flex-col">
+    <Card className="flex w-full max-w-[24rem] flex-col overflow-hidden">
       <div className="relative h-48 w-full">
         <HighlineImage
           coverImageId={highline.cover_image}

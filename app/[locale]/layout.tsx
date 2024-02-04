@@ -42,7 +42,7 @@ export default function RootLayout({
         <Providers locale={locale} messages={messages}>
           <div className="relative flex h-full min-h-screen flex-col">
             <NavBar />
-            <main className="container mx-auto flex-1">
+            <main className="flex-1">
               <UsernameDialog />
               {children}
             </main>

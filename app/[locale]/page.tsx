@@ -12,7 +12,7 @@ export default async function Home({
   searchParams: { [key: string]: string | undefined };
 }) {
   return (
-    <div className="space-y-6">
+    <div className="mx-2 max-w-screen-xl space-y-4 md:mx-auto">
       <Search />
       <Suspense fallback={<HighlineListSkeleton />}>
         <HighlineList searchValue={searchParams["nameFilter"] || null} />
