@@ -92,7 +92,7 @@ export default function UpdateProfile({
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button variant="secondary">{t("trigger")}</Button>
+        <Button variant="outline">{t("trigger")}</Button>
       </DrawerTrigger>
       <DrawerContent>
         <div className="scrollbar mx-auto flex w-full max-w-md flex-col overflow-auto rounded-t-[10px] p-4">

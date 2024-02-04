@@ -16,7 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/Dialog";
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -71,9 +71,11 @@ function SignUp() {
     <>
       <DialogHeader>
         <DialogTitle>{t("signUp.initial.title")}</DialogTitle>
-        <DialogDescription>{t("signUp.initial.description")}</DialogDescription>
+        <DialogDescription className="mb-2">
+          {t("signUp.initial.description")}
+        </DialogDescription>
       </DialogHeader>
-      <Button onClick={signInWithGoogle}>
+      <Button variant={"outline"} onClick={signInWithGoogle}>
         <GoogleIcon className="-ml-1 mr-2 h-5 w-5" />
         {t("signUp.initial.google")}
       </Button>
@@ -152,9 +154,7 @@ function SignUp() {
       <DialogTrigger asChild>
         <Button size="default">{t("signUp.trigger")}</Button>
       </DialogTrigger>
-      <DialogContent className="left-[50%] top-[50%] h-max translate-x-[-50%] translate-y-[-50%] grid-flow-row auto-rows-max rounded-lg data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]">
-        {dialogContent[step]()}
-      </DialogContent>
+      <DialogContent>{dialogContent[step]()}</DialogContent>
     </Dialog>
   );
 }
