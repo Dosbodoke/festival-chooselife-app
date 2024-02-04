@@ -44,7 +44,6 @@ function HighlineImage({ coverImageId }: HighlinePropsImage) {
         src={URL}
         alt="Image of the Highline"
         fill
-        loading="lazy"
         onLoad={() => setLoaded(true)}
         className={cn(loaded ? "object-cover object-center" : "opacity-0")}
       />
