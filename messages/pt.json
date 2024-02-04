@@ -202,5 +202,11 @@
       },
       "submit": "Salvar"
     }
+  },
+  "themeToggler": {
+    "screenReader": "Trocar tema",
+    "light": "claro",
+    "dark": "escuro",
+    "system": "sistema"
   }
 }

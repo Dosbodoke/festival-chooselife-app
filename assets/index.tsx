@@ -117,35 +117,6 @@ export const CheckIcon = (props: SVGAttributes<SVGElement>) => (
   </svg>
 );
 
-export const UserCircleIcon = (props: SVGAttributes<SVGElement>) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    height="1em"
-    viewBox="0 0 512 512"
-    {...props}
-  >
-    <path d="M399 384.2C376.9 345.8 335.4 320 288 320H224c-47.4 0-88.9 25.8-111 64.2c35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 16a72 72 0 1 0 0-144 72 72 0 1 0 0 144z" />
-  </svg>
-);
-
-export const LogOutIcon = (props: SVGAttributes<SVGElement>) => (
-  <svg
-    fill="none"
-    width="1rem"
-    height="1rem"
-    viewBox="0 0 15 15"
-    xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M1.3 4.1A2.8 2.8 0 0 1 4.1 1.3h3.4A2.5 2.5 0 0 1 10 3.8v0.6a0.6 0.6 0 1 1 -1.3 0V3.8A1.3 1.3 0 0 0 7.4 2.5H4.1a1.6 1.6 0 0 0 -1.6 1.6V11a1.6 1.6 0 0 0 1.6 1.5h3.4A1.3 1.3 0 0 0 8.8 11.2V10.6a0.6 0.6 0 1 1 1.3 0v0.6a2.5 2.5 0 0 1 -2.5 2.5H4.1A2.8 2.8 0 0 1 1.3 10.9V4Zm10.2 1.1a0.6 0.6 0 0 1 0.9 0l1.9 1.9a0.6 0.6 0 0 1 0 0.9L12.4 9.9A0.6 0.6 0 0 1 11.5 9L12.2 8.1H6.9a0.6 0.6 0 1 1 0 -1.3h5.4L11.5 6a0.6 0.6 0 0 1 0 -0.9Z"
-      fill="currentColor"
-    />
-  </svg>
-);
-
 export const ArrowLongLeftIcon = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg
