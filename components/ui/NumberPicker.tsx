@@ -1,9 +1,8 @@
 "use client";
 
-import { MinusIcon } from "@radix-ui/react-icons";
+import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
 
-import { PlusSvg } from "@/assets";
 import { cn } from "@/utils/cn";
 
 interface Props {
@@ -48,7 +47,7 @@ function NumberPicker({ value, onChange, className }: Props) {
           handleIncrement();
         }}
       >
-        <PlusSvg />
+        <PlusIcon transform="scale(1.5)" />
       </button>
     </div>
   );
