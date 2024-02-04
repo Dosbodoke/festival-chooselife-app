@@ -23,7 +23,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/Form";
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/Input";
 import { useRouter } from "@/navigation";
 import useSupabaseBrowser from "@/utils/supabase/client";
