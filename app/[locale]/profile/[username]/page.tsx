@@ -61,7 +61,7 @@ export default async function Profile({ params: { username } }: Props) {
   }
 
   return (
-    <div className="mx-auto max-w-screen-md space-y-4 rounded-lg px-2 pb-2 pt-0 md:space-y-6 md:pt-8">
+    <div className="mx-2 max-w-screen-md space-y-4 pt-0 md:mx-auto md:space-y-6 md:pt-8">
       <GoBack />
       <UserHeader user={user} profile={profile} username={username} />
       <Stats
