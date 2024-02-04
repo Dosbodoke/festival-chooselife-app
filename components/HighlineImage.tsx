@@ -1,17 +1,18 @@
-import { cookies } from "next/headers";
-import Image from "next/image";
+"use client";
 
-import { useSupabaseServer } from "@/utils/supabase/server";
+import Image from "next/image";
+import { useState } from "react";
+
+import { cn } from "@/lib/utils";
+import useSupabaseBrowser from "@/utils/supabase/client";
 
 interface HighlinePropsImage {
   coverImageId: string | null;
-  width?: number;
-  height?: number;
 }
 
-function HighlineImage({ coverImageId, width, height }: HighlinePropsImage) {
-  const cookieStore = cookies();
-  const supabase = useSupabaseServer(cookieStore);
+function HighlineImage({ coverImageId }: HighlinePropsImage) {
+  const supabase = useSupabaseBrowser();
+  const [loaded, setLoaded] = useState(false);
 
   if (!coverImageId) {
     return (
@@ -25,43 +26,29 @@ function HighlineImage({ coverImageId, width, height }: HighlinePropsImage) {
     );
   }
 
-  const hasDefinedDimensions = width && height;
-
   const {
     data: { publicUrl: URL },
-  } = supabase.storage.from("images").getPublicUrl(
-    `${coverImageId}`,
-    hasDefinedDimensions
-      ? {
-          transform: {
-            width,
-            height,
-          },
-        }
-      : undefined
-  );
+  } = supabase.storage.from("images").getPublicUrl(`${coverImageId}`);
 
-  if (hasDefinedDimensions) {
-    return (
+  return (
+    <>
+      {!loaded ? (
+        <div className="flex h-full items-center justify-center space-x-2 opacity-70 dark:invert">
+          <span className="sr-only">Loading...</span>
+          <div className="h-8 w-8 animate-bounce rounded-full bg-black [animation-delay:-0.3s]"></div>
+          <div className="h-8 w-8 animate-bounce rounded-full bg-black [animation-delay:-0.15s]"></div>
+          <div className="h-8 w-8 animate-bounce rounded-full bg-black"></div>
+        </div>
+      ) : null}
       <Image
         src={URL}
         alt="Image of the Highline"
-        width={width}
-        height={height}
-        priority
-        className="object-cover object-center"
+        fill
+        loading="lazy"
+        onLoad={() => setLoaded(true)}
+        className={cn(loaded ? "object-cover object-center" : "hidden")}
       />
-    );
-  }
-
-  return (
-    <Image
-      src={URL}
-      alt="Image of the Highline"
-      fill
-      priority
-      className="object-cover object-center"
-    />
+    </>
   );
 }
 

@@ -24,11 +24,7 @@ function Highline({ highline }: Props) {
   return (
     <Card className="flex w-full max-w-[24rem] flex-col overflow-hidden">
       <div className="relative h-48 w-full">
-        <HighlineImage
-          coverImageId={highline.cover_image}
-          width={384}
-          height={192}
-        />
+        <HighlineImage coverImageId={highline.cover_image} />
         {/* TODO: Implement `favorite highline` feature */}
         {/* <Button
           className="absolute right-2 top-2"
