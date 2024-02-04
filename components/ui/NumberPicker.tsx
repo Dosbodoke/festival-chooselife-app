@@ -3,7 +3,7 @@
 import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
 
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils";
 
 interface Props {
   value: number;

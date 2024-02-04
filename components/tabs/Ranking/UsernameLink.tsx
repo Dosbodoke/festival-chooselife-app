@@ -1,5 +1,5 @@
+import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
-import { cn } from "@/utils/cn";
 
 interface Props {
   username: string;
