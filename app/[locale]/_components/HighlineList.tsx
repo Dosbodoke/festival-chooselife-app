@@ -21,7 +21,7 @@ export async function HighlineList({
     : (await supabase.from("highline").select("*").limit(10)).data;
 
   return (
-    <section className="grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 md:grid-cols-3">
+    <section className="grid grid-cols-1 justify-items-center gap-4 md:grid-cols-2 lg:grid-cols-3">
       {highlines && highlines?.length > 0
         ? highlines.map((highline) => (
             <Highline key={highline.id} highline={highline} />
