@@ -1,17 +1,14 @@
-import { User } from "@supabase/supabase-js";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
-import UpdateProfile from "@/components/layout/navbar/UpdateProfile";
 import { Database } from "@/utils/supabase/database.types";
 
 interface Props {
-  user: User | null;
   profile: Database["public"]["Tables"]["profiles"]["Row"] | null;
   username: string;
 }
 
-function UserHeader({ user, profile, username }: Props) {
+function UserHeader({ profile, username }: Props) {
   const t = useTranslations("profile.header");
 
   if (!profile) {
@@ -44,10 +41,7 @@ function UserHeader({ user, profile, username }: Props) {
             className="rounded-full"
           />
         </div>
-        <div className="flex-1 space-y-3">
-          <h1 className="flex-1 text-xl font-semibold">@{username}</h1>
-          {user?.id === profile.id ? <UpdateProfile profile={profile} /> : null}
-        </div>
+        <h1 className="flex-1 text-xl font-semibold">@{username}</h1>
       </div>
       <div>
         <p className="font-medium">{profile.name}</p>

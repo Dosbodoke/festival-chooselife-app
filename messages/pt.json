@@ -163,7 +163,7 @@
   },
   "usernameDialog": {
     "title": "Bem vindo ao APP CHOOSELIFE 👋",
-    "description": "Nos só precimaos de alguns detalhes para terminar de criar sua conta.",
+    "description": "Só falta algumas informações detalhes para terminar de criar sua conta.",
     "alert": "Se você já usou o APP, você deve usar o mesmo @usuário do seu intagram para não perder as suas estatísticas",
     "fields": {
       "username": {

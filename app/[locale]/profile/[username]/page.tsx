@@ -1,8 +1,9 @@
-import type { Metadata, ResolvingMetadata } from "next";
+import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 
+import UpdateProfile from "@/components/layout/navbar/UpdateProfile";
 import { useSupabaseServer } from "@/utils/supabase/server";
 
 import GoBack from "./_components/GoBack";
@@ -18,10 +19,7 @@ type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-export async function generateMetadata(
-  { params, searchParams }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations("profileMetadata");
   return {
     title: t("title", { username: `@${params.username}` }),
@@ -33,25 +31,27 @@ export default async function Profile({ params: { username } }: Props) {
   const cookieStore = cookies();
   const supabase = useSupabaseServer(cookieStore);
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const result = await Promise.all([
+    supabase.auth.getUser(),
+    supabase
+      .from("profiles")
+      .select("*")
+      .eq("username", `@${username}`)
+      .single(),
+    supabase
+      .rpc("profile_stats", {
+        username: `@${username}`,
+      })
+      .single(),
+  ]);
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("username", `@${username}`)
-    .single();
-
-  const { data } = await supabase
-    .rpc("profile_stats", {
-      username: `@${username}`,
-    })
-    .single();
+  const user = result[0].data.user;
+  const profile = result[1].data;
+  const stats = result[2].data;
 
   if (
     !profile &&
-    (!data || Object.values(data).every((value) => value === null))
+    (!stats || Object.values(stats).every((value) => value === null))
   ) {
     return (
       <div className="mx-auto max-w-screen-md">
@@ -62,12 +62,17 @@ export default async function Profile({ params: { username } }: Props) {
 
   return (
     <div className="mx-2 max-w-screen-md space-y-4 pt-0 md:mx-auto md:space-y-6 md:pt-8">
-      <GoBack />
-      <UserHeader user={user} profile={profile} username={username} />
+      <div className="flex flex-row items-end justify-between">
+        <GoBack />
+        {profile && profile.id === user?.id ? (
+          <UpdateProfile profile={profile} />
+        ) : null}
+      </div>
+      <UserHeader profile={profile} username={username} />
       <Stats
-        total_cadenas={data?.total_cadenas || 0}
-        total_distance_walked={data?.total_distance_walked || 0}
-        total_full_lines={data?.total_full_lines || 0}
+        total_cadenas={stats?.total_cadenas || 0}
+        total_distance_walked={stats?.total_distance_walked || 0}
+        total_full_lines={stats?.total_full_lines || 0}
       />
       <Suspense fallback={<LastWalksSkeleton />}>
         <LastWalks username={username} />

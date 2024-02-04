@@ -1,21 +1,23 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
 import type { User } from "@supabase/supabase-js";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Alert, AlertDescription } from "@/components/ui/Alert";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/Dialog";
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -109,10 +111,11 @@ export default function UsernameDialog() {
         <DialogHeader>
           <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription>{t("description")}</DialogDescription>
-          <Alert variant="info" className="break-before-all text-left">
-            <AlertDescription>{t("alert")}</AlertDescription>
-          </Alert>
         </DialogHeader>
+        <Alert variant="warning">
+          <InfoCircledIcon className="h-4 w-4" />
+          <AlertDescription>{t("alert")}</AlertDescription>
+        </Alert>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -169,7 +172,9 @@ export default function UsernameDialog() {
                 </FormItem>
               )}
             />
-            <Button type="submit">{t("submit")}</Button>
+            <DialogFooter>
+              <Button type="submit">{t("submit")}</Button>
+            </DialogFooter>
           </form>
         </Form>
       </DialogContent>
