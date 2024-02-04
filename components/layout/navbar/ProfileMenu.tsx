@@ -1,25 +1,28 @@
 "use client";
 
+import { AvatarIcon, ExitIcon } from "@radix-ui/react-icons";
 import { User } from "@supabase/supabase-js";
 import { useTranslations } from "next-intl";
 
-import { LogOutIcon, UserCircleIcon } from "@/assets";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/DropdownMenu";
+} from "@/components/ui/dropdown-menu";
 import { Link, useRouter } from "@/navigation";
 import useSupabaseBrowser from "@/utils/supabase/client";
 
-export default async function ProfileMenu({ user }: { user: User }) {
+export default function ProfileMenu({ user }: { user: User }) {
   const supabase = useSupabaseBrowser();
   const t = useTranslations("profileMenu");
   const router = useRouter();
 
-  const username: string | null = user.user_metadata["username"];
+  const username: string = user.user_metadata["username"] || "";
 
   const signOut = async () => {
     await supabase.auth.signOut();
@@ -28,29 +31,31 @@ export default async function ProfileMenu({ user }: { user: User }) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="h-6 w-6">
-        <UserCircleIcon
-          className="fill-black dark:fill-white"
-          width="100%"
-          height="100%"
-        />
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon">
+          <AvatarIcon className="h-6 w-6" />
+        </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent
-        sideOffset={8}
-        className="max-w-[12rem] overflow-hidden"
-      >
-        {username ? (
+      <DropdownMenuContent className="w-56" align="end">
+        <DropdownMenuLabel className="font-normal">
+          <div className="flex flex-col space-y-1">
+            <p className="text-sm font-medium leading-none">{username}</p>
+            <p className="text-xs leading-none text-muted-foreground">
+              {user.email}
+            </p>
+          </div>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
           <DropdownMenuItem asChild>
             <Link href={`/profile/${username.replace("@", "")}`}>
               {t("myProfile")}
             </Link>
           </DropdownMenuItem>
-        ) : null}
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className="flex justify-between" onClick={signOut}>
-          <span>{t("signOut")}</span>
-          <LogOutIcon className="h-4 w-4 dark:text-white" />
-        </DropdownMenuItem>
+          <DropdownMenuItem onClick={signOut}>
+            {t("signOut")} <ExitIcon className="ml-auto" />
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );
