@@ -46,7 +46,7 @@ function HighlineImage({ coverImageId }: HighlinePropsImage) {
         fill
         loading="lazy"
         onLoad={() => setLoaded(true)}
-        className={cn(loaded ? "object-cover object-center" : "hidden")}
+        className={cn(loaded ? "object-cover object-center" : "opacity-0")}
       />
     </>
   );
