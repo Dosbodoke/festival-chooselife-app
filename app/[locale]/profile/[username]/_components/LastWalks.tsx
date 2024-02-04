@@ -8,12 +8,13 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/Popover";
+} from "@/components/ui/popover";
 import { transformSecondsToTimeString } from "@/utils/helperFunctions";
 import type { Database } from "@/utils/supabase/database.types";
 import { useSupabaseServer } from "@/utils/supabase/server";
 
 import FormattedDate from "./FormattedDate";
+import { Button } from "@/components/ui/button";
 
 export const dynamic = "force-dynamic";
 
@@ -77,17 +78,16 @@ function LastWalksContent({ entries }: ContentProps) {
                         {t("popover.length")}: {entry.highline?.lenght}m
                       </p>
                     </div>
-                    <Link
-                      href={`/${entry.highline?.id}`}
-                      className="flex items-center font-medium text-blue-600 hover:text-blue-700 hover:underline dark:text-blue-500 dark:hover:text-blue-600"
-                    >
-                      {t("popover.buttonLabel")}{" "}
-                      <ChevronRightIcon
-                        className="ml-1.5 h-3 w-3"
-                        strokeWidth={2}
-                        stroke="currentColor"
-                      />
-                    </Link>
+                    <Button className="w-full" variant={"outline"} asChild>
+                      <Link href={`/${entry.highline?.id}`}>
+                        {t("popover.buttonLabel")}{" "}
+                        <ChevronRightIcon
+                          className="ml-1.5 h-3 w-3"
+                          strokeWidth={2}
+                          stroke="currentColor"
+                        />
+                      </Link>
+                    </Button>
                   </div>
                 </PopoverContent>
               </Popover>
