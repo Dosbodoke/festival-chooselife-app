@@ -29,13 +29,14 @@ function Highline({ highline }: Props) {
           width={384}
           height={192}
         />
-        <Button
+        {/* TODO: Implement `favorite highline` feature */}
+        {/* <Button
           className="absolute right-2 top-2"
           size="icon"
           variant="outline"
         >
           <HeartIcon className="h-6 w-6" />
-        </Button>
+        </Button> */}
       </div>
       <CardHeader>
         <CardTitle className="text-xl">{highline.name}</CardTitle>
