@@ -8,6 +8,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      DEV_GOOGLE_CLIENT_ID: ${{ secrets.STAGING_DEV_GOOGLE_CLIENT_ID }}
+      DEV_GOOGLE_CLIENT_SECRET: ${{ secrets.STAGING_DEV_GOOGLE_CLIENT_SECRET }}
+
     steps:
       - uses: actions/checkout@v3
 
