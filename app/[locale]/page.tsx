@@ -15,7 +15,7 @@ export default async function Home({
     <div className="mx-2 max-w-screen-xl space-y-4 md:mx-auto">
       <Search />
       <Suspense fallback={<HighlineListSkeleton />}>
-        <HighlineList searchValue={searchParams["nameFilter"] || null} />
+        <HighlineList searchValue={searchParams["q"] || null} />
       </Suspense>
     </div>
   );
