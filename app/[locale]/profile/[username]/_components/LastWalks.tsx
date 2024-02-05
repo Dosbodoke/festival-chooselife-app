@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 import { EnduranceIcon, SpeedlineIcon } from "@/assets";
+import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
@@ -14,7 +15,6 @@ import type { Database } from "@/utils/supabase/database.types";
 import { useSupabaseServer } from "@/utils/supabase/server";
 
 import FormattedDate from "./FormattedDate";
-import { Button } from "@/components/ui/button";
 
 export const dynamic = "force-dynamic";
 
