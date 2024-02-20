@@ -16,10 +16,13 @@ export const dynamic = "force-dynamic";
 
 type Props = {
   params: { locale: string; username: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: { [key: string]: string | undefined };
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+  searchParams,
+}: Props): Promise<Metadata> {
   const t = await getTranslations("profileMetadata");
   return {
     title: t("title", { username: `@${params.username}` }),
@@ -27,7 +30,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function Profile({ params: { username } }: Props) {
+export default async function Profile({
+  params: { username },
+  searchParams,
+}: Props) {
   const cookieStore = cookies();
   const supabase = useSupabaseServer(cookieStore);
 
@@ -75,7 +81,7 @@ export default async function Profile({ params: { username } }: Props) {
         total_full_lines={stats?.total_full_lines || 0}
       />
       <Suspense fallback={<LastWalksSkeleton />}>
-        <LastWalks username={username} />
+        <LastWalks username={username} year={searchParams["year"]} />
       </Suspense>
     </div>
   );
