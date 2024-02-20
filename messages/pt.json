@@ -121,6 +121,7 @@
     },
     "lastWalks": {
       "title": "Ultimos rolês",
+      "description": "Seu histórico de rolês",
       "popover": {
         "height": "Altura",
         "length": "Comprimento",
@@ -209,5 +210,8 @@
     "light": "claro",
     "dark": "escuro",
     "system": "sistema"
+  },
+  "calendar": {
+    "tooltip": "{walks, plural, =1 {# rolê em} other {# rolês em}}"
   }
 }
