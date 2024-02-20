@@ -49,9 +49,6 @@ function Stats({
         </div>
       </CardContent>
     </Card>
-    // <dl className="grid max-w-screen-md grid-cols-3 gap-3 divide-x divide-gray-200 rounded-xl border border-gray-200 bg-white px-2 py-4 shadow dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-800 sm:mx-auto sm:gap-8">
-
-    // </dl>
   );
 }
 

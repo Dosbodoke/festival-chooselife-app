@@ -215,19 +215,18 @@ interface HeatmapBodyProps
 const HeatmapBody = React.forwardRef<HTMLTableSectionElement, HeatmapBodyProps>(
   ({ data, year, className, ...props }, ref) => {
     const { resolvedTheme } = useTheme();
-    const t = useTranslations("calendar");
     const format = useFormatter();
     const isLeapYear = leapYear(year);
     const yearStartedAt = zellersCongruence(new Date(`${year}-01-01`));
     const yearTotalDays = isLeapYear ? 366 : 365;
 
-    function getLevel(value: number) {
+    const getLevel = React.useCallback((value: number) => {
       if (!value || value === 0) return 0;
       if (value < 3) return 1;
       if (value < 5) return 2;
       if (value < 8) return 3;
       return 4;
-    }
+    }, []);
 
     return (
       <tbody ref={ref} className={cn("", className)} {...props}>
@@ -265,39 +264,19 @@ const HeatmapBody = React.forwardRef<HTMLTableSectionElement, HeatmapBodyProps>(
               const dateStr = date.toISOString().split("T")[0];
 
               return (
-                <Tooltip
+                <HeatmapCell
                   key={`heatmap-day-${coordinates[0]}-${coordinates[1]}`}
-                >
-                  <TooltipTrigger asChild>
-                    <td
-                      id={`heatmap-day-${coordinates[0]}-${coordinates[1]}`}
-                      data-date={dateStr}
-                      data-ix={coordinates[1]}
-                      aria-hidden={!isValidDay}
-                      className="h-3 w-3 rounded-sm outline-1 -outline-offset-1 outline-gray-600 aria-hidden:opacity-0"
-                      style={{
-                        backgroundColor:
-                          chartTheme[resolvedTheme as "dark" | "light"][
-                            getLevel(data[dateStr])
-                          ],
-                      }}
-                    />
-                  </TooltipTrigger>
-                  {data[dateStr] ? (
-                    <TooltipPortal>
-                      <TooltipContent side="top" align="center" sideOffset={4}>
-                        <p>
-                          {t("tooltip", { walks: data[dateStr] })}{" "}
-                          {format.dateTime(date, {
-                            day: "numeric",
-                            month: "short",
-                          })}
-                        </p>
-                        <TooltipArrow />
-                      </TooltipContent>
-                    </TooltipPortal>
-                  ) : null}
-                </Tooltip>
+                  coordinates={coordinates}
+                  date={date}
+                  dateStr={dateStr}
+                  hidden={!isValidDay}
+                  cellColor={
+                    chartTheme[resolvedTheme as "dark" | "light"][
+                      getLevel(data[dateStr])
+                    ]
+                  }
+                  amount={data[dateStr]}
+                />
               );
             })}
           </tr>
@@ -307,6 +286,61 @@ const HeatmapBody = React.forwardRef<HTMLTableSectionElement, HeatmapBodyProps>(
   }
 );
 HeatmapBody.displayName = "HeatmapBody";
+
+interface HeatmapCellProps {
+  coordinates: [x: number, y: number];
+  date: Date;
+  dateStr: string;
+  hidden: boolean;
+  cellColor: string;
+  amount: number;
+}
+function HeatmapCell({
+  coordinates,
+  date,
+  dateStr,
+  hidden,
+  cellColor,
+  amount,
+}: HeatmapCellProps) {
+  const [open, setOpen] = React.useState(false);
+
+  const t = useTranslations("calendar");
+  const format = useFormatter();
+
+  return (
+    <Tooltip open={open} onOpenChange={setOpen}>
+      <TooltipTrigger asChild>
+        <td
+          id={`heatmap-day-${coordinates[0]}-${coordinates[1]}`}
+          data-date={dateStr}
+          data-ix={coordinates[1]}
+          aria-hidden={hidden}
+          className="h-3 w-3 rounded-sm outline-1 -outline-offset-1 outline-gray-600 aria-hidden:opacity-0"
+          style={{
+            backgroundColor: cellColor,
+          }}
+          onClick={() => setOpen((prev) => !prev)}
+          onBlur={() => setOpen(false)}
+        />
+      </TooltipTrigger>
+      {amount ? (
+        <TooltipPortal>
+          <TooltipContent side="top" align="center" sideOffset={4}>
+            <p>
+              {t("tooltip", { walks: amount })}{" "}
+              {format.dateTime(date, {
+                day: "numeric",
+                month: "short",
+              })}
+            </p>
+            <TooltipArrow />
+          </TooltipContent>
+        </TooltipPortal>
+      ) : null}
+    </Tooltip>
+  );
+}
 
 const HeatmapSkeleton = () => (
   <div className="scrollbar relative max-w-full overflow-x-auto overflow-y-hidden">
