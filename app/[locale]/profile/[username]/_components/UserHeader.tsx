@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
+import { Card, CardContent } from "@/components/ui/card";
 import { Database } from "@/utils/supabase/database.types";
 
 interface Props {
@@ -31,23 +32,27 @@ function UserHeader({ profile, username }: Props) {
   }
 
   return (
-    <header className="max-w-screen-md space-y-2 overflow-hidden rounded-xl border border-gray-200 bg-white px-2 py-4 shadow dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-800">
-      <div className="flex gap-4">
-        <div className="relative h-24 w-24 sm:h-32 sm:w-32">
-          <Image
-            src={profile.profile_picture || "/default-profile-picture.png"}
-            fill={true}
-            alt="Profile picture"
-            className="rounded-full"
-          />
+    <Card>
+      <CardContent className="space-y-2 overflow-hidden px-2 py-4">
+        <div className="flex gap-4">
+          <div className="relative h-24 w-24 sm:h-32 sm:w-32">
+            <Image
+              src={profile.profile_picture || "/default-profile-picture.png"}
+              fill={true}
+              alt="Profile picture"
+              className="rounded-full"
+            />
+          </div>
+          <div className="mt-4 flex-1">
+            <h1 className="flex-1 text-xl font-semibold">{profile.name}</h1>
+            <p className="text-muted-foreground">@{username}</p>
+          </div>
         </div>
-        <h1 className="flex-1 text-xl font-semibold">@{username}</h1>
-      </div>
-      <div>
-        <p className="font-medium">{profile.name}</p>
-        <p>{profile.description}</p>
-      </div>
-    </header>
+        <div>
+          <p>{profile.description}</p>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 
