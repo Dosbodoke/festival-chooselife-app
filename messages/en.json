@@ -121,6 +121,7 @@
     },
     "lastWalks": {
       "title": "Last Walks",
+      "description": "Your highline history",
       "popover": {
         "height": "Height",
         "length": "Length",
@@ -209,5 +210,8 @@
     "light": "light",
     "dark": "dark",
     "system": "system"
+  },
+  "calendar": {
+    "tooltip": "{walks, plural, =1 {# walk in} other {# walks in}}"
   }
 }

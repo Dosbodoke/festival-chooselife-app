@@ -2,14 +2,10 @@ import { ChevronRightIcon } from "@radix-ui/react-icons";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 import { EnduranceIcon, SpeedlineIcon } from "@/assets";
 import { Button } from "@/components/ui/button";
-import {
-  Heatmap,
-  HeatmapCells,
-  HeatmapLabel,
-} from "@/components/ui/calendar-heatmap";
 import {
   Card,
   CardContent,
@@ -27,6 +23,7 @@ import type { Database } from "@/utils/supabase/database.types";
 import { useSupabaseServer } from "@/utils/supabase/server";
 
 import FormattedDate from "./FormattedDate";
+import { Heatmap, YearSwitcher } from "./WalkActivityCalendar";
 
 export const dynamic = "force-dynamic";
 type Entry =
@@ -36,11 +33,13 @@ type Entry =
 
 interface Props {
   username: string;
+  year?: string;
 }
 
-export default async function LastWalks({ username }: Props) {
+export default async function LastWalks({ username, year }: Props) {
   const cookieStore = cookies();
   const supabase = useSupabaseServer(cookieStore);
+  const t = await getTranslations("profile.lastWalks");
 
   const { data: entries } = await supabase
     .from("entry")
@@ -53,52 +52,46 @@ export default async function LastWalks({ username }: Props) {
     .eq("instagram", `@${username}`)
     .order("created_at", { ascending: false });
 
-  // const { data: entries } = await supabase
-  //   .from("entry")
-  //   .select(
-  //     `
-  //   *,
-  //   highline (*)
-  // `
-  //   )
-  //   .eq("instagram", `@${username}`)
-  //   .limit(5)
-  //   .order("created_at", { ascending: false });
-
   if (!entries) return null;
 
   function groupByDay(entries: Entry[]) {
     const groupedByDay: Record<string, number> = {};
+    const years: Array<string> = [];
 
     entries.forEach((entry) => {
       const day = entry.created_at.split("T")[0];
+      const year = day.split("-")[0];
 
-      groupedByDay[day] = groupedByDay[day] || 1;
+      groupedByDay[day] = groupedByDay[day] + 1 || 1;
+      if (years[years.length - 1] !== year) {
+        years.push(year);
+      }
     });
 
-    return groupedByDay;
+    return {
+      years: years,
+      data: groupedByDay,
+    };
   }
 
-  const data = groupByDay(entries);
-  console.log({ data });
+  const { data, years } = groupByDay(entries);
+  const selectedYear = year && years.includes(year) ? year : years[0];
 
   return (
-    <>
-      <div>Notifications</div>
-      <Card>
-        <CardContent>
-          <CardHeader className="p-0 pt-6">
-            <CardTitle>Notifications</CardTitle>
-            <CardDescription>You have 3 unread messages.</CardDescription>
-          </CardHeader>
-          <Heatmap year={2024}>
-            <HeatmapLabel year={2024} />
-            <HeatmapCells year={2024} data={data} />
-          </Heatmap>
-          <LastWalksContent entries={entries.slice(0, 5)} />
-        </CardContent>
-      </Card>
-    </>
+    <Card>
+      <CardContent>
+        <CardHeader className="flex-row justify-between space-y-0 p-0 pt-6">
+          <div className="flex-1">
+            <CardTitle>{t("title")}</CardTitle>
+            <CardDescription>{t("description")}</CardDescription>
+          </div>
+          <YearSwitcher years={years} selectedYear={selectedYear} />
+        </CardHeader>
+
+        <Heatmap year={parseInt(selectedYear)} data={data} />
+        <LastWalksContent entries={entries.slice(0, 5)} />
+      </CardContent>
+    </Card>
   );
 }
 
@@ -164,70 +157,6 @@ function LastWalksContent({ entries }: ContentProps) {
         <p>{t("empty")}</p>
       )}
     </ul>
-  );
-
-  return (
-    <div className="max-w-screen-md rounded-xl border border-gray-200 bg-white px-2 py-4 shadow dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-800">
-      <h3 className="text-xl font-semibold dark:text-white">{t("title")}</h3>
-      <ul className="mt-4 divide-y divide-gray-200 dark:divide-gray-700">
-        {entries.length > 0 ? (
-          entries.map((entry) => (
-            <li
-              key={entry.id}
-              className="overflow-hidden py-4 first:pt-0 last:pb-0"
-            >
-              <Popover>
-                <PopoverTrigger className="mb-0.5 truncate text-base font-semibold leading-none text-blue-500 dark:text-blue-400">
-                  {entry.highline?.name}
-                </PopoverTrigger>
-                <PopoverContent
-                  side="top"
-                  className="max-h-96 overflow-auto p-0"
-                >
-                  <div className="space-y-2 p-4">
-                    <p>{entry.highline?.description}</p>
-                    <div>
-                      <p>
-                        {t("popover.height")}: {entry.highline?.height}m
-                      </p>
-                      <p>
-                        {t("popover.length")}: {entry.highline?.lenght}m
-                      </p>
-                    </div>
-                    <Button className="w-full" variant={"outline"} asChild>
-                      <Link href={`/${entry.highline?.id}`}>
-                        {t("popover.buttonLabel")}{" "}
-                        <ChevronRightIcon
-                          className="ml-1.5 h-3 w-3"
-                          strokeWidth={2}
-                          stroke="currentColor"
-                        />
-                      </Link>
-                    </Button>
-                  </div>
-                </PopoverContent>
-              </Popover>
-              <FormattedDate date={new Date(entry.created_at)} />
-              <div className="text-white-700 mb-1 flex gap-4 truncate text-sm font-normal dark:text-white">
-                {entry.crossing_time && (
-                  <div className="flex items-end gap-1">
-                    <SpeedlineIcon className="text-gray-900 dark:text-white" />
-                    <p>{transformSecondsToTimeString(entry.crossing_time)}</p>
-                  </div>
-                )}
-                <div className="flex items-end gap-1">
-                  <EnduranceIcon className="text-gray-900 dark:text-white" />
-                  <p>{entry.distance_walked}m</p>
-                </div>
-              </div>
-              <p>{entry.comment}</p>
-            </li>
-          ))
-        ) : (
-          <p>{t("empty")}</p>
-        )}
-      </ul>
-    </div>
   );
 }
 
