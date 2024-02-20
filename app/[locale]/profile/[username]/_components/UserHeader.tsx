@@ -14,20 +14,22 @@ function UserHeader({ profile, username }: Props) {
 
   if (!profile) {
     return (
-      <header className="flex max-w-screen-md gap-4 rounded-xl border border-gray-200 bg-white px-2 py-4 shadow dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-800">
-        <Image
-          src={"/default-profile-picture.png"}
-          width={128}
-          height={128}
-          alt="Profile picture"
-        />
-        <div className="space-y-3">
-          <h1 className="text-xl font-semibold">@{username}</h1>
-          <div className="rounded-lg bg-red-50 p-4 text-center text-sm text-red-500 dark:bg-red-100 dark:text-red-700">
-            {t("notVerified")}
+      <Card>
+        <CardContent className="flex gap-4 space-y-2 overflow-hidden px-2 py-4">
+          <Image
+            src={"/default-profile-picture.png"}
+            width={128}
+            height={128}
+            alt="Profile picture"
+          />
+          <div className="space-y-3">
+            <h1 className="text-xl font-semibold">@{username}</h1>
+            <div className="rounded-lg bg-red-50 p-2 text-center text-sm text-red-500 dark:bg-red-100 dark:text-red-700 md:p-4">
+              {t("notVerified")}
+            </div>
           </div>
-        </div>
-      </header>
+        </CardContent>
+      </Card>
     );
   }
 
