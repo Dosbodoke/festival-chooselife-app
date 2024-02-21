@@ -2,6 +2,7 @@ import "./globals.css";
 
 import { Analytics } from "@vercel/analytics/react";
 import { GeistSans } from "geist/font/sans";
+import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { useMessages } from "next-intl";
 
@@ -12,9 +13,48 @@ import { locales } from "@/navigation";
 import UsernameDialog from "./_components/UsernameDialog";
 import Providers from "./Providers";
 
-export const metadata = {
-  title: "Festival Chooselife",
-  description: "Site oficial do festival Chooselife",
+const APP_NAME = "Chooselife";
+const APP_DEFAULT_TITLE = "Chooselife";
+const APP_TITLE_TEMPLATE = "%s - Chooselife";
+const APP_DESCRIPTION = "O aplicativo de Highline que você precisava";
+
+export const metadata: Metadata = {
+  applicationName: APP_NAME,
+  title: {
+    default: APP_DEFAULT_TITLE,
+    template: APP_TITLE_TEMPLATE,
+  },
+  description: APP_DESCRIPTION,
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: APP_DEFAULT_TITLE,
+    // startUpImage: [],
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    siteName: APP_NAME,
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary",
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#FFFFFF",
 };
 
 export default function RootLayout({

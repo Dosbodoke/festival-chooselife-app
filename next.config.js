@@ -1,3 +1,5 @@
+const { Config } = require("next-recompose-plugins");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -27,9 +29,31 @@ const nextConfig = {
   },
 };
 
-const withNextIntl = require("next-intl/plugin")(
-  // This is the default (also the `src` folder is supported out of the box)
-  "./i18n.ts"
-);
+const withSerwist = require("@serwist/next");
+const withNextIntl = require("next-intl/plugin");
 
-module.exports = withNextIntl(nextConfig);
+// const withSerwist = require("@serwist/next").default({
+//   swSrc: "app/sw.ts",
+//   swDest: "public/sw.js",
+//   cacheOnFrontEndNav: true,
+// });
+
+// const withNextIntl = require("next-intl/plugin")(
+//   // This is the default (also the `src` folder is supported out of the box)
+//   "./i18n.ts"
+// );
+
+const config = new Config(nextConfig)
+  .applyPlugin((phase, args, config) => {
+    return withNextIntl("./i18n.ts")(config);
+  }, "next-intl/plugin")
+  .applyPlugin((phase, args, config) => {
+    return withSerwist.default({
+      swSrc: "app/sw.ts",
+      swDest: "public/sw.js",
+      cacheOnFrontEndNav: true,
+    })(config);
+  }, "@serwist/next")
+  .build();
+
+module.exports = config;
