@@ -2,7 +2,7 @@ import "./globals.css";
 
 import { Analytics } from "@vercel/analytics/react";
 import { GeistSans } from "geist/font/sans";
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { useMessages } from "next-intl";
 
@@ -10,13 +10,14 @@ import Footer from "@/components/Footer";
 import NavBar from "@/components/layout/navbar";
 import { locales } from "@/navigation";
 
+import { PromptPwa } from "./_components/PromptPwa";
 import UsernameDialog from "./_components/UsernameDialog";
 import Providers from "./Providers";
 
 const APP_NAME = "Chooselife";
 const APP_DEFAULT_TITLE = "Chooselife";
 const APP_TITLE_TEMPLATE = "%s - Chooselife";
-const APP_DESCRIPTION = "O aplicativo de Highline que você precisava";
+const APP_DESCRIPTION = "O aplicativo feito para o Highliner";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
@@ -53,10 +54,6 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = {
-  themeColor: "#FFFFFF",
-};
-
 export default function RootLayout({
   children,
   params: { locale },
@@ -75,6 +72,7 @@ export default function RootLayout({
       <body className={`min-h-screen md:px-0 ${GeistSans.variable} font-sans`}>
         <Providers locale={locale} messages={messages}>
           <div className="relative flex h-full min-h-screen flex-col">
+            <PromptPwa />
             <NavBar />
             <main className="flex-1">
               <UsernameDialog />

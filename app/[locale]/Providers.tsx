@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 
 import { ReactQueryProvider } from "@/components/ReactQueryProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 interface Props {
   locale: "en" | "pt";
@@ -20,6 +21,7 @@ function Providers({ locale, messages, children }: Props) {
         timeZone={"America/Sao_Paulo"}
       >
         <ThemeProvider attribute="class" defaultTheme="system">
+          <Toaster />
           {children}
         </ThemeProvider>
       </NextIntlClientProvider>

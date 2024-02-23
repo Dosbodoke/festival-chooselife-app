@@ -52,6 +52,7 @@ const config = new Config(nextConfig)
       swSrc: "app/sw.ts",
       swDest: "public/sw.js",
       cacheOnFrontEndNav: true,
+      // disable: process.env.NODE_ENV === "development",
     })(config);
   }, "@serwist/next")
   .build();
