@@ -2,6 +2,7 @@ import "./globals.css";
 
 import { Analytics } from "@vercel/analytics/react";
 import { GeistSans } from "geist/font/sans";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { useMessages } from "next-intl";
 
@@ -9,12 +10,48 @@ import Footer from "@/components/Footer";
 import NavBar from "@/components/layout/navbar";
 import { locales } from "@/navigation";
 
+import { PromptPwa } from "./_components/PromptPwa";
 import UsernameDialog from "./_components/UsernameDialog";
 import Providers from "./Providers";
 
-export const metadata = {
-  title: "Festival Chooselife",
-  description: "Site oficial do festival Chooselife",
+const APP_NAME = "Chooselife";
+const APP_DEFAULT_TITLE = "Chooselife";
+const APP_TITLE_TEMPLATE = "%s - Chooselife";
+const APP_DESCRIPTION = "O aplicativo feito para o Highliner";
+
+export const metadata: Metadata = {
+  applicationName: APP_NAME,
+  title: {
+    default: APP_DEFAULT_TITLE,
+    template: APP_TITLE_TEMPLATE,
+  },
+  description: APP_DESCRIPTION,
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: APP_DEFAULT_TITLE,
+    // startUpImage: [],
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    siteName: APP_NAME,
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary",
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
 };
 
 export default function RootLayout({
@@ -35,6 +72,7 @@ export default function RootLayout({
       <body className={`min-h-screen md:px-0 ${GeistSans.variable} font-sans`}>
         <Providers locale={locale} messages={messages}>
           <div className="relative flex h-full min-h-screen flex-col">
+            <PromptPwa />
             <NavBar />
             <main className="flex-1">
               <UsernameDialog />
