@@ -42,7 +42,18 @@ export function PromptPwa() {
 
     const beforeInstallPrompt = (e: Event) => {
       e.preventDefault();
-      if (sessionIsPwa) return;
+      const now = new Date();
+      const storedLastPromptTime = localStorage.getItem("lastPromptTime");
+      const lastPromptTime = storedLastPromptTime
+        ? new Date(storedLastPromptTime)
+        : null;
+
+      const isLastPromptTimeWithin1Hour =
+        lastPromptTime &&
+        now.getTime() - lastPromptTime.getTime() < 1 * 60 * 60 * 1000;
+      // Check if session is PWA or last prompt time was less than or equal to 1 hours ago
+      if (sessionIsPwa || isLastPromptTimeWithin1Hour) return;
+      localStorage.setItem("lastPromptTime", now.toISOString());
       toast(`🎉 ${t("title")}`, {
         description: t("description"),
         action: {

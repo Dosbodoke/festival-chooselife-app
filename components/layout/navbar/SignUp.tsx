@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/Input";
 import useSupabaseBrowser from "@/utils/supabase/client";
+import { useLoginModal } from "@/utils/useLoginModal";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -36,6 +37,8 @@ type FormSchema = z.infer<typeof formSchema>;
 function SignUp() {
   const supabase = useSupabaseBrowser();
   const t = useTranslations("login");
+  const { open, toggleLoginModal } = useLoginModal();
+
   const [step, setStep] = useState<"initial" | "email" | "inbox">("initial");
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -53,7 +56,7 @@ function SignUp() {
     });
   }
 
-  async function onSubmit(data: FormSchema) {
+  async function signInWithOtp(data: FormSchema) {
     const { error } = await supabase.auth.signInWithOtp({
       email: data.email,
       options: {
@@ -92,7 +95,7 @@ function SignUp() {
         <DialogDescription>{t("email.description")}</DialogDescription>
       </DialogHeader>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(signInWithOtp)} className="space-y-4">
           <FormField
             control={form.control}
             name="email"
@@ -145,14 +148,21 @@ function SignUp() {
 
   return (
     <Dialog
+      open={open}
       onOpenChange={(open) => {
         if (!open) {
           setStep("initial");
+          toggleLoginModal("closed");
         }
       }}
     >
       <DialogTrigger asChild>
-        <button className="relative rounded-full border border-neutral-200 px-4 py-2 text-sm font-medium text-black dark:border-white/[0.2] dark:text-white">
+        <button
+          onClick={() => {
+            toggleLoginModal("open");
+          }}
+          className="relative rounded-full border border-neutral-200 px-4 py-2 text-sm font-medium text-black dark:border-white/[0.2] dark:text-white"
+        >
           <span>{t("trigger")}</span>
           <span className="absolute inset-x-0 -bottom-px mx-auto h-px w-1/2 bg-gradient-to-r from-transparent via-blue-500  to-transparent" />
         </button>
