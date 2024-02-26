@@ -16,20 +16,17 @@ import { usePathname, useRouter } from "@/navigation";
 
 export default function LocaleSwitcher() {
   const t = useTranslations("LocaleSwitcher");
-  const [isPending, startTransition] = useTransition();
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
 
   function onSelectChange(value: string) {
-    startTransition(() => {
-      router.replace(pathname, { locale: value });
-    });
+    router.replace(pathname, { locale: value });
   }
 
   return (
     <Select onValueChange={onSelectChange} defaultValue={locale}>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger aria-label="locale switcher" className="w-[180px]">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
