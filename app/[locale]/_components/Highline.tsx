@@ -1,4 +1,4 @@
-import { ArrowRightIcon, HeartIcon } from "@radix-ui/react-icons";
+import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
@@ -12,27 +12,21 @@ import {
 import { Link } from "@/navigation";
 import type { Tables } from "@/utils/supabase/database.types";
 
-import HighlineImage from "./HighlineImage";
+import HighlineImage from "../../../components/HighlineImage";
+import { FavoriteHighline } from "./FavoriteHighline";
 
 interface Props {
-  highline: Tables["highline"]["Row"];
+  highline: Tables["highline"]["Row"] & { is_favorite: boolean };
 }
 
-function Highline({ highline }: Props) {
+export function Highline({ highline }: Props) {
   const t = useTranslations("home");
 
   return (
     <Card className="flex w-full max-w-[24rem] flex-col overflow-hidden">
       <div className="relative h-48 w-full">
         <HighlineImage coverImageId={highline.cover_image} />
-        {/* TODO: Implement `favorite highline` feature */}
-        {/* <Button
-          className="absolute right-2 top-2"
-          size="icon"
-          variant="outline"
-        >
-          <HeartIcon className="h-6 w-6" />
-        </Button> */}
+        <FavoriteHighline id={highline.id} isFavorite={highline.is_favorite} />
       </div>
       <CardHeader>
         <CardTitle className="text-xl">{highline.name}</CardTitle>
@@ -53,5 +47,3 @@ function Highline({ highline }: Props) {
     </Card>
   );
 }
-
-export default Highline;

@@ -32,17 +32,6 @@ const nextConfig = {
 const withSerwist = require("@serwist/next");
 const withNextIntl = require("next-intl/plugin");
 
-// const withSerwist = require("@serwist/next").default({
-//   swSrc: "app/sw.ts",
-//   swDest: "public/sw.js",
-//   cacheOnFrontEndNav: true,
-// });
-
-// const withNextIntl = require("next-intl/plugin")(
-//   // This is the default (also the `src` folder is supported out of the box)
-//   "./i18n.ts"
-// );
-
 const config = new Config(nextConfig)
   .applyPlugin((phase, args, config) => {
     return withNextIntl("./i18n.ts")(config);
@@ -52,7 +41,7 @@ const config = new Config(nextConfig)
       swSrc: "app/sw.ts",
       swDest: "public/sw.js",
       cacheOnFrontEndNav: true,
-      // disable: process.env.NODE_ENV === "development",
+      disable: process.env.NODE_ENV === "development",
     })(config);
   }, "@serwist/next")
   .build();

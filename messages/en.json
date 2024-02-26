@@ -130,10 +130,10 @@
       "empty": "This user hasn't registered any walk."
     }
   },
-  "signUp": {
-    "trigger": "Sign Up",
+  "login": {
+    "trigger": "Login",
     "initial": {
-      "title": "Create or log in to your account ✨",
+      "title": "Create or login to your account ✨",
       "description": "Get full acccess to all functionalities of the Chooselife APP",
       "google": "Continue with Google"
     },
