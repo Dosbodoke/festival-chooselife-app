@@ -35,7 +35,7 @@ type FormSchema = z.infer<typeof formSchema>;
 
 function SignUp() {
   const supabase = useSupabaseBrowser();
-  const t = useTranslations();
+  const t = useTranslations("login");
   const [step, setStep] = useState<"initial" | "email" | "inbox">("initial");
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -70,17 +70,17 @@ function SignUp() {
   const dialogContentInitial = () => (
     <>
       <DialogHeader>
-        <DialogTitle>{t("signUp.initial.title")}</DialogTitle>
+        <DialogTitle>{t("initial.title")}</DialogTitle>
         <DialogDescription className="mb-2">
-          {t("signUp.initial.description")}
+          {t("initial.description")}
         </DialogDescription>
       </DialogHeader>
       <Button variant={"outline"} onClick={signInWithGoogle}>
         <GoogleIcon className="-ml-1 mr-2 h-5 w-5" />
-        {t("signUp.initial.google")}
+        {t("initial.google")}
       </Button>
       <Button variant="link" onClick={() => setStep("email")}>
-        {t("signUp.email.buttonLabel")}
+        {t("email.buttonLabel")}
       </Button>
     </>
   );
@@ -88,8 +88,8 @@ function SignUp() {
   const dialogContentEmail = () => (
     <>
       <DialogHeader>
-        <DialogTitle>{t("signUp.email.title")}</DialogTitle>
-        <DialogDescription>{t("signUp.email.description")}</DialogDescription>
+        <DialogTitle>{t("email.title")}</DialogTitle>
+        <DialogDescription>{t("email.description")}</DialogDescription>
       </DialogHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -100,12 +100,12 @@ function SignUp() {
               <FormItem>
                 <FormControl>
                   <Input
-                    placeholder={t("signUp.email.placeholder")}
+                    placeholder={t("email.placeholder")}
                     type="email"
                     {...field}
                   />
                 </FormControl>
-                <FormMessage translatedMessage={t("signUp.email.invalid")} />
+                <FormMessage translatedMessage={t("email.invalid")} />
               </FormItem>
             )}
           />
@@ -115,9 +115,9 @@ function SignUp() {
               variant="outline"
               onClick={() => setStep("initial")}
             >
-              {t("signUp.email.back")}
+              {t("email.back")}
             </Button>
-            <Button type="submit">{t("signUp.email.submit")}</Button>
+            <Button type="submit">{t("email.submit")}</Button>
           </DialogFooter>
         </form>
       </Form>
@@ -127,11 +127,11 @@ function SignUp() {
   const dialogContentInbox = () => (
     <>
       <DialogHeader>
-        <DialogTitle>{t("signUp.inbox.title")}</DialogTitle>
+        <DialogTitle>{t("inbox.title")}</DialogTitle>
         <DialogDescription>
-          {t("signUp.inbox.preDescription")}
+          {t("inbox.preDescription")}
           <span className="font-bold"> {form.getValues("email")} </span>
-          {t("signUp.inbox.postDescription")}
+          {t("inbox.postDescription")}
         </DialogDescription>
       </DialogHeader>
     </>
@@ -152,7 +152,10 @@ function SignUp() {
       }}
     >
       <DialogTrigger asChild>
-        <Button size="default">{t("signUp.trigger")}</Button>
+        <button className="relative rounded-full border border-neutral-200 px-4 py-2 text-sm font-medium text-black dark:border-white/[0.2] dark:text-white">
+          <span>{t("trigger")}</span>
+          <span className="absolute inset-x-0 -bottom-px mx-auto h-px w-1/2 bg-gradient-to-r from-transparent via-blue-500  to-transparent" />
+        </button>
       </DialogTrigger>
       <DialogContent>{dialogContent[step]()}</DialogContent>
     </Dialog>
