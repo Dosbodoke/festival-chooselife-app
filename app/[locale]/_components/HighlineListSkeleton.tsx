@@ -3,10 +3,10 @@ import HighlineImage from "@/components/HighlineImage";
 export function HighlineListSkeleton() {
   return (
     <ul className="flex animate-pulse flex-wrap justify-center gap-6">
-      {Array.from(Array(8)).map((v) => (
+      {Array.from(Array(8)).map((_, idx) => (
         <li
           className="w-full rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800 md:w-96"
-          key={v}
+          key={`high-skeleton-${idx}`}
         >
           <div className="relative block h-72 w-full opacity-25">
             <HighlineImage coverImageId={null} />

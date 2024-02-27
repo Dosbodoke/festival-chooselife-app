@@ -33,10 +33,12 @@ export function Highline({ highline }: Props) {
         <CardTitle className="text-xl">{highline.name}</CardTitle>
         <div className="flex items-baseline gap-2 space-y-2 text-sm text-muted-foreground">
           <div className="flex gap-2">
-            <UnfoldVerticalIcon className="h-4 w-4" /> {highline.height}m
+            <UnfoldVerticalIcon className="h-4 w-4" />{" "}
+            {highline.height.toFixed(0)}m
           </div>
           <div className="flex gap-2">
-            <UnfoldHorizontalIcon className="h-4 w-4" /> {highline.lenght}m
+            <UnfoldHorizontalIcon className="h-4 w-4" />{" "}
+            {highline.lenght.toFixed(0)}m
           </div>
         </div>
       </CardHeader>

@@ -24,7 +24,7 @@
     "@serwist/sw": "^8.4.4",
     "@supabase/ssr": "^0.0.10",
     "@supabase/supabase-js": "^2.22.0",
-    "@tanstack/react-query": "^4.29.7",
+    "@tanstack/react-query": "^5.24.1",
     "@vercel/analytics": "^1.0.1",
     "autoprefixer": "10.4.14",
     "class-variance-authority": "^0.7.0",

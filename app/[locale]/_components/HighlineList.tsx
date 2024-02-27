@@ -1,58 +1,47 @@
-import { cookies } from "next/headers";
+"use client";
 
-import { useSupabaseServer } from "@/utils/supabase/server";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useMotionValueEvent, useScroll } from "framer-motion";
+import { useSearchParams } from "next/navigation";
+
+import { getHighline } from "@/app/actions/getHighline";
 
 import { Highline } from "./Highline";
+import { HighlineListSkeleton } from "./HighlineListSkeleton";
 
-export async function HighlineList({
-  searchValue,
-}: {
-  searchValue: string | null;
-}) {
-  const cookieStore = cookies();
-  const supabase = useSupabaseServer(cookieStore);
+export default function HighlineList() {
+  const searchParams = useSearchParams();
+  const searchValue = searchParams.get("q") || "";
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
+    queryKey: ["highlines", { searchValue }],
+    queryFn: ({ pageParam }) => getHighline({ pageParam, searchValue }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+  });
 
-  let profileId = "";
-  if (user?.user_metadata["username"]) {
-    const { data } = await supabase
-      .from("profiles")
-      .select("id")
-      .eq("username", user.user_metadata["username"])
-      .single();
-    profileId = data?.id || "";
-  }
+  const { scrollYProgress } = useScroll();
 
-  const { data } = await supabase
-    .from("highline")
-    .select("*, favorite_highline(profile_id)")
-    .ilike("name", `%${searchValue || ""}%`);
-
-  const highlines =
-    data?.map((high) => ({
-      ...high,
-      is_favorite: !!high.favorite_highline.find(
-        (fav) => fav.profile_id === profileId
-      ),
-    })) ?? [];
-
-  // const { data: highlines } = await supabase
-  // .from("highline")
-  // .select("*, favorite_highlines")
-  // .eq("favorite_highlines.profile_id", profileId)
-  // .ilike("name", `%${searchValue}%`)
-  // .limit(10)
+  useMotionValueEvent(scrollYProgress, "change", () => {
+    if (scrollYProgress.get() === 1 && hasNextPage) fetchNextPage();
+  });
 
   return (
     <section className="grid grid-cols-1 justify-items-center gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {highlines !== null && highlines.length > 0
-        ? highlines.map((highline) => (
-            <Highline key={highline.id} highline={highline} />
-          ))
-        : null}
+      {data?.pages.map((page) =>
+        page.data?.map((high) => (
+          <Highline
+            key={high.id}
+            highline={{
+              ...high,
+              is_favorite: !!high.favorite_highline.find(
+                (fav) => fav.profile_id === ""
+              ),
+            }}
+          />
+        ))
+      )}
+      {isFetching ? <HighlineListSkeleton /> : null}
     </section>
   );
 }

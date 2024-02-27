@@ -70,8 +70,9 @@ export default function UpdateProfile({
     if (error) throw error;
   }
 
-  const profileMutation = useMutation(updateProfile, {
-    onSuccess: () => {
+  const profileMutation = useMutation({
+    mutationFn: updateProfile,
+    onSuccess(data, variables, context) {
       router.refresh();
     },
     onError: (e) => {
@@ -137,7 +138,7 @@ export default function UpdateProfile({
                 )}
               />
               <DrawerFooter className="p-0">
-                {profileMutation.isLoading ? (
+                {profileMutation.isPending ? (
                   <ButtonLoading />
                 ) : (
                   <>

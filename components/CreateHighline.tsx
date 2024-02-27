@@ -131,8 +131,13 @@ const CreateHighline = () => {
     return data[0].id;
   };
 
-  const { mutate, isLoading, isSuccess } = useMutation(createHighline, {
-    onError: (e: Error) => {
+  const { mutate, isPending, isSuccess } = useMutation<
+    string,
+    Error,
+    FormSchema
+  >({
+    mutationFn: (data) => createHighline(data),
+    onError: (e) => {
       console.log(e.message);
     },
     onSuccess: (data) => {
@@ -301,7 +306,7 @@ const CreateHighline = () => {
                   )}
                 />
                 <DrawerFooter className="p-0">
-                  {isLoading ? (
+                  {isPending ? (
                     <ButtonLoading />
                   ) : (
                     <>

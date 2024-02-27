@@ -21,7 +21,7 @@ function Comments({ highline }: Props) {
   const supabase = useSupabaseBrowser();
   const format = useFormatter();
 
-  const fetchComments = async ({ pageParam = 1 }) => {
+  async function fetchComments({ pageParam = 1 }) {
     const { data } = await supabase
       .from("entry")
       .select("comment, created_at, instagram")
@@ -32,7 +32,7 @@ function Comments({ highline }: Props) {
       .range((pageParam - 1) * PAGE_SIZE, pageParam * PAGE_SIZE - 1);
 
     return data;
-  };
+  }
 
   const {
     data: comments,
@@ -40,17 +40,16 @@ function Comments({ highline }: Props) {
     isError,
     fetchNextPage,
     hasNextPage,
-  } = useInfiniteQuery(
-    ["entry", highline.id, "comments"],
-    ({ pageParam = 1 }) => fetchComments({ pageParam }),
-    {
-      enabled: !!highline.id,
-      getNextPageParam: (lastPage, pages) => {
-        const nextPage = pages.length + 1;
-        return lastPage?.length === PAGE_SIZE ? nextPage : undefined;
-      },
-    }
-  );
+  } = useInfiniteQuery({
+    queryKey: ["entry", highline.id, "comments"],
+    queryFn: ({ pageParam }) => fetchComments({ pageParam }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => {
+      const nextPage = allPages.length + 1;
+      return lastPage?.length === PAGE_SIZE ? nextPage : undefined;
+    },
+    enabled: !!highline.id,
+  });
 
   if (isLoading) {
     // TODO: Create a different loading skeleton for comment section
@@ -63,31 +62,29 @@ function Comments({ highline }: Props) {
 
   return (
     <>
-      {comments.pages.map((page, pageIndex) => (
-        <React.Fragment key={pageIndex}>
-          {page?.map((comment) => (
-            <article
-              key={`comment-${comment.created_at}`}
-              className="bg border-t border-gray-200 py-6 text-base first:border-t-0 dark:border-gray-700"
-            >
-              <footer className="mb-2 flex items-center justify-between">
-                <div className="flex items-end gap-3">
-                  <UsernameLink username={comment.instagram} />
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {format.dateTime(new Date(comment.created_at), {
-                      dateStyle: "medium",
-                      timeStyle: "short",
-                    })}
-                  </p>
-                </div>
-              </footer>
-              <p className="text-gray-500 dark:text-gray-400">
-                {comment.comment}
-              </p>
-            </article>
-          ))}
-        </React.Fragment>
-      ))}
+      {comments?.pages.map((page) =>
+        page?.map((comment) => (
+          <article
+            key={`comment-${comment.created_at}`}
+            className="bg border-t border-gray-200 py-6 text-base first:border-t-0 dark:border-gray-700"
+          >
+            <footer className="mb-2 flex items-center justify-between">
+              <div className="flex items-end gap-3">
+                <UsernameLink username={comment.instagram} />
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  {format.dateTime(new Date(comment.created_at), {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  })}
+                </p>
+              </div>
+            </footer>
+            <p className="text-gray-500 dark:text-gray-400">
+              {comment.comment}
+            </p>
+          </article>
+        ))
+      )}
       {hasNextPage && (
         <SeeMore onClick={() => fetchNextPage()} disabled={isLoading} />
       )}

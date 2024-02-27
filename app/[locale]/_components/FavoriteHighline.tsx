@@ -20,8 +20,8 @@ export function FavoriteHighline({
   const [favorite, setFavorite] = useState(isFavorite);
   const { toggleLoginModal } = useLoginModal();
 
-  const favoriteMutation = useMutation(
-    async () => {
+  const { mutate, isPending } = useMutation({
+    mutationFn: async () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
@@ -44,12 +44,10 @@ export function FavoriteHighline({
         if (error) throw new Error(error.message);
       }
     },
-    {
-      onSuccess: () => {
-        setFavorite((prev) => !prev);
-      },
-    }
-  );
+    onSuccess: () => {
+      setFavorite((prev) => !prev);
+    },
+  });
 
   return (
     <Button
@@ -57,8 +55,8 @@ export function FavoriteHighline({
       size="icon"
       variant="outline"
       type="submit"
-      onClick={() => favoriteMutation.mutate()}
-      disabled={favoriteMutation.isLoading}
+      onClick={() => mutate()}
+      disabled={isPending}
     >
       <HeartIcon
         className={cn(
