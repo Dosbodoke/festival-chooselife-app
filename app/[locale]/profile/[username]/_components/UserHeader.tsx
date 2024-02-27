@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Database } from "@/utils/supabase/database.types";
+import { CalendarFoldIcon, MapPinIcon, UserRoundIcon } from "lucide-react";
 
 interface Props {
   profile: Database["public"]["Tables"]["profiles"]["Row"] | null;
