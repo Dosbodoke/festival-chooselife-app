@@ -34,7 +34,7 @@ export function PromptPwa() {
         lastPromptTime &&
         now.getTime() - lastPromptTime.getTime() < 1 * 60 * 60 * 1000;
 
-      if (isLastPromptTimeWithin1Hour) {
+      if (!isLastPromptTimeWithin1Hour) {
         localStorage.setItem("lastPromptTime", now.toISOString());
       }
       return isLastPromptTimeWithin1Hour;
