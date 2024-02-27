@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Database } from "@/utils/supabase/database.types";
+import { CalendarFoldIcon, MapPinIcon, UserRoundIcon } from "lucide-react";
 
 interface Props {
   profile: Database["public"]["Tables"]["profiles"]["Row"] | null;
@@ -45,9 +46,24 @@ function UserHeader({ profile, username }: Props) {
               className="rounded-full"
             />
           </div>
+
           <div className="mt-4 flex-1">
             <h1 className="flex-1 text-xl font-semibold">{profile.name}</h1>
             <p className="text-muted-foreground">@{username}</p>
+            <ul className="space-y-2">
+              <li className="flex gap-2 text-muted-foreground">
+                <CalendarFoldIcon className="h-4 w-4 text-muted-foreground" />
+                <span>age:</span> 23
+              </li>
+              <li className="flex gap-2 text-muted-foreground">
+                <MapPinIcon className="h-4 w-4 text-muted-foreground" />
+                location: Brasilia
+              </li>
+              <li className="flex gap-2 text-muted-foreground">
+                <UserRoundIcon className="h-4 w-4 text-muted-foreground" />
+                gender: male
+              </li>
+            </ul>
           </div>
         </div>
         <div>

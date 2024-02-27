@@ -1,4 +1,5 @@
 import { ArrowRightIcon } from "@radix-ui/react-icons";
+import { UnfoldHorizontalIcon, UnfoldVerticalIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
@@ -28,12 +29,22 @@ export function Highline({ highline }: Props) {
         <HighlineImage coverImageId={highline.cover_image} />
         <FavoriteHighline id={highline.id} isFavorite={highline.is_favorite} />
       </div>
-      <CardHeader>
+      <CardHeader className="space-y-1 pb-3">
         <CardTitle className="text-xl">{highline.name}</CardTitle>
+        <div className="flex items-baseline gap-2 space-y-2 text-sm text-muted-foreground">
+          <div className="flex gap-2">
+            <UnfoldVerticalIcon className="h-4 w-4" /> {highline.height}m
+          </div>
+          <div className="flex gap-2">
+            <UnfoldHorizontalIcon className="h-4 w-4" /> {highline.lenght}m
+          </div>
+        </div>
       </CardHeader>
       {highline.description ? (
-        <CardContent className="scrollbar mb-6 mr-2 max-h-28 overflow-auto pb-0 pr-4">
-          <p className="text-sm">{highline.description}</p>
+        <CardContent className="scrollbar mb-6 mr-2 max-h-20 overflow-auto pb-0 pr-4">
+          <p className="text-sm text-muted-foreground">
+            {highline.description}
+          </p>
         </CardContent>
       ) : null}
       <CardFooter className="mt-auto">
