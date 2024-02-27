@@ -1,8 +1,15 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { useTransition } from "react";
 
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Select,
   SelectContent,
@@ -25,20 +32,21 @@ export default function LocaleSwitcher() {
   }
 
   return (
-    <Select onValueChange={onSelectChange} defaultValue={locale}>
-      <SelectTrigger aria-label="locale switcher" className="w-[180px]">
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>{t("label")}</SelectLabel>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon">
+          <span className="text-lg">{locale == "pt" ? "🇧🇷" : "🇺🇸"}</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuRadioGroup value={locale} onValueChange={onSelectChange}>
           {(["pt", "en"] as const).map((cur) => (
-            <SelectItem key={cur} value={cur}>
+            <DropdownMenuRadioItem key={cur} value={cur}>
               {cur == "pt" ? "🇧🇷 Português" : "🇺🇸 English"}
-            </SelectItem>
+            </DropdownMenuRadioItem>
           ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
