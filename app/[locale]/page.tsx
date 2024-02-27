@@ -7,7 +7,7 @@ import {
 import { getHighline } from "@/app/actions/getHighline";
 import CreateHighline from "@/components/CreateHighline";
 
-import HighlineList from "./_components/HighlineList";
+import { HighlineList, pageSize } from "./_components/HighlineList";
 import Search from "./_components/search";
 
 export default async function Home({
@@ -21,11 +21,14 @@ export default async function Home({
   const queryClient = new QueryClient();
   await queryClient.prefetchInfiniteQuery({
     queryKey: ["highlines", { searchValue }],
-    queryFn: ({ pageParam }) => getHighline({ pageParam, searchValue }),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
-      lastPage.nextCursor,
-    pages: 3,
+    queryFn: ({ pageParam }) =>
+      getHighline({ pageParam, searchValue, pageSize }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, pages) => {
+      const nextPage = pages.length + 1;
+      return lastPage.data?.length === pageSize ? nextPage : undefined;
+    },
+    pages: 2,
   });
 
   return (

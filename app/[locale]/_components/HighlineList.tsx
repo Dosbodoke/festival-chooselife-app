@@ -9,15 +9,21 @@ import { getHighline } from "@/app/actions/getHighline";
 import { Highline } from "./Highline";
 import { HighlineListSkeleton } from "./HighlineListSkeleton";
 
-export default function HighlineList() {
+export const pageSize = 6;
+
+export function HighlineList() {
   const searchParams = useSearchParams();
   const searchValue = searchParams.get("q") || "";
 
   const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
     queryKey: ["highlines", { searchValue }],
-    queryFn: ({ pageParam }) => getHighline({ pageParam, searchValue }),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    queryFn: ({ pageParam }) =>
+      getHighline({ pageParam, searchValue, pageSize }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, pages) => {
+      const nextPage = pages.length + 1;
+      return lastPage.data?.length === pageSize ? nextPage : undefined;
+    },
   });
 
   const { scrollYProgress } = useScroll();

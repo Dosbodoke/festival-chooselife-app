@@ -5,13 +5,14 @@ import { cookies } from "next/headers";
 
 import { Database } from "@/utils/supabase/database.types";
 
-// export const getHighline = async (offset: number, limit: number) => {
 export const getHighline = async ({
   pageParam,
   searchValue,
+  pageSize,
 }: {
   pageParam: number;
   searchValue: string;
+  pageSize: number;
 }) => {
   const cookieStore = cookies();
   const supabase = createServerClient<Database>(
@@ -32,26 +33,26 @@ export const getHighline = async ({
     }
   );
 
-  let profileId = "";
+  // let profileId = "";
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // const {
+  //   data: { user },
+  // } = await supabase.auth.getUser();
 
-  if (user?.user_metadata["username"]) {
-    const { data } = await supabase
-      .from("profiles")
-      .select("id")
-      .eq("username", user.user_metadata["username"])
-      .single();
-    profileId = data?.id || "";
-  }
+  // if (user?.user_metadata["username"]) {
+  //   const { data } = await supabase
+  //     .from("profiles")
+  //     .select("id")
+  //     .eq("username", user.user_metadata["username"])
+  //     .single();
+  //   profileId = data?.id || "";
+  // }
 
   const { data } = await supabase
     .from("highline")
     .select("*, favorite_highline(profile_id)")
-    .range(pageParam, pageParam + 5)
+    .range((pageParam - 1) * pageSize, pageParam * pageSize - 1)
     .ilike("name", `%${searchValue || ""}%`);
 
-  return { data, nextCursor: pageParam + 5 };
+  return { data };
 };
