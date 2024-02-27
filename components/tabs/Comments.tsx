@@ -21,7 +21,7 @@ function Comments({ highline }: Props) {
   const supabase = useSupabaseBrowser();
   const format = useFormatter();
 
-  async function fetchComments({ pageParam = 1 }) {
+  async function fetchComments({ pageParam }: { pageParam: number }) {
     const { data } = await supabase
       .from("entry")
       .select("comment, created_at, instagram")
@@ -69,12 +69,11 @@ function Comments({ highline }: Props) {
             className="bg border-t border-gray-200 py-6 text-base first:border-t-0 dark:border-gray-700"
           >
             <footer className="mb-2 flex items-center justify-between">
-              <div className="flex items-end gap-3">
+              <div className="flex flex-1 items-center justify-between gap-2">
                 <UsernameLink username={comment.instagram} />
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+                <p className="text-sm text-muted-foreground">
                   {format.dateTime(new Date(comment.created_at), {
                     dateStyle: "medium",
-                    timeStyle: "short",
                   })}
                 </p>
               </div>

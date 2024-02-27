@@ -65,18 +65,17 @@ function Speedline({ highline }: Props) {
             const rankingPosition = pageIndex * PAGE_SIZE + idx + 1; // Calculate ranking
             return (
               <li key={entry.id} className="py-3 sm:py-4">
-                <div className="flex items-center space-x-4">
+                <div className="flex items-start space-x-4">
                   <div className="font-bold">{rankingPosition}</div>
                   <div className="min-w-0 flex-1">
                     <UsernameLink username={entry.instagram} />
-                    <div>
+                    <div className="text-sm text-muted-foreground ">
                       {format.dateTime(new Date(entry.created_at), {
                         dateStyle: "short",
-                        timeStyle: "short",
                       })}
                     </div>
                   </div>
-                  <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                  <div className="text-base font-medium text-gray-900 dark:text-white">
                     {transformSecondsToTimeString(entry.crossing_time)}
                   </div>
                 </div>
