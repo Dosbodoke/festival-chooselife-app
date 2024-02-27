@@ -1,5 +1,7 @@
 import { Suspense } from "react";
 
+import CreateHighline from "@/components/CreateHighline";
+
 import { HighlineList } from "./_components/HighlineList";
 import { HighlineListSkeleton } from "./_components/HighlineListSkeleton";
 import Search from "./_components/search";
@@ -12,8 +14,9 @@ export default async function Home({
   searchParams: { [key: string]: string | undefined };
 }) {
   return (
-    <div className="mx-2 max-w-screen-xl space-y-4 md:mx-auto">
+    <div className="relative mx-2 max-w-screen-xl space-y-4 md:mx-auto">
       <Search />
+      <CreateHighline />
       <Suspense fallback={<HighlineListSkeleton />}>
         <HighlineList searchValue={searchParams["q"] || null} />
       </Suspense>

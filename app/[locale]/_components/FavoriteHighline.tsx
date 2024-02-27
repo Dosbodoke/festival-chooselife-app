@@ -53,7 +53,7 @@ export function FavoriteHighline({
 
   return (
     <Button
-      className="absolute right-2 top-2"
+      className="absolute right-2 top-2 z-10"
       size="icon"
       variant="outline"
       type="submit"
