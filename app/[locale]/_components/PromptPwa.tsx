@@ -23,25 +23,7 @@ export function PromptPwa() {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    const isIos = /iphone|ipad|ipod/.test(
-      window.navigator.userAgent.toLowerCase()
-    );
-    const sessionIsPwa = window.matchMedia(
-      "(display-mode: standalone)"
-    ).matches;
-
-    if (isIos && !sessionIsPwa) {
-      setShowModal(true);
-    }
-
-    function handleDownloadPwa(deferredPrompt: Event) {
-      if (!deferredPrompt) return;
-      // @ts-ignore
-      deferredPrompt.prompt();
-    }
-
-    const beforeInstallPrompt = (e: Event) => {
-      e.preventDefault();
+    function isLastPromptTimeWithin1Hour() {
       const now = new Date();
       const storedLastPromptTime = localStorage.getItem("lastPromptTime");
       const lastPromptTime = storedLastPromptTime
@@ -51,9 +33,35 @@ export function PromptPwa() {
       const isLastPromptTimeWithin1Hour =
         lastPromptTime &&
         now.getTime() - lastPromptTime.getTime() < 1 * 60 * 60 * 1000;
+
+      if (isLastPromptTimeWithin1Hour) {
+        localStorage.setItem("lastPromptTime", now.toISOString());
+      }
+      return isLastPromptTimeWithin1Hour;
+    }
+
+    function handleDownloadPwa(deferredPrompt: Event) {
+      if (!deferredPrompt) return;
+      // @ts-ignore
+      deferredPrompt.prompt();
+    }
+
+    const isIos =
+      // @ts-ignore
+      /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const sessionIsPwa = window.matchMedia(
+      "(display-mode: standalone)"
+    ).matches;
+
+    if (isIos && !sessionIsPwa && !isLastPromptTimeWithin1Hour()) {
+      setShowModal(true);
+    }
+
+    const beforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+
       // Check if session is PWA or last prompt time was less than or equal to 1 hours ago
-      if (sessionIsPwa || isLastPromptTimeWithin1Hour) return;
-      localStorage.setItem("lastPromptTime", now.toISOString());
+      if (sessionIsPwa || isLastPromptTimeWithin1Hour()) return;
       toast(`🎉 ${t("title")}`, {
         description: t("description"),
         action: {
