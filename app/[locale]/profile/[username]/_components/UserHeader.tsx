@@ -1,9 +1,9 @@
+import { CalendarFoldIcon, MapPinIcon, UserRoundIcon } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Database } from "@/utils/supabase/database.types";
-import { CalendarFoldIcon, MapPinIcon, UserRoundIcon } from "lucide-react";
 
 interface Props {
   profile: Database["public"]["Tables"]["profiles"]["Row"] | null;
@@ -12,6 +12,26 @@ interface Props {
 
 function UserHeader({ profile, username }: Props) {
   const t = useTranslations("profile.header");
+
+  function calculateAge(birthday: string) {
+    const birthdate = new Date(birthday);
+    const today = new Date();
+
+    // Get the difference between today and the user's birthdate
+    let age = today.getFullYear() - birthdate.getFullYear();
+
+    // Check if the current month is before the user's birth month,
+    // or if it is their birth month but today is earlier than their actual birthday
+    if (
+      today.getMonth() < birthdate.getMonth() ||
+      (today.getMonth() == birthdate.getMonth() &&
+        today.getDate() < birthdate.getDate())
+    ) {
+      age--;
+    }
+
+    return age;
+  }
 
   if (!profile) {
     return (
@@ -51,18 +71,20 @@ function UserHeader({ profile, username }: Props) {
             <h1 className="flex-1 text-xl font-semibold">{profile.name}</h1>
             <p className="text-muted-foreground">@{username}</p>
             <ul className="space-y-2">
-              <li className="flex gap-2 text-muted-foreground">
-                <CalendarFoldIcon className="h-4 w-4 text-muted-foreground" />
-                <span>age:</span> 23
-              </li>
-              <li className="flex gap-2 text-muted-foreground">
+              {profile.birthday ? (
+                <li className="flex items-center gap-2 text-muted-foreground">
+                  <CalendarFoldIcon className="h-4 w-4 text-muted-foreground" />
+                  <span>age:</span> {calculateAge(profile.birthday)}
+                </li>
+              ) : null}
+              {/* <li className="flex gap-2 text-muted-foreground">
                 <MapPinIcon className="h-4 w-4 text-muted-foreground" />
                 location: Brasilia
               </li>
               <li className="flex gap-2 text-muted-foreground">
                 <UserRoundIcon className="h-4 w-4 text-muted-foreground" />
                 gender: male
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
