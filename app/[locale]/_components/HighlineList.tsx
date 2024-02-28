@@ -3,6 +3,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import { getHighline } from "@/app/actions/getHighline";
 
@@ -12,6 +13,7 @@ import { HighlineListSkeleton } from "./HighlineListSkeleton";
 const PAGE_SIZE = 6;
 
 export function HighlineList() {
+  const t = useTranslations("home");
   const searchParams = useSearchParams();
   const searchValue = searchParams.get("q") || "";
 
