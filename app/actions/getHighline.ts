@@ -33,20 +33,9 @@ export const getHighline = async ({
     }
   );
 
-  // let profileId = "";
-
-  // const {
-  //   data: { user },
-  // } = await supabase.auth.getUser();
-
-  // if (user?.user_metadata["username"]) {
-  //   const { data } = await supabase
-  //     .from("profiles")
-  //     .select("id")
-  //     .eq("username", user.user_metadata["username"])
-  //     .single();
-  //   profileId = data?.id || "";
-  // }
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const { data } = await supabase
     .from("highline")
@@ -54,5 +43,12 @@ export const getHighline = async ({
     .range((pageParam - 1) * pageSize, pageParam * pageSize - 1)
     .ilike("name", `%${searchValue || ""}%`);
 
-  return { data };
+  return {
+    data: data?.map((high) => ({
+      ...high,
+      is_favorite: !!high.favorite_highline.find(
+        (fav) => fav.profile_id === user?.id
+      ),
+    })),
+  };
 };
