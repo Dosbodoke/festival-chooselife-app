@@ -1051,18 +1051,29 @@
   dependencies:
     tslib "^2.4.0"
 
-"@tanstack/query-core@4.32.0":
-  version "4.32.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.32.0.tgz#e0f4a830283612430450c13badd353766423f523"
-  integrity sha512-ei4IYwL2kmlKSlCw9WgvV7PpXi0MiswVwfQRxawhJA690zWO3dU49igaQ/UMTl+Jy9jj9dK5IKAYvbX7kUvviQ==
+"@tanstack/query-core@5.24.1":
+  version "5.24.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.24.1.tgz#d40928dec22b47df97fb2648e8c499772e8d7eb2"
+  integrity sha512-DZ6Nx9p7BhjkG50ayJ+MKPgff+lMeol7QYXkvuU5jr2ryW/4ok5eanaS9W5eooA4xN0A/GPHdLGOZGzArgf5Cg==
 
-"@tanstack/react-query@^4.29.7":
-  version "4.32.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.32.0.tgz#701b45b149cfd4b54a68705f9100973db3ba5d5d"
-  integrity sha512-B8WUMcByYAH9500ENejDCATOmEZhqjtS9wsfiQ3BNa+s+yAynY8SESI8WWHhSqUmjd0pmCSFRP6BOUGSda3QXA==
+"@tanstack/query-devtools@5.24.0":
+  version "5.24.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-devtools/-/query-devtools-5.24.0.tgz#b9b7828d42d5034415b1973ff4a154e880b17d59"
+  integrity sha512-pThim455t69zrZaQKa7IRkEIK8UBTS+gHVAdNfhO72Xh4rWpMc63ovRje5/n6iw63+d6QiJzVadsJVdPoodSeQ==
+
+"@tanstack/react-query-devtools@^5.24.1":
+  version "5.24.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.24.1.tgz#e3a8ea71115fb899119126e1507fc340ee9d9496"
+  integrity sha512-qa4SEugN+EF8JJXcpsM9Lu05HfUv5cvHvLuB0uw/81eJZyNHFdtHFBi5RLCgpBrOyVMDfH8UQ3VBMqXzFKV68A==
   dependencies:
-    "@tanstack/query-core" "4.32.0"
-    use-sync-external-store "^1.2.0"
+    "@tanstack/query-devtools" "5.24.0"
+
+"@tanstack/react-query@^5.24.1":
+  version "5.24.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.24.1.tgz#bcb913febe0d813cec1fda7783298d07aa998b20"
+  integrity sha512-4+09JEdO4d6+Gc8Y/g2M/MuxDK5IY0QV8+2wL2304wPKJgJ54cBbULd3nciJ5uvh/as8rrxx6s0mtIwpRuGd1g==
+  dependencies:
+    "@tanstack/query-core" "5.24.1"
 
 "@types/cookie@^0.4.1":
   version "0.4.1"
@@ -3257,6 +3268,11 @@ lru-cache@^6.0.0:
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-10.1.0.tgz#2098d41c2dc56500e6c88584aa656c84de7d0484"
   integrity sha512-/1clY/ui8CzjKFyjdvwPWJUYKiFVXG2I2cY0ssG7h4+hwk+XOIX7ZSG9Q7TW8TW3Kp3BUSqgFWBLgL4PJ+Blag==
 
+lucide-react@^0.340.0:
+  version "0.340.0"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.340.0.tgz#67a6fac6a5e257f2036dffae0dd94d6ccb28ce8e"
+  integrity sha512-mWzYhbyy2d+qKuKHh+GWElPwa+kIquTnKbmSLGWOuZy+bjfZCkYD8DQWVFlqI4mQwc4HNxcqcOvtQ7ZS2PwURg==
+
 merge-stream@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/merge-stream/-/merge-stream-2.0.0.tgz#52823629a14dd00c9770fb6ad47dc6310f2c1f60"
@@ -4613,11 +4629,6 @@ use-sidecar@^1.1.2:
   dependencies:
     detect-node-es "^1.1.0"
     tslib "^2.0.0"
-
-use-sync-external-store@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
-  integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
 
 utf-8-validate@^5.0.2:
   version "5.0.10"

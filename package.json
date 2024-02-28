@@ -24,7 +24,7 @@
     "@serwist/sw": "^8.4.4",
     "@supabase/ssr": "^0.0.10",
     "@supabase/supabase-js": "^2.22.0",
-    "@tanstack/react-query": "^4.29.7",
+    "@tanstack/react-query": "^5.24.1",
     "@vercel/analytics": "^1.0.1",
     "autoprefixer": "10.4.14",
     "class-variance-authority": "^0.7.0",
@@ -34,6 +34,7 @@
     "eslint-config-next": "^14.1.0",
     "framer-motion": "^10.12.12",
     "geist": "^1.2.2",
+    "lucide-react": "^0.340.0",
     "next": "^14.1.0",
     "next-intl": "^3.5.0",
     "next-recompose-plugins": "^2.0.2",
@@ -50,6 +51,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@tanstack/react-query-devtools": "^5.24.1",
     "@types/node": "^20.8.4",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",

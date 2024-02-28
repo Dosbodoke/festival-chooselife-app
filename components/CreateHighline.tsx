@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { PlusIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -130,8 +131,13 @@ const CreateHighline = () => {
     return data[0].id;
   };
 
-  const { mutate, isLoading, isSuccess } = useMutation(createHighline, {
-    onError: (e: Error) => {
+  const { mutate, isPending, isSuccess } = useMutation<
+    string,
+    Error,
+    FormSchema
+  >({
+    mutationFn: (data) => createHighline(data),
+    onError: (e) => {
       console.log(e.message);
     },
     onSuccess: (data) => {
@@ -150,12 +156,17 @@ const CreateHighline = () => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button variant="outline">{t("trigger")}</Button>
+        <button className="fixed bottom-3 right-6 z-50 p-[3px]">
+          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500" />
+          <div className="group relative rounded-full bg-black p-2 text-white transition duration-200 hover:bg-transparent">
+            <PlusIcon />
+          </div>
+        </button>
       </DrawerTrigger>
 
       {isSuccess ? (
         <DrawerContent className="h-fit">
-          <DrawerHeader>
+          <DrawerHeader className="px-0">
             <DrawerTitle>{t("success.header")}</DrawerTitle>
             <span className="block text-center"> 🆑 🆑 🆑 🆑 🆑</span>
             <DrawerDescription>{t("success.message")}</DrawerDescription>
@@ -170,7 +181,7 @@ const CreateHighline = () => {
       ) : (
         <DrawerContent>
           <div className="scrollbar mx-auto flex w-full max-w-md flex-col overflow-auto rounded-t-[10px] p-4">
-            <DrawerHeader>
+            <DrawerHeader className="px-0">
               <DrawerTitle>{t("title")}</DrawerTitle>
               <DrawerDescription>{t("description")}</DrawerDescription>
             </DrawerHeader>
@@ -295,7 +306,7 @@ const CreateHighline = () => {
                   )}
                 />
                 <DrawerFooter className="p-0">
-                  {isLoading ? (
+                  {isPending ? (
                     <ButtonLoading />
                   ) : (
                     <>

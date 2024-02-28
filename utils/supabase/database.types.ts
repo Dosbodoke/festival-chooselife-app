@@ -1,5 +1,7 @@
 // Command used to generate the types
-// npx supabase gen types typescript --local --schema storage,public,functions > utils/database.types.ts
+// npx supabase gen types typescript --local --schema storage,public,functions > utils/supabase/database.types.ts
+
+export type Tables = Database["public"]["Tables"];
 
 export type Json =
   | string
@@ -57,6 +59,40 @@ export interface Database {
             foreignKeyName: "entry_highline_id_fkey";
             columns: ["highline_id"];
             referencedRelation: "highline";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      favorite_highline: {
+        Row: {
+          created_at: string;
+          highline_id: string;
+          id: string;
+          profile_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          highline_id: string;
+          id?: string;
+          profile_id: string;
+        };
+        Update: {
+          created_at?: string;
+          highline_id?: string;
+          id?: string;
+          profile_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "favorite_highline_highline_id_fkey";
+            columns: ["highline_id"];
+            referencedRelation: "highline";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "favorite_highline_profile_id_fkey";
+            columns: ["profile_id"];
+            referencedRelation: "profiles";
             referencedColumns: ["id"];
           }
         ];
@@ -232,6 +268,7 @@ export interface Database {
           id: string;
           name: string;
           owner: string | null;
+          owner_id: string | null;
           public: boolean | null;
           updated_at: string | null;
         };
@@ -243,6 +280,7 @@ export interface Database {
           id: string;
           name: string;
           owner?: string | null;
+          owner_id?: string | null;
           public?: boolean | null;
           updated_at?: string | null;
         };
@@ -254,17 +292,11 @@ export interface Database {
           id?: string;
           name?: string;
           owner?: string | null;
+          owner_id?: string | null;
           public?: boolean | null;
           updated_at?: string | null;
         };
-        Relationships: [
-          {
-            foreignKeyName: "buckets_owner_fkey";
-            columns: ["owner"];
-            referencedRelation: "users";
-            referencedColumns: ["id"];
-          }
-        ];
+        Relationships: [];
       };
       migrations: {
         Row: {
@@ -296,6 +328,7 @@ export interface Database {
           metadata: Json | null;
           name: string | null;
           owner: string | null;
+          owner_id: string | null;
           path_tokens: string[] | null;
           updated_at: string | null;
           version: string | null;
@@ -308,6 +341,7 @@ export interface Database {
           metadata?: Json | null;
           name?: string | null;
           owner?: string | null;
+          owner_id?: string | null;
           path_tokens?: string[] | null;
           updated_at?: string | null;
           version?: string | null;
@@ -320,6 +354,7 @@ export interface Database {
           metadata?: Json | null;
           name?: string | null;
           owner?: string | null;
+          owner_id?: string | null;
           path_tokens?: string[] | null;
           updated_at?: string | null;
           version?: string | null;
@@ -401,5 +436,3 @@ export interface Database {
     };
   };
 }
-
-export type Tables = Database["public"]["Tables"];

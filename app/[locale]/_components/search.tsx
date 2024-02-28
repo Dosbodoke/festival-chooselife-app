@@ -1,10 +1,9 @@
 "use client";
 
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { SearchIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
-import CreateHighline from "@/components/CreateHighline";
 import { useRouter } from "@/navigation";
 import { createUrl } from "@/utils/helperFunctions";
 
@@ -28,7 +27,7 @@ export default function Search() {
 
   return (
     <div className="mx-auto flex w-full items-center rounded-lg border border-gray-300 bg-white p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:w-3/5">
-      <MagnifyingGlassIcon className="h-6 w-6" />
+      <SearchIcon className="h-5 w-5 text-muted-foreground" />
 
       <form onSubmit={onSubmit} className="flex-1">
         <input
@@ -41,7 +40,6 @@ export default function Search() {
           className="w-full bg-transparent pl-2 text-base text-gray-900 dark:text-white  dark:placeholder-gray-400"
         />
       </form>
-      <CreateHighline />
     </div>
   );
 }

@@ -16,9 +16,9 @@ export default async function NavBar() {
   } = await supabase.auth.getUser();
 
   return (
-    <nav className="flex w-full items-center justify-between gap-4 p-2 pb-4">
-      <LocaleSwitcher />
+    <nav className="flex w-full items-center justify-end gap-4 p-2 pb-4">
       <div className="flex items-center gap-1">
+        <LocaleSwitcher />
         <ThemeModeToggler />
         {user ? <ProfileMenu user={user} /> : <SignUp />}
       </div>

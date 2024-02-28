@@ -1,8 +1,15 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { useTransition } from "react";
 
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Select,
   SelectContent,
@@ -16,32 +23,30 @@ import { usePathname, useRouter } from "@/navigation";
 
 export default function LocaleSwitcher() {
   const t = useTranslations("LocaleSwitcher");
-  const [isPending, startTransition] = useTransition();
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
 
   function onSelectChange(value: string) {
-    startTransition(() => {
-      router.replace(pathname, { locale: value });
-    });
+    router.replace(pathname, { locale: value });
   }
 
   return (
-    <Select onValueChange={onSelectChange} defaultValue={locale}>
-      <SelectTrigger className="w-[180px]">
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>{t("label")}</SelectLabel>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon">
+          <span className="text-lg">{locale == "pt" ? "🇧🇷" : "🇺🇸"}</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuRadioGroup value={locale} onValueChange={onSelectChange}>
           {(["pt", "en"] as const).map((cur) => (
-            <SelectItem key={cur} value={cur}>
+            <DropdownMenuRadioItem key={cur} value={cur}>
               {cur == "pt" ? "🇧🇷 Português" : "🇺🇸 English"}
-            </SelectItem>
+            </DropdownMenuRadioItem>
           ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

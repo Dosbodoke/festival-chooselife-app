@@ -130,7 +130,7 @@
       "empty": "Este usuário ainda não registrou nenhum rolê"
     }
   },
-  "signUp": {
+  "login": {
     "trigger": "Entrar",
     "initial": {
       "title": "Criar ou entrar na sua conta ✨",

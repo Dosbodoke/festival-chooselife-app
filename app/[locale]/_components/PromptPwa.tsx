@@ -23,15 +23,21 @@ export function PromptPwa() {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    const isIos = /iphone|ipad|ipod/.test(
-      window.navigator.userAgent.toLowerCase()
-    );
-    const sessionIsPwa = window.matchMedia(
-      "(display-mode: standalone)"
-    ).matches;
+    function isLastPromptTimeWithin1Hour() {
+      const now = new Date();
+      const storedLastPromptTime = localStorage.getItem("lastPromptTime");
+      const lastPromptTime = storedLastPromptTime
+        ? new Date(storedLastPromptTime)
+        : null;
 
-    if (isIos && !sessionIsPwa) {
-      setShowModal(true);
+      const isLastPromptTimeWithin1Hour =
+        lastPromptTime &&
+        now.getTime() - lastPromptTime.getTime() < 1 * 60 * 60 * 1000;
+
+      if (!isLastPromptTimeWithin1Hour) {
+        localStorage.setItem("lastPromptTime", now.toISOString());
+      }
+      return isLastPromptTimeWithin1Hour;
     }
 
     function handleDownloadPwa(deferredPrompt: Event) {
@@ -40,9 +46,22 @@ export function PromptPwa() {
       deferredPrompt.prompt();
     }
 
+    const isIos =
+      // @ts-ignore
+      /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const sessionIsPwa = window.matchMedia(
+      "(display-mode: standalone)"
+    ).matches;
+
+    if (isIos && !sessionIsPwa && !isLastPromptTimeWithin1Hour()) {
+      setShowModal(true);
+    }
+
     const beforeInstallPrompt = (e: Event) => {
       e.preventDefault();
-      if (sessionIsPwa) return;
+
+      // Check if session is PWA or last prompt time was less than or equal to 1 hours ago
+      if (sessionIsPwa || isLastPromptTimeWithin1Hour()) return;
       toast(`🎉 ${t("title")}`, {
         description: t("description"),
         action: {

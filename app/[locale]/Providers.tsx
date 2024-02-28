@@ -1,10 +1,12 @@
 "use client";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { type AbstractIntlMessages, NextIntlClientProvider } from "next-intl";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
+import { useState } from "react";
 
-import { ReactQueryProvider } from "@/components/ReactQueryProvider";
 import { Toaster } from "@/components/ui/sonner";
 
 interface Props {
@@ -13,8 +15,22 @@ interface Props {
   children: ReactNode;
 }
 function Providers({ locale, messages, children }: Props) {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 5 * 1000,
+            refetchOnWindowFocus: false,
+            refetchOnReconnect: false,
+            retry: 2,
+          },
+        },
+      })
+  );
+
   return (
-    <ReactQueryProvider>
+    <QueryClientProvider client={queryClient}>
       <NextIntlClientProvider
         locale={locale}
         messages={messages}
@@ -25,7 +41,8 @@ function Providers({ locale, messages, children }: Props) {
           {children}
         </ThemeProvider>
       </NextIntlClientProvider>
-    </ReactQueryProvider>
+      <ReactQueryDevtools />
+    </QueryClientProvider>
   );
 }
 

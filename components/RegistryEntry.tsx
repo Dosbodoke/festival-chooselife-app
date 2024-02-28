@@ -128,15 +128,13 @@ export const RegistryEntry = ({ highlineId, highlineDistance }: Props) => {
     return response.data;
   };
 
-  const formMutation = useMutation(createRecord, {
-    onError: (e) => {
-      console.log("Error");
-      console.log(e);
-    },
-    onSuccess: (data) => {
-      console.log({ data });
-      console.log("Success");
+  const formMutation = useMutation({
+    mutationFn: createRecord,
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["entry"] });
+    },
+    onError: (e) => {
+      console.error(e.message);
     },
   });
 
@@ -329,7 +327,7 @@ export const RegistryEntry = ({ highlineId, highlineDistance }: Props) => {
                     )}
                   />
                   <DrawerFooter className="p-0">
-                    {formMutation.isLoading ? (
+                    {formMutation.isPending ? (
                       <ButtonLoading />
                     ) : (
                       <>
