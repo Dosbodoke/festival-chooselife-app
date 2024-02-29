@@ -2,6 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { type AbstractIntlMessages, NextIntlClientProvider } from "next-intl";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
@@ -38,6 +39,7 @@ function Providers({ locale, messages, children }: Props) {
       >
         <ThemeProvider attribute="class" defaultTheme="system">
           <Toaster />
+          <SpeedInsights />
           {children}
         </ThemeProvider>
       </NextIntlClientProvider>
