@@ -1,38 +1,15 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { useCallback } from "react";
-
 import { ListIcon, MapIcon } from "@/assets";
-import { usePathname, useRouter } from "@/navigation";
+import { useQueryString } from "@/hooks/useQueryString";
 
 function MapToggle({ mapIsOpen }: { mapIsOpen: boolean }) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  // Get a new searchParams string by merging the current
-  // searchParams with a provided key/value pair
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
-
-      return params.toString();
-    },
-    [searchParams]
-  );
+  const { pushQueryParam, searchParams } = useQueryString();
 
   return (
-    <div className="fixed bottom-0 mb-6 flex w-full justify-center">
+    <div className="fixed bottom-3 left-1/2 z-50 flex w-fit -translate-x-1/2   justify-center">
       <button
-        onClick={() =>
-          router.push(
-            pathname +
-              "?" +
-              createQueryString("map", mapIsOpen ? "false" : "true")
-          )
-        }
+        onClick={() => pushQueryParam("view", mapIsOpen ? "list" : "map")}
         className="flex items-center gap-2 rounded-3xl bg-black px-5 py-3 text-white"
       >
         <p>{mapIsOpen ? "Lista" : "Mapa"}</p>

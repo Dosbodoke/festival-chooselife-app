@@ -1,3 +1,4 @@
+import L, { type LatLng } from "leaflet";
 import { ReadonlyURLSearchParams } from "next/navigation";
 
 import type { Point } from "./supabase/database.types";
@@ -32,3 +33,42 @@ export const createUrl = (
 export const postgisPointFromLatLng = (lat: number, lng: number): Point => {
   return `POINT(${lng} ${lat})`;
 };
+
+export function encodeLocation(anchorA: LatLng, anchorB: LatLng) {
+  return `a_${anchorA.lat},${anchorA.lng}b_${anchorB.lat},${anchorB.lng}`;
+}
+
+export function getDistance({
+  anchorA,
+  anchorB,
+}: {
+  anchorA: LatLng;
+  anchorB: LatLng;
+}) {
+  return Math.round(anchorA.distanceTo(anchorB));
+}
+
+export function decodeLocation(location: string): {
+  anchorA: LatLng;
+  anchorB: LatLng;
+} {
+  const regex =
+    /a_([-+]?\d*\.?\d+),([-+]?\d*\.?\d+)b_([-+]?\d*\.?\d+),([-+]?\d*\.?\d+)/;
+  const match = location.match(regex);
+
+  if (match) {
+    const anchorA = L.latLng(parseFloat(match[1]), parseFloat(match[2]));
+    const anchorB = L.latLng(parseFloat(match[3]), parseFloat(match[4]));
+
+    return { anchorA, anchorB };
+  } else {
+    throw new Error("Invalid location format");
+  }
+}
+
+export function locationToPostGISPoint(location: {
+  lat: number;
+  lng: number;
+}): `POINT(${number} ${number})` {
+  return `POINT(${location.lng} ${location.lat})`;
+}

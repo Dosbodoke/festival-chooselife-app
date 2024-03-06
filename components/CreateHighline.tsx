@@ -2,9 +2,10 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import type { LatLng } from "leaflet";
 import { PlusIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
@@ -21,7 +22,13 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { useQueryString } from "@/hooks/useQueryString";
 import { Link } from "@/navigation";
+import {
+  decodeLocation,
+  getDistance,
+  locationToPostGISPoint,
+} from "@/utils/helperFunctions";
 import useSupabaseBrowser from "@/utils/supabase/client";
 import {
   ACCEPTED_IMAGE_TYPES,
@@ -69,7 +76,40 @@ const formSchema = z.object({
 
 type FormSchema = z.infer<typeof formSchema>;
 
-const CreateHighline = () => {
+const CreateHighline = ({
+  mapIsOpen,
+  location,
+}: {
+  mapIsOpen: boolean;
+  location: string | null;
+}) => {
+  const { pushQueryParam, deleteQueryParam } = useQueryString();
+  const [open, setOpen] = useState(false);
+
+  function handleToggleDrawer(open: boolean) {
+    // If user is on map, set location query parameter to picking so he can set the anchors
+    if (mapIsOpen && !location) {
+      pushQueryParam("location", "picking");
+      return;
+    }
+    // If user is picking location don't open the Drawer
+    if (location === "picking") return;
+    // If there is a location setted and he is closing the drawer, reset the location
+    if (open === false && location) {
+      deleteQueryParam("location");
+    }
+    setOpen(open);
+  }
+
+  useEffect(
+    function openOnFinishPickingLocation() {
+      if (location && location !== "picking") {
+        setOpen(true);
+      }
+    },
+    [location]
+  );
+
   const supabase = useSupabaseBrowser();
 
   const t = useTranslations("home.newHighline");
@@ -98,6 +138,18 @@ const CreateHighline = () => {
     description,
     image,
   }: FormSchema) => {
+    // Get the anchors location if exists
+    let anchors: {
+      anchorA: LatLng;
+      anchorB: LatLng;
+    } | null = null;
+    try {
+      anchors = decodeLocation(location || "");
+    } catch (e) {
+      console.log(e);
+    }
+
+    // Upload the image
     let imageID: string | null = null;
     if (image && image.length > 0) {
       const file = image[0];
@@ -111,6 +163,7 @@ const CreateHighline = () => {
         .upload(imageID, blob);
       if (error) throw new Error("Couldn't upload the image");
     }
+
     const { data, error } = await supabase
       .from("highline")
       .insert([
@@ -122,10 +175,16 @@ const CreateHighline = () => {
           backup_webbing,
           description,
           cover_image: imageID,
+          anchor_a: anchors?.anchorA
+            ? locationToPostGISPoint(anchors.anchorA)
+            : null,
+          anchor_b: anchors?.anchorB
+            ? locationToPostGISPoint(anchors.anchorB)
+            : null,
         },
       ])
       .select();
-    if (!data || data.length !== 1) {
+    if (error || !data || data.length !== 1) {
       throw new Error("Error when creating the highline");
     }
     return data[0].id;
@@ -153,15 +212,32 @@ const CreateHighline = () => {
     console.log("Invalid form");
   };
 
+  useEffect(
+    function setDistanceFromLocation() {
+      if (!location || location === "picking") return;
+
+      try {
+        const { anchorA, anchorB } = decodeLocation(location);
+        highlineForm.setValue("lenght", getDistance({ anchorA, anchorB }));
+      } catch (e) {
+        if (e instanceof Error) console.error(e.message);
+        return;
+      }
+    },
+    [location, highlineForm]
+  );
+
   return (
-    <Drawer>
+    <Drawer open={open} onOpenChange={(o) => handleToggleDrawer(o)}>
       <DrawerTrigger asChild>
-        <button className="fixed bottom-3 right-6 z-50 p-[3px]">
-          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500" />
-          <div className="group relative rounded-full bg-black p-2 text-white transition duration-200 hover:bg-transparent">
-            <PlusIcon />
-          </div>
-        </button>
+        {location !== "picking" ? (
+          <button className="fixed bottom-3 right-6 z-50 p-[3px]">
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500" />
+            <div className="group relative rounded-full bg-black p-2 text-white transition duration-200 hover:bg-transparent">
+              <PlusIcon />
+            </div>
+          </button>
+        ) : null}
       </DrawerTrigger>
 
       {isSuccess ? (

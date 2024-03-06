@@ -7,14 +7,16 @@ import "./leaflet-reset.css";
 
 import { useQuery } from "@tanstack/react-query";
 import type { Map } from "leaflet";
+import { SearchIcon } from "lucide-react";
 import React, { FC, useRef, useState } from "react";
-import { LayerGroup, MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer } from "react-leaflet";
 
-import { SearchSvg } from "@/assets";
 import useSupabaseBrowser from "@/utils/supabase/client";
 
+import MapControls from "./Controls";
 import Highlines from "./Highlines";
-import LocationMarker from "./LocationMarker";
+import { LocationPicker } from "./LocationPicker";
+import { UserLocationMarker } from "./UserLocationMarker";
 
 type ViewBounds = {
   max_lat: number;
@@ -23,7 +25,10 @@ type ViewBounds = {
   min_long: number;
 };
 
-const MapComponent: FC<{ locale: string }> = ({ locale }) => {
+const MapComponent: FC<{ locale: string; isPickingLocation: boolean }> = ({
+  locale,
+  isPickingLocation,
+}) => {
   const supabase = useSupabaseBrowser();
 
   const mapRef = useRef<Map | null>(null);
@@ -39,7 +44,7 @@ const MapComponent: FC<{ locale: string }> = ({ locale }) => {
     queryFn: async () => {
       if (!bounds) return [];
       const { data, error } = await supabase.rpc("highlines_in_view", bounds);
-      if (error) throw new Error("");
+      if (error) throw new Error(error.message);
       setCanRefetch(false);
       return data;
     },
@@ -51,52 +56,41 @@ const MapComponent: FC<{ locale: string }> = ({ locale }) => {
       id="leaflet-container"
       style={{ height: "100dvh" }}
     >
-      <button
-        className="absolute left-1/2 top-12 flex -translate-x-1/2 items-center gap-2 rounded-3xl bg-white px-3 py-2 text-sm text-black shadow-lg aria-hidden:hidden"
-        style={{ zIndex: 1000 }}
-        aria-hidden={!canRefetch}
-        onClick={() => {
-          refetch();
-        }}
-      >
-        <p className="font-medium">
-          {isFetching ? "Pesquisando..." : "Pesquisar nesta área"}
-        </p>
-        <div className="h-5 w-5">
-          <SearchSvg className="h-full w-full text-blue-500" />
-        </div>
-      </button>
       <MapContainer
         center={[-15.7783994, -47.9308375]}
         zoom={12}
+        maxZoom={20}
+        zoomControl={false}
         ref={mapRef}
         className="h-full w-full"
       >
-        {/* <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        /> */}
-        {/* <TileLayer
-          attribution="Google Maps"
-          url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}"
-          maxZoom={20}
-          subdomains={["mt0", "mt1", "mt2", "mt3"]}
-        /> */}
-        <LayerGroup>
-          <TileLayer
-            attribution="Google Maps Satellite"
-            url={`https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}&hl=${locale}`}
-          />
-          <TileLayer
-            url={`https://www.google.cn/maps/vt?lyrs=y@189&gl=cn&x={x}&y={y}&z={z}&hl=${locale}`}
-          />
-        </LayerGroup>
-        <Highlines
-          setCanRefetch={setCanRefetch}
-          setBounds={setBounds}
-          points={points}
-        />
-        <LocationMarker />
+        {isPickingLocation ? null : (
+          <>
+            <Highlines
+              setCanRefetch={setCanRefetch}
+              setBounds={setBounds}
+              points={points}
+            />
+            <button
+              className="absolute left-1/2 top-12 z-[1000] flex -translate-x-1/2 items-center gap-2 rounded-3xl bg-white px-3 py-2 text-sm text-black shadow-lg aria-hidden:hidden"
+              aria-hidden={!canRefetch}
+              onClick={() => {
+                refetch();
+              }}
+            >
+              <p className="font-medium">
+                {isFetching ? "Pesquisando..." : "Pesquisar nesta área"}
+              </p>
+              <div className="h-5 w-5">
+                <SearchIcon className="h-full w-full text-blue-500" />
+              </div>
+            </button>
+          </>
+        )}
+        <UserLocationMarker />
+        {isPickingLocation ? <LocationPicker /> : null}
+
+        <MapControls locale={locale} />
       </MapContainer>
     </div>
   );

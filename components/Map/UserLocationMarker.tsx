@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import { Marker, useMap } from "react-leaflet";
 
-export default function LocationMarker() {
+export function UserLocationMarker() {
   const [position, setPosition] = useState<LatLng | null>(null);
 
   const map = useMap();

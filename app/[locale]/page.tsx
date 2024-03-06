@@ -1,51 +1,15 @@
-<<<<<<< HEAD
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
+import dynamic from "next/dynamic";
 
 import { getHighline } from "@/app/actions/getHighline";
 import CreateHighline from "@/components/CreateHighline";
-
-import { HighlineList, pageSize } from "./_components/HighlineList";
-import Search from "./_components/search";
-
-export default async function Home({
-  params: { locale },
-  searchParams,
-}: {
-  params: { locale: "en" | "pt" };
-  searchParams: { [key: string]: string | undefined };
-}) {
-  const searchValue = searchParams["q"] || "";
-  const queryClient = new QueryClient();
-  await queryClient.prefetchInfiniteQuery({
-    queryKey: ["highlines", { searchValue }],
-    queryFn: ({ pageParam }) =>
-      getHighline({ pageParam, searchValue, pageSize }),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, pages) => {
-      const nextPage = pages.length + 1;
-      return lastPage.data?.length === pageSize ? nextPage : undefined;
-    },
-    pages: 2,
-  });
-
-  return (
-    <div className="relative mx-2 max-w-screen-xl space-y-4 md:mx-auto">
-      <Search />
-      <CreateHighline />
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <HighlineList />
-      </HydrationBoundary>
-=======
-import dynamic from "next/dynamic";
-import { Suspense } from "react";
-
 import MapToggle from "@/components/Map/MapToggle";
 
-import { HighlineList, HighlineListSkeleton } from "./_components/HighlineList";
+import { HighlineList, pageSize } from "./_components/HighlineList";
 import Search from "./_components/search";
 
 const Map = dynamic(() => import("@/components/Map/Map"), {
@@ -72,28 +36,44 @@ const Map = dynamic(() => import("@/components/Map/Map"), {
   ),
 });
 
-type Props = {
-  params: { locale: string };
+export default async function Home({
+  params: { locale },
+  searchParams,
+}: {
+  params: { locale: "en" | "pt" };
   searchParams: { [key: string]: string | undefined };
-};
-
-export default function Home({ params: { locale }, searchParams }: Props) {
-  const mapOpen = searchParams["map"] === "true";
+}) {
+  const mapOpen = searchParams["view"] === "map";
+  const location = searchParams["location"] || null;
+  const isPickingLocation = location === "picking";
+  const searchValue = searchParams["q"] || "";
+  const queryClient = new QueryClient();
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ["highlines", { searchValue }],
+    queryFn: ({ pageParam }) =>
+      getHighline({ pageParam, searchValue, pageSize }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, pages) => {
+      const nextPage = pages.length + 1;
+      return lastPage.data?.length === pageSize ? nextPage : undefined;
+    },
+    pages: 2,
+  });
 
   return (
-    <div className="flex-1">
+    <div className="relative mx-2 max-w-screen-xl space-y-4 md:mx-auto">
       {mapOpen ? (
-        <Map locale={locale} />
+        <Map locale={locale} isPickingLocation={isPickingLocation} />
       ) : (
-        <div className="mx-2 space-y-4">
+        <>
           <Search />
-          <Suspense fallback={<HighlineListSkeleton />}>
-            <HighlineList nameFilter={searchParams["nameFilter"]} />
-          </Suspense>
-        </div>
+          <HydrationBoundary state={dehydrate(queryClient)}>
+            <HighlineList />
+          </HydrationBoundary>
+        </>
       )}
-      <MapToggle mapIsOpen={mapOpen} />
->>>>>>> f2abc8c (Added react-leaflet map with button to toggle between the Map and a list)
+      <CreateHighline mapIsOpen={mapOpen} location={location} />
+      {isPickingLocation ? null : <MapToggle mapIsOpen={mapOpen} />}
     </div>
   );
 }
