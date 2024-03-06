@@ -1,9 +1,15 @@
 "use client";
 
-import { Layers2Icon, LocateIcon, MapIcon, SatelliteIcon } from "lucide-react";
-import { LayerGroup, MapContainer, Marker, TileLayer } from "react-leaflet";
+import {
+  Layers2Icon,
+  LocateFixedIcon,
+  LocateIcon,
+  MapIcon,
+  SatelliteIcon,
+} from "lucide-react";
+import { useState } from "react";
+import { LayerGroup, TileLayer, useMapEvents } from "react-leaflet";
 
-import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
@@ -14,13 +20,20 @@ import { useQueryString } from "@/hooks/useQueryString";
 export default function MapControls({ locale }: { locale: string }) {
   const { pushQueryParam, searchParams } = useQueryString();
   const mapType = searchParams.get("mapType");
+  const [isLocated, setIsLocated] = useState(false);
+
+  const map = useMapEvents({
+    locationfound: (e) => {
+      map.flyTo(e.latlng, map.getZoom());
+      setIsLocated(true);
+    },
+    movestart: (e) => {
+      if (isLocated) setIsLocated(false);
+    },
+  });
 
   return (
     <>
-      {/* <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      /> */}
       {mapType === "satelite" ? (
         <LayerGroup>
           <TileLayer
@@ -42,15 +55,21 @@ export default function MapControls({ locale }: { locale: string }) {
         />
       )}
 
-      <div className="absolute right-2 top-2 z-[1000] flex flex-col divide-y divide-primary-foreground bg-white">
-        <Button variant="default" size="icon" className="shadow-none">
-          <LocateIcon />
-        </Button>
+      <div className="absolute right-2 top-2 z-[1000] flex flex-col divide-y divide-muted-foreground overflow-hidden rounded-md bg-primary text-primary-foreground">
+        <button
+          className="grid h-9 w-9 place-items-center hover:bg-primary/90 disabled:opacity-50"
+          disabled={isLocated}
+          onClick={() => {
+            map.locate();
+          }}
+        >
+          {isLocated ? <LocateFixedIcon /> : <LocateIcon />}
+        </button>
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="default" size="icon" className="shadow-none">
+            <button className="grid h-9 w-9 place-items-center hover:bg-primary/90">
               <Layers2Icon />
-            </Button>
+            </button>
           </PopoverTrigger>
           <PopoverContent className="w-80">
             <div className="grid gap-4">
