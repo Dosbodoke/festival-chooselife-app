@@ -1,6 +1,6 @@
 "use client";
 
-import { Layers2Icon, LocateIcon } from "lucide-react";
+import { Layers2Icon, LocateIcon, MapIcon, SatelliteIcon } from "lucide-react";
 import { LayerGroup, MapContainer, Marker, TileLayer } from "react-leaflet";
 
 import { Button } from "@/components/ui/button";
@@ -57,15 +57,29 @@ export default function MapControls({ locale }: { locale: string }) {
               <div className="space-y-2">
                 <h4 className="font-medium leading-none">Tipo de mapa</h4>
                 <p className="text-sm text-muted-foreground">
-                  Set the dimensions for the layer.
+                  Selecione o mapa a ser visualizado
                 </p>
               </div>
-              <div className="grid gap-2">
-                <button onClick={() => pushQueryParam("mapType", "map")}>
-                  Map
+              <div className="flex gap-2">
+                <button
+                  onClick={() => pushQueryParam("mapType", "map")}
+                  data-active={mapType === "map"}
+                  className="flex flex-1 flex-col gap-6 rounded-md border-2 border-border p-4 hover:border-ring data-[active=true]:bg-accent"
+                >
+                  <div className="h-6 w-6">
+                    <MapIcon />
+                  </div>
+                  <div>Mapa</div>
                 </button>
-                <button onClick={() => pushQueryParam("mapType", "satelite")}>
-                  Satelite
+                <button
+                  onClick={() => pushQueryParam("mapType", "satelite")}
+                  data-active={mapType === "satelite"}
+                  className="flex flex-1 flex-col gap-6 rounded-md border-2 border-border p-4 hover:border-ring data-[active=true]:bg-accent"
+                >
+                  <div className="h-6 w-6">
+                    <SatelliteIcon />
+                  </div>
+                  <div>Satélite</div>
                 </button>
               </div>
             </div>

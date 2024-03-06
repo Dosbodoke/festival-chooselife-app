@@ -1,6 +1,7 @@
 "use client";
 
-import { ListIcon, MapIcon } from "@/assets";
+import { ListIcon, MapIcon } from "lucide-react";
+
 import { useQueryString } from "@/hooks/useQueryString";
 
 function MapToggle({ mapIsOpen }: { mapIsOpen: boolean }) {
