@@ -48,19 +48,13 @@ export function getDistance({
   return Math.round(anchorA.distanceTo(anchorB));
 }
 
-export function decodeLocation(location: string): {
-  anchorA: LatLng;
-  anchorB: LatLng;
-} {
+export function decodeLocation(location: string): string[] {
   const regex =
     /a_([-+]?\d*\.?\d+),([-+]?\d*\.?\d+)b_([-+]?\d*\.?\d+),([-+]?\d*\.?\d+)/;
   const match = location.match(regex);
 
   if (match) {
-    const anchorA = L.latLng(parseFloat(match[1]), parseFloat(match[2]));
-    const anchorB = L.latLng(parseFloat(match[3]), parseFloat(match[4]));
-
-    return { anchorA, anchorB };
+    return [...match];
   } else {
     throw new Error("Invalid location format");
   }

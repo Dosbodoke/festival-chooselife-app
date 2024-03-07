@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import type { LatLng } from "leaflet";
+import L from "leaflet";
 import { PlusIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -143,10 +144,21 @@ const CreateHighline = ({
       anchorA: LatLng;
       anchorB: LatLng;
     } | null = null;
-    try {
-      anchors = decodeLocation(location || "");
-    } catch (e) {
-      console.log(e);
+    if (location && location !== "" && location !== "picking") {
+      try {
+        const decoded = decodeLocation(location);
+        const anchorA = L.latLng(
+          parseFloat(decoded[1]),
+          parseFloat(decoded[2])
+        );
+        const anchorB = L.latLng(
+          parseFloat(decoded[3]),
+          parseFloat(decoded[4])
+        );
+        anchors = { anchorA, anchorB };
+      } catch (e) {
+        console.log(e);
+      }
     }
 
     // Upload the image
@@ -217,7 +229,15 @@ const CreateHighline = ({
       if (!location || location === "picking") return;
 
       try {
-        const { anchorA, anchorB } = decodeLocation(location);
+        const decoded = decodeLocation(location);
+        const anchorA = L.latLng(
+          parseFloat(decoded[1]),
+          parseFloat(decoded[2])
+        );
+        const anchorB = L.latLng(
+          parseFloat(decoded[3]),
+          parseFloat(decoded[4])
+        );
         highlineForm.setValue("lenght", getDistance({ anchorA, anchorB }));
       } catch (e) {
         if (e instanceof Error) console.error(e.message);
