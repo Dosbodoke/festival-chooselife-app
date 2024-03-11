@@ -36,19 +36,12 @@ export function HighlineList() {
       </section>
       {hasNextPage ? (
         <motion.div
-          // Change the key with the loaded items length to
-          // create a new div each time new items load
           key={data?.pages.length}
-          // Pairing this with once: true will ensure just one
-          // network request per load
           viewport={{ once: true, margin: "0px" }}
           onViewportEnter={() => {
             hasNextPage && fetchNextPage();
           }}
-          onClick={() => {
-            hasNextPage && fetchNextPage();
-          }}
-        ></motion.div>
+        />
       ) : null}
     </>
   );

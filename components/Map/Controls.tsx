@@ -35,23 +35,15 @@ export default function MapControls({ locale }: { locale: string }) {
   return (
     <>
       {mapType === "satelite" ? (
-        <LayerGroup>
-          <TileLayer
-            maxZoom={20}
-            attribution="Google Maps Satellite"
-            url={`https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}&hl=${locale}`}
-          />
-          <TileLayer
-            maxZoom={20}
-            url={`https://www.google.cn/maps/vt?lyrs=y@189&gl=cn&x={x}&y={y}&z={z}&hl=${locale}`}
-          />
-        </LayerGroup>
+        <TileLayer
+          attribution={`© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>`}
+          url={`https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/tiles/{z}/{x}/{y}?access_token=${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`}
+        />
       ) : (
         <TileLayer
-          attribution="Google Maps"
-          url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}"
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
+          url={`https://api.mapbox.com/styles/v1/mapbox/outdoors-v12/tiles/{z}/{x}/{y}?access_token=${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`}
           maxZoom={20}
-          subdomains={["mt0", "mt1", "mt2", "mt3"]}
         />
       )}
 

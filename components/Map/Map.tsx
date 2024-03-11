@@ -28,7 +28,8 @@ const MapComponent: React.FC<{
       <MapContainer
         center={[-15.7783994, -47.9308375]}
         zoom={12}
-        maxZoom={20}
+        maxZoom={18}
+        minZoom={2}
         zoomControl={false}
         ref={mapRef}
         className="h-full w-full"
