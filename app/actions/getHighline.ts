@@ -5,15 +5,19 @@ import { cookies } from "next/headers";
 
 import { Database } from "@/utils/supabase/database.types";
 
+type Props = {
+  id?: string;
+  searchValue?: string;
+  pageParam?: number;
+  pageSize?: number;
+};
+
 export const getHighline = async ({
   pageParam,
   searchValue,
   pageSize,
-}: {
-  pageParam: number;
-  searchValue: string;
-  pageSize: number;
-}) => {
+  id,
+}: Props) => {
   const cookieStore = cookies();
   const supabase = createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -37,11 +41,21 @@ export const getHighline = async ({
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data } = await supabase
+  let query = supabase
     .from("highline")
-    .select("*, favorite_highline(profile_id)")
-    .range((pageParam - 1) * pageSize, pageParam * pageSize - 1)
-    .ilike("name", `%${searchValue || ""}%`);
+    .select("*, favorite_highline(profile_id)");
+
+  if (id) {
+    query = query.eq("id", id);
+  }
+  if (pageParam && pageSize) {
+    query = query.range((pageParam - 1) * pageSize, pageParam * pageSize - 1);
+  }
+  if (searchValue) {
+    query = query.ilike("name", `%${searchValue || ""}%`);
+  }
+
+  const { data } = await query;
 
   return {
     data: data?.map((high) => ({
