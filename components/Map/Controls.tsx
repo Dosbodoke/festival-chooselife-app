@@ -8,7 +8,7 @@ import {
   SatelliteIcon,
 } from "lucide-react";
 import { useState } from "react";
-import { LayerGroup, TileLayer, useMapEvents } from "react-leaflet";
+import { TileLayer, useMapEvents } from "react-leaflet";
 
 import {
   Popover,
@@ -19,7 +19,14 @@ import { useQueryString } from "@/hooks/useQueryString";
 
 export default function MapControls({ locale }: { locale: string }) {
   const { pushQueryParam, searchParams } = useQueryString();
-  const mapType = searchParams.get("mapType");
+
+  const acceptedTypes = ["map", "satelite"] as const;
+  const mapType: (typeof acceptedTypes)[number] = acceptedTypes.includes(
+    // @ts-expect-error
+    searchParams.get("mapType") || ""
+  )
+    ? (searchParams.get("mapType") as (typeof acceptedTypes)[number])
+    : "map";
   const [isLocated, setIsLocated] = useState(false);
 
   const map = useMapEvents({
