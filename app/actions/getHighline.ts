@@ -3,13 +3,18 @@
 import { type CookieOptions, createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
-import { Database } from "@/utils/supabase/database.types";
+import { Database, Tables } from "@/utils/supabase/database.types";
 
 type Props = {
   id?: string;
   searchValue?: string;
   pageParam?: number;
   pageSize?: number;
+};
+
+export type Highline = Tables["highline"]["Row"] & {
+  favorite_highline: Array<Tables["favorite_highline"]["Row"]>;
+  is_favorite: boolean;
 };
 
 export const getHighline = async ({

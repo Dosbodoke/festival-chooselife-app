@@ -45,6 +45,7 @@ export default async function Home({
 }) {
   const mapOpen = searchParams["view"] === "map";
   const location = searchParams["location"] || null;
+  const focusedMarker = searchParams["focusedMarker"];
   const isPickingLocation = location === "picking";
   const searchValue = searchParams["q"] || "";
   const queryClient = new QueryClient();
@@ -72,8 +73,15 @@ export default async function Home({
           </HydrationBoundary>
         </>
       )}
-      <CreateHighline mapIsOpen={mapOpen} location={location} />
-      {isPickingLocation ? null : <MapToggle mapIsOpen={mapOpen} />}
+      <CreateHighline
+        mapIsOpen={mapOpen}
+        location={location}
+        hidden={isPickingLocation || !!focusedMarker}
+      />
+      <MapToggle
+        mapIsOpen={mapOpen}
+        hidden={isPickingLocation || !!focusedMarker}
+      />
     </div>
   );
 }

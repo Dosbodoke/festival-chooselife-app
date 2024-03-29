@@ -6,12 +6,13 @@ import "leaflet-defaulticon-compatibility";
 import "./leaflet-reset.css";
 
 import type { Map } from "leaflet";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { MapContainer } from "react-leaflet";
 
-import MapControls from "./Controls";
-import Highlines from "./Highlines";
+import { MapControls } from "./Controls";
 import { LocationPicker } from "./LocationPicker";
+import { Markers } from "./Markers";
+import { Selected } from "./Selected";
 import { UserLocationMarker } from "./UserLocationMarker";
 
 const MapComponent: React.FC<{
@@ -19,6 +20,9 @@ const MapComponent: React.FC<{
   isPickingLocation: boolean;
 }> = ({ locale, isPickingLocation }) => {
   const mapRef = useRef<Map | null>(null);
+  const [focusedMarker, setFocusedMarker] = useState<string | null>(null);
+  const [highlineIds, setHighlineIds] = useState<string[]>([]);
+
   return (
     <div
       className="fixed inset-0 w-full"
@@ -34,10 +38,23 @@ const MapComponent: React.FC<{
         ref={mapRef}
         className="h-full w-full"
       >
-        {isPickingLocation ? <LocationPicker /> : <Highlines />}
+        {isPickingLocation ? (
+          <LocationPicker />
+        ) : (
+          <Markers
+            setHighlineIds={setHighlineIds}
+            focusedMarker={focusedMarker}
+            setFocusedMarker={setFocusedMarker}
+          />
+        )}
         <UserLocationMarker />
         <MapControls locale={locale} />
       </MapContainer>
+      <Selected
+        highlineIds={highlineIds}
+        focusedMarker={focusedMarker}
+        setFocusedMarker={setFocusedMarker}
+      />
     </div>
   );
 };

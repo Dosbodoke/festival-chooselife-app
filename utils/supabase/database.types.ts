@@ -117,8 +117,8 @@ export interface Database {
           sector_id: number | null;
         };
         Insert: {
-          anchor_a?: Point | null;
-          anchor_b?: Point | null;
+          anchor_a?: unknown | null;
+          anchor_b?: unknown | null;
           backup_webbing?: string;
           cover_image?: string | null;
           created_at?: string;
@@ -132,8 +132,8 @@ export interface Database {
           sector_id?: number | null;
         };
         Update: {
-          anchor_a?: Point | null;
-          anchor_b?: Point | null;
+          anchor_a?: unknown | null;
+          anchor_b?: unknown | null;
           backup_webbing?: string;
           cover_image?: string | null;
           created_at?: string;
@@ -258,8 +258,10 @@ export interface Database {
         Returns: {
           id: string;
           name: string;
-          lat: number;
-          long: number;
+          anchor_a_lat: number;
+          anchor_a_long: number;
+          anchor_b_lat: number;
+          anchor_b_long: number;
         }[];
       };
       profile_stats: {

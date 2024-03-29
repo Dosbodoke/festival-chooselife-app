@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/popover";
 import { useQueryString } from "@/hooks/useQueryString";
 
-export default function MapControls({ locale }: { locale: string }) {
+export const MapControls = ({ locale }: { locale: string }) => {
   const { pushQueryParam, searchParams } = useQueryString();
 
   const acceptedTypes = ["map", "satelite"] as const;
@@ -106,4 +106,4 @@ export default function MapControls({ locale }: { locale: string }) {
       </div>
     </>
   );
-}
+};

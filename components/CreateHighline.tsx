@@ -80,9 +80,11 @@ type FormSchema = z.infer<typeof formSchema>;
 const CreateHighline = ({
   mapIsOpen,
   location,
+  hidden,
 }: {
   mapIsOpen: boolean;
   location: string | null;
+  hidden?: boolean;
 }) => {
   const { pushQueryParam, deleteQueryParam } = useQueryString();
   const [open, setOpen] = useState(false);
@@ -250,14 +252,12 @@ const CreateHighline = ({
   return (
     <Drawer open={open} onOpenChange={(o) => handleToggleDrawer(o)}>
       <DrawerTrigger asChild>
-        {location !== "picking" ? (
-          <button className="fixed bottom-3 right-6 z-50 p-[3px]">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500" />
-            <div className="group relative rounded-full bg-black p-2 text-white transition duration-200 hover:bg-transparent">
-              <PlusIcon />
-            </div>
-          </button>
-        ) : null}
+        <button className="fixed bottom-3 right-6 z-50 p-[3px]" hidden={hidden}>
+          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500" />
+          <div className="group relative rounded-full bg-black p-2 text-white transition duration-200 hover:bg-transparent">
+            <PlusIcon />
+          </div>
+        </button>
       </DrawerTrigger>
 
       {isSuccess ? (

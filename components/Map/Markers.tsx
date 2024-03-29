@@ -2,20 +2,15 @@
 
 import { useQuery } from "@tanstack/react-query";
 import type { BBox, GeoJsonProperties } from "geojson";
-import L, { point } from "leaflet";
+import L from "leaflet";
 import { SearchIcon } from "lucide-react";
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useMemo,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import ReactDOMServer from "react-dom/server";
-import { Marker, useMap, useMapEvents } from "react-leaflet";
+import { Marker, Polyline, useMap, useMapEvents } from "react-leaflet";
 import type { PointFeature } from "supercluster";
 import useSupercluster from "use-supercluster";
 
+import { useQueryString } from "@/hooks/useQueryString";
 import useSupabaseBrowser from "@/utils/supabase/client";
 
 interface PointProperties {
@@ -33,8 +28,17 @@ const locationToBoundingBox = (location: L.LatLngBounds): BBox => {
   ];
 };
 
-function Highlines() {
+export const Markers = ({
+  focusedMarker,
+  setFocusedMarker,
+  setHighlineIds,
+}: {
+  focusedMarker: string | null;
+  setFocusedMarker: React.Dispatch<React.SetStateAction<string | null>>;
+  setHighlineIds: React.Dispatch<React.SetStateAction<string[]>>;
+}) => {
   const supabase = useSupabaseBrowser();
+  const { searchParams, pushQueryParam, deleteQueryParam } = useQueryString();
   const map = useMap();
   const [canRefetch, setCanRefetch] = useState(false);
   const [bounds, setBounds] = useState<BBox>();
@@ -73,7 +77,7 @@ function Highlines() {
       },
       geometry: {
         type: "Point",
-        coordinates: [high.long, high.lat],
+        coordinates: [high.anchor_a_long, high.anchor_a_lat],
       },
     }));
   }, [highlines]);
@@ -90,6 +94,13 @@ function Highlines() {
       const bounds = locationToBoundingBox(map.getBounds());
       setBounds(bounds);
       setCanRefetch(true);
+    },
+    click() {
+      if (searchParams.get("focusedMarker")) {
+        deleteQueryParam("focusedMarker");
+      }
+      setHighlineIds([]);
+      setFocusedMarker(null);
     },
   });
 
@@ -111,6 +122,20 @@ function Highlines() {
     setBounds(bounds);
   }, [map]);
 
+  const focusedHigline =
+    focusedMarker && highlines
+      ? highlines.find((h) => h.id === focusedMarker)
+      : null;
+
+  const openMarkerDetails = useCallback(
+    async (markerId: string, highlineIds: string[]) => {
+      pushQueryParam("focusedMarker", markerId);
+      setHighlineIds(highlineIds);
+      setFocusedMarker(highlineIds[0]);
+    },
+    [pushQueryParam, setFocusedMarker, setHighlineIds]
+  );
+
   return (
     <>
       {clusters.map((cluster) => {
@@ -119,29 +144,40 @@ function Highlines() {
           cluster.properties;
 
         if (isCluster) {
+          if (!supercluster || typeof cluster.id !== "number") return;
+          const highlineIds = supercluster
+            .getLeaves(cluster.id)
+            .map((h) => h.properties.id as string);
+
           return (
-            <Marker
-              key={`cluster-${cluster.id}`}
-              position={[latitude, longitude]}
-              eventHandlers={{
-                click: () => {
-                  if (!supercluster) return;
-                  const expansionZoom = Math.min(
-                    supercluster.getClusterExpansionZoom(
-                      cluster.properties.cluster_id
-                    ),
-                    17
-                  );
-                  map.setView([latitude, longitude], expansionZoom, {
-                    animate: true,
-                  });
-                },
-              }}
-              icon={fetchIcon({
-                count: pointCount,
-                size: 10 + (pointCount / points.length) * 40,
-              })}
-            />
+            <>
+              <Marker
+                key={`cluster-${cluster.id}`}
+                position={[latitude, longitude]}
+                eventHandlers={{
+                  click: () => {
+                    const expansionZoom = Math.min(
+                      supercluster.getClusterExpansionZoom(
+                        cluster.properties.cluster_id
+                      ),
+                      17
+                    );
+                    map.setView([latitude, longitude], expansionZoom, {
+                      animate: true,
+                    });
+
+                    // If is clustered and can't zoom more
+                    if (expansionZoom === 17) {
+                      openMarkerDetails(cluster.id as string, highlineIds);
+                    }
+                  },
+                }}
+                icon={fetchIcon({
+                  count: pointCount,
+                  size: 10 + (pointCount / points.length) * 40,
+                })}
+              />
+            </>
           );
         }
 
@@ -149,9 +185,36 @@ function Highlines() {
           <Marker
             key={`highline-${cluster.properties.id}`}
             position={[latitude, longitude]}
+            eventHandlers={{
+              click: () => {
+                openMarkerDetails(cluster.properties.id, [
+                  cluster.properties.id,
+                ]);
+              },
+            }}
           />
         );
       })}
+
+      {focusedHigline ? (
+        <>
+          <Marker
+            position={[
+              focusedHigline.anchor_b_lat,
+              focusedHigline.anchor_b_long,
+            ]}
+          />
+          <Polyline
+            positions={[
+              [focusedHigline.anchor_a_lat, focusedHigline.anchor_a_long],
+              [focusedHigline.anchor_b_lat, focusedHigline.anchor_b_long],
+            ]}
+            dashArray={[20, 10]}
+            color="#000000"
+          />
+        </>
+      ) : null}
+
       <button
         className="absolute left-1/2 top-12 z-[1000] flex -translate-x-1/2 items-center gap-2 rounded-3xl bg-white px-3 py-2 text-sm text-black shadow-lg aria-hidden:hidden"
         aria-hidden={!canRefetch}
@@ -168,6 +231,4 @@ function Highlines() {
       </button>
     </>
   );
-}
-
-export default Highlines;
+};
