@@ -4,17 +4,13 @@ import { MapPinIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import type { Highline } from "@/app/actions/getHighline";
 import { RegistryEntry } from "@/components/RegistryEntry";
 import { Button } from "@/components/ui/button";
 import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { Tables } from "@/utils/supabase/database.types";
 
-export const HighlineHeader = ({
-  highline,
-}: {
-  highline: Tables["highline"]["Row"];
-}) => {
+export const HighlineHeader = ({ highline }: { highline: Highline }) => {
   const router = useRouter();
 
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
@@ -61,12 +57,12 @@ export const HighlineHeader = ({
           highlineId={highline.id}
           highlineDistance={highline.lenght}
         />
-        {highline.anchor_a && highline.anchor_b ? (
+        {highline.anchor_a_lat && highline.anchor_b_lat ? (
           <Button
             variant="outline"
             className="border-dashed"
             onClick={() => {
-              router.push(`/?view=map&highline=${highline.id}`);
+              router.push(`/?view=map&focusedMarker=${highline.id}`);
             }}
           >
             <MapPinIcon className="mr-2 h-4 w-4" /> Ver no mapa

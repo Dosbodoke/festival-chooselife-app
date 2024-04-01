@@ -5,9 +5,12 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import "leaflet-defaulticon-compatibility";
 import "./leaflet-reset.css";
 
+import { useQueryClient } from "@tanstack/react-query";
 import type { Map } from "leaflet";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MapContainer } from "react-leaflet";
+
+import { getHighline } from "@/app/actions/getHighline";
 
 import { MapControls } from "./Controls";
 import { LocationPicker } from "./LocationPicker";
@@ -18,9 +21,9 @@ import { UserLocationMarker } from "./UserLocationMarker";
 const MapComponent: React.FC<{
   locale: string;
   isPickingLocation: boolean;
-}> = ({ locale, isPickingLocation }) => {
+  focusedMarker: string | null;
+}> = ({ locale, isPickingLocation, focusedMarker }) => {
   const mapRef = useRef<Map | null>(null);
-  const [focusedMarker, setFocusedMarker] = useState<string | null>(null);
   const [highlineIds, setHighlineIds] = useState<string[]>([]);
 
   return (
@@ -44,17 +47,12 @@ const MapComponent: React.FC<{
           <Markers
             setHighlineIds={setHighlineIds}
             focusedMarker={focusedMarker}
-            setFocusedMarker={setFocusedMarker}
           />
         )}
         <UserLocationMarker />
         <MapControls locale={locale} />
       </MapContainer>
-      <Selected
-        highlineIds={highlineIds}
-        focusedMarker={focusedMarker}
-        setFocusedMarker={setFocusedMarker}
-      />
+      <Selected highlineIds={highlineIds} focusedMarker={focusedMarker} />
     </div>
   );
 };

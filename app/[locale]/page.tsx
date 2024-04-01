@@ -9,8 +9,10 @@ import { getHighline } from "@/app/actions/getHighline";
 import CreateHighline from "@/components/CreateHighline";
 import MapToggle from "@/components/Map/MapToggle";
 
-import { HighlineList, pageSize } from "./_components/HighlineList";
+import { HighlineList } from "./_components/HighlineList";
 import Search from "./_components/search";
+
+const PAGE_SIZE = 6;
 
 const Map = dynamic(() => import("@/components/Map/Map"), {
   ssr: false,
@@ -52,11 +54,11 @@ export default async function Home({
   await queryClient.prefetchInfiniteQuery({
     queryKey: ["highlines", { searchValue }],
     queryFn: ({ pageParam }) =>
-      getHighline({ pageParam, searchValue, pageSize }),
+      getHighline({ pageParam, searchValue, pageSize: PAGE_SIZE }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, pages) => {
       const nextPage = pages.length + 1;
-      return lastPage.data?.length === pageSize ? nextPage : undefined;
+      return lastPage.data?.length === PAGE_SIZE ? nextPage : undefined;
     },
     pages: 2,
   });
@@ -64,7 +66,11 @@ export default async function Home({
   return (
     <div className="relative mx-2 max-w-screen-xl space-y-4 md:mx-auto">
       {mapOpen ? (
-        <Map locale={locale} isPickingLocation={isPickingLocation} />
+        <Map
+          locale={locale}
+          isPickingLocation={isPickingLocation}
+          focusedMarker={focusedMarker || null}
+        />
       ) : (
         <>
           <Search />

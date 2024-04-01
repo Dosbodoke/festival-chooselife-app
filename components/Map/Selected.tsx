@@ -9,6 +9,7 @@ import {
 import React from "react";
 
 import { getHighline } from "@/app/actions/getHighline";
+import { useQueryString } from "@/hooks/useQueryString";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
 
@@ -19,12 +20,11 @@ import { Card, CardContent } from "../ui/card";
 export const Selected = ({
   highlineIds,
   focusedMarker,
-  setFocusedMarker,
 }: {
   highlineIds: string[];
   focusedMarker: string | null;
-  setFocusedMarker: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
+  const { pushQueryParam } = useQueryString();
   const { data, pending } = useQueries({
     queries: highlineIds.map((id) => ({
       queryKey: ["highline", id],
@@ -63,7 +63,7 @@ export const Selected = ({
               <Card
                 data-active={focusedMarker === selected.id}
                 className="group inline-block h-32 min-w-[20rem] cursor-pointer border-2 border-muted bg-popover hover:bg-accent hover:text-accent-foreground data-[active=true]:border-primary data-[active=true]:bg-accent"
-                onClick={() => setFocusedMarker(selected.id)}
+                onClick={() => pushQueryParam("focusedMarker", selected.id)}
                 key={selected.id}
               >
                 <CardContent className="flex h-full gap-2 p-0">

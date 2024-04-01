@@ -2,6 +2,7 @@ import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { UnfoldHorizontalIcon, UnfoldVerticalIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
+import { Highline } from "@/app/actions/getHighline";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,13 +12,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Link } from "@/navigation";
-import type { Tables } from "@/utils/supabase/database.types";
+import type { Functions } from "@/utils/supabase/database.types";
 
 import HighlineImage from "../../../components/HighlineImage";
 import { FavoriteHighline } from "./FavoriteHighline";
 
 interface Props {
-  highline: Tables["highline"]["Row"] & { is_favorite: boolean };
+  highline: Highline;
 }
 
 export function Highline({ highline }: Props) {

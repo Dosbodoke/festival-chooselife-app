@@ -1,9 +1,9 @@
 import { useTranslations } from "next-intl";
 
-import type { Tables } from "@/utils/supabase/database.types";
+import type { Highline } from "@/app/actions/getHighline";
 
 interface Props {
-  highline: Tables["highline"]["Row"];
+  highline: Highline;
 }
 
 function Info({ highline }: Props) {

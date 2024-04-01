@@ -2,6 +2,7 @@
 // npx supabase gen types typescript --local --schema storage,public,functions > utils/supabase/database.types.ts
 
 export type Tables = Database["public"]["Tables"];
+export type Functions = Database["public"]["Functions"];
 // Supabase does not generate types for non defaul SQL data types, this type represent a postgis POINT
 // Notice that it should be called as POINT(longitude latitude)
 export type Point = `POINT(${number} ${number})`;
@@ -215,6 +216,33 @@ export interface Database {
       [_ in never]: never;
     };
     Functions: {
+      get_highline: {
+        Args: {
+          searchid?: string;
+          searchname?: string;
+          pagesize?: number;
+          pageparam?: number;
+          userid?: string;
+        };
+        Returns: {
+          id: string;
+          created_at: string;
+          name: string;
+          height: number;
+          lenght: number;
+          main_webbing: string;
+          backup_webbing: string;
+          description: string;
+          sector_id: number;
+          cover_image: string;
+          riggers: string[];
+          anchor_a_long: number;
+          anchor_a_lat: number;
+          anchor_b_long: number;
+          anchor_b_lat: number;
+          is_favorite: boolean;
+        }[];
+      };
       get_total_cadenas: {
         Args: {
           highline_id: string;

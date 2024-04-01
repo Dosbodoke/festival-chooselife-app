@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import type { BBox, GeoJsonProperties } from "geojson";
 import L from "leaflet";
 import { SearchIcon } from "lucide-react";
@@ -10,6 +10,7 @@ import { Marker, Polyline, useMap, useMapEvents } from "react-leaflet";
 import type { PointFeature } from "supercluster";
 import useSupercluster from "use-supercluster";
 
+import { getHighline } from "@/app/actions/getHighline";
 import { useQueryString } from "@/hooks/useQueryString";
 import useSupabaseBrowser from "@/utils/supabase/client";
 
@@ -30,13 +31,12 @@ const locationToBoundingBox = (location: L.LatLngBounds): BBox => {
 
 export const Markers = ({
   focusedMarker,
-  setFocusedMarker,
   setHighlineIds,
 }: {
   focusedMarker: string | null;
-  setFocusedMarker: React.Dispatch<React.SetStateAction<string | null>>;
   setHighlineIds: React.Dispatch<React.SetStateAction<string[]>>;
 }) => {
+  const queryClient = useQueryClient();
   const supabase = useSupabaseBrowser();
   const { searchParams, pushQueryParam, deleteQueryParam } = useQueryString();
   const map = useMap();
@@ -100,7 +100,6 @@ export const Markers = ({
         deleteQueryParam("focusedMarker");
       }
       setHighlineIds([]);
-      setFocusedMarker(null);
     },
   });
 
@@ -117,24 +116,36 @@ export const Markers = ({
     });
   }
 
+  const openMarkerDetails = useCallback(
+    async (highlineIds: string[]) => {
+      pushQueryParam("focusedMarker", highlineIds[0]);
+      setHighlineIds(highlineIds);
+    },
+    [pushQueryParam, setHighlineIds]
+  );
+
   useEffect(() => {
-    const bounds = locationToBoundingBox(map.getBounds());
-    setBounds(bounds);
-  }, [map]);
+    async function ensureFocusedMarkerData() {
+      if (!focusedMarker || !highlines) return;
+      if (!highlines.find((high) => high.id === focusedMarker)) {
+        const { data } = await queryClient.ensureQueryData({
+          queryKey: ["highline", focusedMarker],
+          queryFn: () => getHighline({ id: focusedMarker }),
+        });
+        if (data && data.length === 1) {
+          map.setView([data[0].anchor_a_lat, data[0].anchor_a_long], 18);
+          setHighlineIds([focusedMarker]);
+          refetch();
+        }
+      }
+    }
+    ensureFocusedMarkerData();
+  }, [focusedMarker, highlines, map, queryClient, refetch, setHighlineIds]);
 
   const focusedHigline =
     focusedMarker && highlines
       ? highlines.find((h) => h.id === focusedMarker)
       : null;
-
-  const openMarkerDetails = useCallback(
-    async (markerId: string, highlineIds: string[]) => {
-      pushQueryParam("focusedMarker", markerId);
-      setHighlineIds(highlineIds);
-      setFocusedMarker(highlineIds[0]);
-    },
-    [pushQueryParam, setFocusedMarker, setHighlineIds]
-  );
 
   return (
     <>
@@ -168,7 +179,7 @@ export const Markers = ({
 
                     // If is clustered and can't zoom more
                     if (expansionZoom === 17) {
-                      openMarkerDetails(cluster.id as string, highlineIds);
+                      openMarkerDetails(highlineIds);
                     }
                   },
                 }}
@@ -187,9 +198,7 @@ export const Markers = ({
             position={[latitude, longitude]}
             eventHandlers={{
               click: () => {
-                openMarkerDetails(cluster.properties.id, [
-                  cluster.properties.id,
-                ]);
+                openMarkerDetails([cluster.properties.id]);
               },
             }}
           />

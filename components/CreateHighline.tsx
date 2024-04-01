@@ -132,7 +132,7 @@ const CreateHighline = ({
     },
   });
 
-  const createHighline = async ({
+  async function createHighline({
     name,
     height,
     lenght,
@@ -140,7 +140,7 @@ const CreateHighline = ({
     backup_webbing,
     description,
     image,
-  }: FormSchema) => {
+  }: FormSchema) {
     // Get the anchors location if exists
     let anchors: {
       anchorA: LatLng;
@@ -202,7 +202,7 @@ const CreateHighline = ({
       throw new Error("Error when creating the highline");
     }
     return data[0].id;
-  };
+  }
 
   const { mutate, isPending, isSuccess } = useMutation<
     string,

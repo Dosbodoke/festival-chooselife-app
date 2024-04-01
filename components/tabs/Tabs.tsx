@@ -5,16 +5,16 @@ import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useCallback, useMemo } from "react";
 
+import type { Highline } from "@/app/actions/getHighline";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePathname, useRouter } from "@/navigation";
-import type { Tables } from "@/utils/supabase/database.types";
 
 import Comments from "./Comments";
 import Info from "./Info";
 import Ranking from "./Ranking";
 
 interface Props {
-  highline: Tables["highline"]["Row"];
+  highline: Highline;
 }
 
 function HighlineTabs({ highline }: Props) {
