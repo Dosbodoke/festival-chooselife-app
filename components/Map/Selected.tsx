@@ -63,7 +63,11 @@ export const Selected = ({
               <Card
                 data-active={focusedMarker === selected.id}
                 className="group inline-block h-32 min-w-[20rem] cursor-pointer border-2 border-muted bg-popover hover:bg-accent hover:text-accent-foreground data-[active=true]:border-primary data-[active=true]:bg-accent"
-                onClick={() => pushQueryParam("focusedMarker", selected.id)}
+                onClick={() => {
+                  if (focusedMarker !== selected.id) {
+                    pushQueryParam("focusedMarker", selected.id);
+                  }
+                }}
                 key={selected.id}
               >
                 <CardContent className="flex h-full gap-2 p-0">
