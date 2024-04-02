@@ -1,28 +1,23 @@
 "use client";
 
 import { SearchIcon } from "lucide-react";
-import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
-import { useRouter } from "@/navigation";
-import { createUrl } from "@/utils/helperFunctions";
+import { useQueryString } from "@/hooks/useQueryString";
 
 export default function Search() {
   const t = useTranslations("home");
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const { searchParams, pushQueryParam, deleteQueryParam } = useQueryString();
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const val = e.target as HTMLFormElement;
     const search = val.search as HTMLInputElement;
-    const newParams = new URLSearchParams(searchParams.toString());
     if (search.value) {
-      newParams.set("nameFilter", search.value);
+      pushQueryParam("q", search.value);
     } else {
-      newParams.delete("nameFilter");
+      deleteQueryParam("q");
     }
-    router.push(createUrl("/", newParams));
   }
 
   return (
@@ -31,12 +26,12 @@ export default function Search() {
 
       <form onSubmit={onSubmit} className="flex-1">
         <input
-          key={searchParams?.get("nameFilter")}
+          key={searchParams?.get("q")}
           type="text"
           name="search"
           placeholder={t("searchPlaceholder")}
           autoComplete="off"
-          defaultValue={searchParams?.get("nameFilter") || ""}
+          defaultValue={searchParams?.get("q") || ""}
           className="w-full bg-transparent pl-2 text-base text-gray-900 dark:text-white  dark:placeholder-gray-400"
         />
       </form>
