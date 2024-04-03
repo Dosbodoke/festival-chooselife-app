@@ -11,7 +11,7 @@ function MapToggle({
   mapIsOpen: boolean;
   hidden?: boolean;
 }) {
-  const { pushQueryParam } = useQueryString();
+  const { replaceQueryParam } = useQueryString();
 
   return (
     <div
@@ -20,7 +20,7 @@ function MapToggle({
       hidden={hidden}
     >
       <button
-        onClick={() => pushQueryParam("view", mapIsOpen ? "list" : "map")}
+        onClick={() => replaceQueryParam("view", mapIsOpen ? "list" : "map")}
         className="flex items-center gap-2 rounded-3xl bg-black px-5 py-3 text-white"
       >
         <p>{mapIsOpen ? "Lista" : "Mapa"}</p>

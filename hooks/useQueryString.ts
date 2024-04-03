@@ -32,12 +32,17 @@ export const useQueryString = () => {
     router.push(pathname + "?" + createQueryString(name, value));
   }
 
+  function replaceQueryParam(name: string, value: string) {
+    router.replace(pathname + "?" + createQueryString(name, value));
+  }
+
   function deleteQueryParam(name: string) {
     router.push(pathname + "?" + deleteQueryString(name));
   }
 
   return {
     pushQueryParam,
+    replaceQueryParam,
     deleteQueryParam,
     searchParams,
   };
