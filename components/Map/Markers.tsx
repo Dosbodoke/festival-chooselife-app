@@ -38,7 +38,7 @@ export const Markers = ({
 }) => {
   const queryClient = useQueryClient();
   const supabase = useSupabaseBrowser();
-  const { searchParams, pushQueryParam, deleteQueryParam } = useQueryString();
+  const { pushQueryParam, deleteQueryParam } = useQueryString();
   const map = useMap();
   const [canRefetch, setCanRefetch] = useState(false);
   const [bounds, setBounds] = useState<BBox>();
@@ -96,7 +96,7 @@ export const Markers = ({
       setCanRefetch(true);
     },
     click() {
-      if (searchParams.get("focusedMarker")) {
+      if (focusedMarker) {
         deleteQueryParam("focusedMarker");
       }
       setHighlineIds([]);

@@ -9,6 +9,7 @@ import { RegistryEntry } from "@/components/RegistryEntry";
 import { Button } from "@/components/ui/button";
 import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { Link } from "@/navigation";
 
 export const HighlineHeader = ({ highline }: { highline: Highline }) => {
   const router = useRouter();
@@ -27,7 +28,7 @@ export const HighlineHeader = ({ highline }: { highline: Highline }) => {
   }, [descriptionRef]);
 
   return (
-    <CardHeader className="mb-4 space-y-4 pb-3">
+    <CardHeader className="space-y-4 pb-3">
       <div>
         <CardTitle className="text-xl">{highline.name}</CardTitle>
         {highline.description ? (
@@ -62,14 +63,21 @@ export const HighlineHeader = ({ highline }: { highline: Highline }) => {
             variant="outline"
             className="border-dashed"
             onClick={() => {
-              router.push(`/?view=map&focusedMarker=${highline.id}`);
+              router.push(``);
             }}
+            asChild
           >
-            <MapPinIcon className="mr-2 h-4 w-4" /> Ver no mapa
+            <Link href={`/?view=map&focusedMarker=${highline.id}`}>
+              <MapPinIcon className="mr-2 h-4 w-4" /> Ver no mapa
+            </Link>
           </Button>
         ) : (
-          <Button variant="outline" className="border-dashed">
-            <MapPinIcon className="mr-2 h-4 w-4" /> Adiconar ao mapa
+          <Button variant="outline" className="border-dashed" asChild>
+            <Link
+              href={`/?view=map&focusedMarker=${highline.id}&location=picking`}
+            >
+              <MapPinIcon className="mr-2 h-4 w-4" /> Adicionar ao mapa
+            </Link>
           </Button>
         )}
       </div>

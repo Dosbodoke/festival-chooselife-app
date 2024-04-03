@@ -1,5 +1,6 @@
 "use client";
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import L, { type LatLng, type Marker as MarkerType } from "leaflet";
 import { MapPin, Undo2 } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
@@ -7,9 +8,49 @@ import ReactDOMServer from "react-dom/server";
 import { Marker, Polyline, useMapEvent } from "react-leaflet";
 
 import { useQueryString } from "@/hooks/useQueryString";
-import { encodeLocation, getDistance } from "@/utils/helperFunctions";
+import { useRouter } from "@/navigation";
+import {
+  encodeLocation,
+  getDistance,
+  locationToPostGISPoint,
+} from "@/utils/helperFunctions";
+import useSupabaseBrowser from "@/utils/supabase/client";
 
-export const LocationPicker = () => {
+export const LocationPicker = ({
+  focusedMarker,
+}: {
+  focusedMarker: string | null;
+}) => {
+  const queryClient = useQueryClient();
+  const supabase = useSupabaseBrowser();
+  const insertLocationMutation = useMutation<
+    undefined,
+    Error,
+    { anchorA: LatLng; anchorB: LatLng }
+  >({
+    mutationFn: async (data) => {
+      const { error } = await supabase
+        .from("highline")
+        .update({
+          lenght: getDistance({ anchorA: data.anchorA, anchorB: data.anchorB }),
+          anchor_a: locationToPostGISPoint({
+            lat: data.anchorA.lat,
+            lng: data.anchorA.lng,
+          }),
+          anchor_b: locationToPostGISPoint({
+            lat: data.anchorB.lat,
+            lng: data.anchorB.lng,
+          }),
+        })
+        .eq("id", focusedMarker);
+      if (error) throw new Error(error.message);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["highline", focusedMarker] });
+      router.push(`/${focusedMarker}`);
+    },
+  });
+  const router = useRouter();
   const { deleteQueryParam, pushQueryParam } = useQueryString();
 
   const map = useMapEvent("move", () => {
@@ -20,7 +61,7 @@ export const LocationPicker = () => {
   const [anchorA, setAnchorA] = useState<LatLng | null>(null);
   const [anchorB, setAnchorB] = useState<LatLng | null>(null);
   const anchorARef = useRef<MarkerType | null>(null);
-  const eventHandlers = useMemo(
+  const markerEventHandlers = useMemo(
     () => ({
       dragend() {
         const marker = anchorARef.current;
@@ -50,15 +91,24 @@ export const LocationPicker = () => {
   }
 
   function handlePickLocation() {
+    const center = map.getCenter();
     if (!anchorA) {
-      setAnchorA(map.getCenter());
+      setAnchorA(center);
       return;
     }
     if (!anchorB) {
-      setAnchorB(map.getCenter());
+      setAnchorB(center);
       return;
     }
-    pushQueryParam("location", encodeLocation(anchorA, anchorB));
+
+    if (focusedMarker) {
+      insertLocationMutation.mutate({
+        anchorA,
+        anchorB,
+      });
+    } else {
+      pushQueryParam("location", encodeLocation(anchorA, anchorB));
+    }
   }
 
   function handleUndoPickLocation() {
@@ -85,7 +135,7 @@ export const LocationPicker = () => {
         <Marker
           ref={anchorARef}
           draggable
-          eventHandlers={eventHandlers}
+          eventHandlers={markerEventHandlers}
           position={anchorA}
           icon={icon}
         ></Marker>

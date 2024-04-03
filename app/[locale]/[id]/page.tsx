@@ -1,29 +1,22 @@
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 
 import { getHighline } from "@/app/actions/getHighline";
-import HighlineImage from "@/components/HighlineImage";
-import { RegistryEntry } from "@/components/RegistryEntry";
-import Tabs from "@/components/tabs/Tabs";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import CreateHighline from "@/components/CreateHighline";
 
-import { FavoriteHighline } from "../_components/FavoriteHighline";
 import GoBack from "./_components/GoBack";
-import { HighlineHeader } from "./_components/HighlineHeader";
+import HighlineCard from "./_components/HighlineCard";
 
 export const dynamic = "force-dynamic";
 
 type Props = {
   params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: { [key: string]: string | undefined };
 };
 
 export async function generateMetadata(
@@ -32,7 +25,12 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const id = params.id;
 
-  const { data: highlines } = await getHighline({ id });
+  const queryClient = new QueryClient();
+
+  const { data: highlines } = await queryClient.fetchQuery({
+    queryKey: ["highline", id],
+    queryFn: () => getHighline({ id }),
+  });
   if (!highlines || highlines.length === 0) return notFound();
   const highline = highlines[0];
 
@@ -44,29 +42,25 @@ export async function generateMetadata(
 
 export default async function Highline({
   params: { id },
-}: {
-  params: { id: string };
-}) {
-  const { data: highlines } = await getHighline({ id });
-  if (!highlines || highlines.length === 0) return notFound();
-  const highline = highlines[0];
+  searchParams,
+}: Props) {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ["highline", id],
+    queryFn: () => getHighline({ id }),
+  });
 
   return (
-    <div className="mx-auto w-full max-w-xl overflow-hidden">
-      <GoBack />
-      <Card className="mx-auto flex w-full max-w-xl flex-col overflow-hidden">
-        <div className="relative h-48 w-full">
-          <HighlineImage coverImageId={highline.cover_image} />
-          <FavoriteHighline
-            id={highline.id}
-            isFavorite={highline.is_favorite}
-          />
-        </div>
-        <HighlineHeader highline={highline} />
-        <CardContent>
-          <Tabs highline={highline} />
-        </CardContent>
-      </Card>
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <div className="mx-auto w-full max-w-xl overflow-hidden">
+        <GoBack />
+        <HighlineCard id={id} />
+      </div>
+      <CreateHighline
+        mapIsOpen={false}
+        location={searchParams["location"] || null}
+      />
+    </HydrationBoundary>
   );
 }

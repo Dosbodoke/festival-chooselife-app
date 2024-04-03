@@ -42,7 +42,7 @@ const MapComponent: React.FC<{
         className="h-full w-full"
       >
         {isPickingLocation ? (
-          <LocationPicker />
+          <LocationPicker focusedMarker={focusedMarker} />
         ) : (
           <Markers
             setHighlineIds={setHighlineIds}
