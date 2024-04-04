@@ -142,10 +142,26 @@ export const Markers = ({
     ensureFocusedMarkerData();
   }, [focusedMarker, highlines, map, queryClient, refetch, setHighlineIds]);
 
-  const focusedHigline =
-    focusedMarker && highlines
+  const focusedHigline = useMemo(() => {
+    return focusedMarker && highlines
       ? highlines.find((h) => h.id === focusedMarker)
       : null;
+  }, [focusedMarker, highlines]);
+
+  useEffect(() => {
+    // Ensure focusedHighline exists and matches the clicked marker
+    if (focusedHigline) {
+      const bounds = L.latLngBounds(
+        [focusedHigline.anchor_a_lat, focusedHigline.anchor_a_long],
+        [focusedHigline.anchor_b_lat, focusedHigline.anchor_b_long]
+      );
+      map.fitBounds(bounds, {
+        animate: true,
+        paddingBottomRight: [96, 96],
+        duration: 300,
+      });
+    }
+  }, [focusedHigline, map]);
 
   return (
     <>
