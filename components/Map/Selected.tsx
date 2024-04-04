@@ -62,7 +62,7 @@ export const Selected = ({
             return (
               <Card
                 data-active={focusedMarker === selected.id}
-                className="group inline-block h-32 min-w-[20rem] cursor-pointer border-2 border-muted bg-popover hover:bg-accent hover:text-accent-foreground data-[active=true]:border-primary data-[active=true]:bg-accent"
+                className="group inline-block h-32 min-w-[20rem] cursor-pointer overflow-hidden border-2 border-muted bg-card hover:bg-accent hover:text-accent-foreground data-[active=true]:border-primary data-[active=true]:bg-accent"
                 onClick={() => {
                   if (focusedMarker !== selected.id) {
                     pushQueryParam("focusedMarker", selected.id);
@@ -92,7 +92,7 @@ export const Selected = ({
                     </div>
                     <Button
                       variant="outline"
-                      className="group-hover:bg-muted group-data-[active=true]:bg-muted"
+                      className="group-hover:border-accent-foreground group-hover:bg-accent group-data-[active=true]:border-accent-foreground group-data-[active=true]:bg-accent"
                       asChild
                     >
                       <Link className="mt-auto" href={`/${selected.id}`}>
