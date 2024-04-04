@@ -1,23 +1,15 @@
 "use client";
 
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-  useQuery,
-} from "@tanstack/react-query";
-import type { Metadata, ResolvingMetadata } from "next";
+import { useQuery } from "@tanstack/react-query";
 import { notFound } from "next/navigation";
 
 import { getHighline } from "@/app/actions/getHighline";
-import CreateHighline from "@/components/CreateHighline";
 import HighlineImage from "@/components/HighlineImage";
 import Tabs from "@/components/tabs/Tabs";
 import { Card, CardContent } from "@/components/ui/card";
 
 import { FavoriteHighline } from "../../_components/FavoriteHighline";
 import Loading from "../loading";
-import GoBack from "./GoBack";
 import { HighlineHeader } from "./HighlineHeader";
 
 function HighlineCard({ id }: { id: string }) {

@@ -42,7 +42,6 @@
     "seeDetails": "Ver detalhes"
   },
   "highline": {
-    "goBack": "Ver todos os highlines",
     "registry": {
       "trigger": "Registrar rolê",
       "title": "Registrar rolê",
@@ -105,7 +104,6 @@
     }
   },
   "profile": {
-    "goBack": "Voltar para a página inicial",
     "header": {
       "notVerified": "Este usuário não é verificado"
     },
@@ -162,6 +160,7 @@
   "LocaleSwitcher": {
     "label": "Trocar idioma"
   },
+  "goBack": "Voltar",
   "usernameDialog": {
     "title": "Bem vindo ao APP CHOOSELIFE 👋",
     "description": "Só falta algumas informações detalhes para terminar de criar sua conta.",

@@ -6,7 +6,6 @@ import { Suspense } from "react";
 import UpdateProfile from "@/components/layout/navbar/UpdateProfile";
 import { useSupabaseServer } from "@/utils/supabase/server";
 
-import GoBack from "./_components/GoBack";
 import LastWalks, { LastWalksSkeleton } from "./_components/LastWalks";
 import Stats from "./_components/Stats";
 import UserHeader from "./_components/UserHeader";
@@ -69,7 +68,6 @@ export default async function Profile({
   return (
     <div className="mx-2 max-w-screen-md space-y-4 pt-0 md:mx-auto md:space-y-6 md:pt-8">
       <div className="flex flex-row items-end justify-between">
-        <GoBack />
         {profile && profile.id === user?.id ? (
           <UpdateProfile profile={profile} />
         ) : null}

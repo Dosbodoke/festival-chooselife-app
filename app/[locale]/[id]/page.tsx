@@ -9,7 +9,6 @@ import { notFound } from "next/navigation";
 import { getHighline } from "@/app/actions/getHighline";
 import CreateHighline from "@/components/CreateHighline";
 
-import GoBack from "./_components/GoBack";
 import HighlineCard from "./_components/HighlineCard";
 
 export const dynamic = "force-dynamic";
@@ -54,7 +53,6 @@ export default async function Highline({
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="mx-auto w-full max-w-xl overflow-hidden">
-        <GoBack />
         <HighlineCard id={id} />
       </div>
       <CreateHighline
