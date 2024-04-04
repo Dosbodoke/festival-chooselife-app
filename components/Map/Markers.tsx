@@ -177,34 +177,32 @@ export const Markers = ({
             .map((h) => h.properties.id as string);
 
           return (
-            <>
-              <Marker
-                key={`cluster-${cluster.id}`}
-                position={[latitude, longitude]}
-                eventHandlers={{
-                  click: () => {
-                    const expansionZoom = Math.min(
-                      supercluster.getClusterExpansionZoom(
-                        cluster.properties.cluster_id
-                      ),
-                      17
-                    );
-                    map.setView([latitude, longitude], expansionZoom, {
-                      animate: true,
-                    });
+            <Marker
+              key={`cluster-${cluster.id}`}
+              position={[latitude, longitude]}
+              eventHandlers={{
+                click: () => {
+                  const expansionZoom = Math.min(
+                    supercluster.getClusterExpansionZoom(
+                      cluster.properties.cluster_id
+                    ),
+                    17
+                  );
+                  map.setView([latitude, longitude], expansionZoom, {
+                    animate: true,
+                  });
 
-                    // If is clustered and can't zoom more
-                    if (expansionZoom === 17) {
-                      openMarkerDetails(highlineIds);
-                    }
-                  },
-                }}
-                icon={fetchIcon({
-                  count: pointCount,
-                  size: 10 + (pointCount / points.length) * 40,
-                })}
-              />
-            </>
+                  // If is clustered and can't zoom more
+                  if (expansionZoom === 17) {
+                    openMarkerDetails(highlineIds);
+                  }
+                },
+              }}
+              icon={fetchIcon({
+                count: pointCount,
+                size: 10 + (pointCount / points.length) * 40,
+              })}
+            />
           );
         }
 
