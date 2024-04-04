@@ -3,6 +3,7 @@
 import { SearchIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
+import { Input } from "@/components/ui/Input";
 import { useQueryString } from "@/hooks/useQueryString";
 
 export default function Search() {
@@ -21,20 +22,19 @@ export default function Search() {
   }
 
   return (
-    <div className="mx-auto flex w-full items-center rounded-lg border border-gray-300 bg-white p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:w-3/5">
-      <SearchIcon className="h-5 w-5 text-muted-foreground" />
-
-      <form onSubmit={onSubmit} className="flex-1">
-        <input
-          key={searchParams?.get("q")}
-          type="text"
-          name="search"
-          placeholder={t("searchPlaceholder")}
-          autoComplete="off"
-          defaultValue={searchParams?.get("q") || ""}
-          className="w-full bg-transparent pl-2 text-base text-gray-900 dark:text-white  dark:placeholder-gray-400"
-        />
-      </form>
-    </div>
+    <form onSubmit={onSubmit} className="relative mx-auto w-full sm:w-3/5">
+      <span className="absolute inset-y-0 start-0 flex items-center justify-center px-2">
+        <SearchIcon className="h-6 w-6 text-muted-foreground" />
+      </span>
+      <Input
+        key={searchParams?.get("q")}
+        type="search"
+        name="search"
+        placeholder={t("searchPlaceholder")}
+        autoComplete="off"
+        defaultValue={searchParams?.get("q") || ""}
+        className="bg-transparent pl-10 text-base"
+      />
+    </form>
   );
 }
