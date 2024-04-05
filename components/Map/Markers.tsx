@@ -126,8 +126,8 @@ export const Markers = ({
 
   useEffect(() => {
     async function ensureFocusedMarkerData() {
-      if (!focusedMarker || !highlines) return;
-      if (!highlines.find((high) => high.id === focusedMarker)) {
+      if (!focusedMarker) return;
+      if (!highlines?.find((high) => high.id === focusedMarker)) {
         const { data } = await queryClient.ensureQueryData({
           queryKey: ["highline", focusedMarker],
           queryFn: () => getHighline({ id: focusedMarker }),
