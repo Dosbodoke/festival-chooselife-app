@@ -1,13 +1,10 @@
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 
 import { getHighline } from "@/app/actions/getHighline";
 import CreateHighline from "@/components/CreateHighline";
+import { getQueryClient } from "@/lib/query";
 
 import HighlineCard from "./_components/HighlineCard";
 
@@ -24,7 +21,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const id = params.id;
 
-  const queryClient = new QueryClient();
+  const queryClient = getQueryClient();
 
   const { data: highlines } = await queryClient.fetchQuery({
     queryKey: ["highline", id],
@@ -43,7 +40,7 @@ export default async function Highline({
   params: { id },
   searchParams,
 }: Props) {
-  const queryClient = new QueryClient();
+  const queryClient = getQueryClient();
 
   await queryClient.prefetchQuery({
     queryKey: ["highline", id],
