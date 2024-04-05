@@ -48,14 +48,11 @@ interface Props {
 
 function Providers({ locale, messages, children }: Props) {
   const queryClient = getQueryClient();
+  const now = new Date();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <NextIntlClientProvider
-        locale={locale}
-        messages={messages}
-        timeZone={"America/Sao_Paulo"}
-      >
+      <NextIntlClientProvider locale={locale} messages={messages} now={now}>
         <ThemeProvider attribute="class" defaultTheme="system">
           <Toaster />
           <SpeedInsights />
