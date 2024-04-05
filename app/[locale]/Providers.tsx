@@ -22,7 +22,12 @@ function Providers({ locale, messages, children }: Props) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <NextIntlClientProvider locale={locale} messages={messages} now={now}>
+      <NextIntlClientProvider
+        locale={locale}
+        messages={messages}
+        now={now}
+        timeZone="America/Sao_Paulo"
+      >
         <ThemeProvider attribute="class" defaultTheme="system">
           <Toaster />
           <SpeedInsights />
