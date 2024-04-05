@@ -5,12 +5,9 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import "leaflet-defaulticon-compatibility";
 import "./leaflet-reset.css";
 
-import { useQueryClient } from "@tanstack/react-query";
 import type { Map } from "leaflet";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { MapContainer } from "react-leaflet";
-
-import { getHighline } from "@/app/actions/getHighline";
 
 import { MapControls } from "./Controls";
 import { LocationPicker } from "./LocationPicker";
