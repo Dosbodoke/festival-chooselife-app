@@ -29,7 +29,6 @@ export const Selected = ({
     queries: highlineIds.map((id) => ({
       queryKey: ["highline", id],
       queryFn: async () => getHighline({ id }),
-      staleTime: Infinity,
     })),
     combine: (results) => {
       return {

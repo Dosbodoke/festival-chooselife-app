@@ -1,10 +1,9 @@
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
+import { cache } from "react";
 
 import { getHighline } from "@/app/actions/getHighline";
 import CreateHighline from "@/components/CreateHighline";
-import { getQueryClient } from "@/lib/query";
 
 import HighlineCard from "./_components/HighlineCard";
 
@@ -15,18 +14,27 @@ type Props = {
   searchParams: { [key: string]: string | undefined };
 };
 
+type getProps = {
+  id?: string;
+  searchValue?: string;
+  pageParam?: number;
+  pageSize?: number;
+};
+
+const getHigh = cache(
+  async ({ pageParam, searchValue, pageSize, id }: getProps) => {
+    const result = await getHighline({ pageParam, searchValue, pageSize, id });
+    return result.data;
+  }
+);
+
 export async function generateMetadata(
   { params, searchParams }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const id = params.id;
 
-  const queryClient = getQueryClient();
-
-  const { data: highlines } = await queryClient.fetchQuery({
-    queryKey: ["highline", id],
-    queryFn: () => getHighline({ id }),
-  });
+  const highlines = await getHigh({ id });
   if (!highlines || highlines.length === 0) return notFound();
   const highline = highlines[0];
 
@@ -40,22 +48,20 @@ export default async function Highline({
   params: { id },
   searchParams,
 }: Props) {
-  const queryClient = getQueryClient();
+  const highlines = await getHigh({ id });
 
-  await queryClient.prefetchQuery({
-    queryKey: ["highline", id],
-    queryFn: () => getHighline({ id }),
-  });
+  if (!highlines || highlines.length === 0) return notFound();
+  const highline = highlines[0];
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
+    <>
       <div className="mx-auto w-full max-w-xl overflow-hidden">
-        <HighlineCard id={id} />
+        <HighlineCard highline={highline} />
       </div>
       <CreateHighline
         mapIsOpen={false}
         location={searchParams["location"] || null}
       />
-    </HydrationBoundary>
+    </>
   );
 }

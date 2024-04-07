@@ -64,7 +64,7 @@ function HighlineTabs({ highline }: Props) {
       <Tabs
         value={selectedTab}
         onValueChange={(value) => {
-          router.push(pathname + "?" + createQueryString("tab", value));
+          router.replace(pathname + "?" + createQueryString("tab", value));
         }}
       >
         <TabsList className="w-full gap-2">
