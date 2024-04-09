@@ -54,9 +54,9 @@ export const MapControls = ({ locale }: { locale: string }) => {
         />
       )}
 
-      <div className="absolute right-2 top-2 z-[1000] flex flex-col divide-y divide-muted-foreground overflow-hidden rounded-md bg-primary text-primary-foreground">
+      <div className="absolute right-2 top-2 z-[1000] flex flex-col divide-y divide-muted-foreground overflow-hidden rounded-md border border-input bg-background">
         <button
-          className="grid h-9 w-9 place-items-center hover:bg-primary/90 disabled:opacity-50"
+          className="grid h-9 w-9 place-items-center bg-transparent hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
           disabled={isLocated}
           onClick={() => {
             map.locate();
@@ -66,7 +66,7 @@ export const MapControls = ({ locale }: { locale: string }) => {
         </button>
         <Popover>
           <PopoverTrigger asChild>
-            <button className="grid h-9 w-9 place-items-center hover:bg-primary/90">
+            <button className="grid h-9 w-9 place-items-center bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground">
               <Layers2Icon />
             </button>
           </PopoverTrigger>

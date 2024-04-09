@@ -152,23 +152,27 @@ export const LocationPicker = ({
           color="#000000"
         />
       ) : null}
-      <div className="fixed bottom-3 left-1/2 z-[1000] flex w-fit -translate-x-1/2 items-center gap-2">
-        <button className="relative flex p-[3px]" onClick={handlePickLocation}>
-          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500" />
-          <div className="group relative rounded-full bg-black p-2 text-white transition duration-200 hover:bg-transparent">
+      <div className="fixed bottom-3 left-1/2 z-[1000] flex w-fit -translate-x-1/2 items-center gap-2 rounded-full bg-primary">
+        <button
+          className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+          onClick={handlePickLocation}
+        >
+          <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+          <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
             {anchorA
               ? anchorB
                 ? "confirmar"
                 : "Set anchor B"
               : "Set Anchor A"}
-          </div>
+          </span>
         </button>
-
         <button
-          className="rounded-full bg-destructive p-1"
-          onClick={handleUndoPickLocation}
+          className="mr-2 rounded-full p-1"
+          onClick={() => {
+            handleUndoPickLocation;
+          }}
         >
-          <Undo2 className="h-6 w-6 text-destructive-foreground" />
+          <Undo2 className="h-6 w-6 text-destructive" />
         </button>
       </div>
     </>
