@@ -75,7 +75,7 @@ export const LocationPicker = ({
 
   const icon = new L.DivIcon({
     html: ReactDOMServer.renderToString(
-      <MapPin className="absolute left-1/2 top-1/2 z-[1000] h-6 w-6 -translate-x-1/2 -translate-y-full fill-red-500 text-primary-foreground" />
+      <MapPin className="absolute left-1/2 top-1/2 z-[1000] h-6 w-6 -translate-x-1/2 -translate-y-full fill-red-500 text-primary" />
     ),
     iconSize: [24, 24],
   });
@@ -126,9 +126,13 @@ export const LocationPicker = ({
   return (
     <>
       {!(anchorA && anchorB) ? (
-        <div className="absolute left-1/2 top-1/2 z-[1000] flex -translate-x-1/2 -translate-y-full flex-col items-center text-primary-foreground">
-          {distance ? <span>{distance}m</span> : null}
-          <MapPin className="h-6 w-6 fill-red-500 text-primary-foreground" />
+        <div className="absolute left-1/2 top-1/2 z-[1000] flex -translate-x-1/2 -translate-y-full flex-col items-center">
+          {distance ? (
+            <span className="mb-1 rounded-2xl bg-primary px-2 py-1 text-primary-foreground">
+              {distance}m
+            </span>
+          ) : null}
+          <MapPin className="h-6 w-6 fill-red-500 text-primary" />
         </div>
       ) : null}
       {anchorA ? (
