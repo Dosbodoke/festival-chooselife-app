@@ -46,7 +46,7 @@ const MapComponent: React.FC<{
             focusedMarker={focusedMarker}
           />
         )}
-        <UserLocationMarker />
+        <UserLocationMarker focusedMarker={focusedMarker} />
         <MapControls locale={locale} />
       </MapContainer>
       <Selected highlineIds={highlineIds} focusedMarker={focusedMarker} />
