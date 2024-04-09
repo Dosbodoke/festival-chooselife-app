@@ -13,19 +13,12 @@ type Props = {
   searchParams: { [key: string]: string | undefined };
 };
 
-type getProps = {
-  id?: string;
-  searchValue?: string;
-  pageParam?: number;
-  pageSize?: number;
-};
-
-const getHigh = cache(
-  async ({ pageParam, searchValue, pageSize, id }: getProps) => {
-    const result = await getHighline({ pageParam, searchValue, pageSize, id });
-    return result.data;
-  }
-);
+const getHigh = cache(async ({ id }: { id: string }) => {
+  const result = await getHighline({
+    id,
+  });
+  return result.data;
+});
 
 export default async function Highline({
   params: { id },
