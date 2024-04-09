@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import type { LatLng } from "leaflet";
-import L from "leaflet";
 import { PlusIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -149,6 +148,7 @@ const CreateHighline = ({
     if (location && location !== "" && location !== "picking") {
       try {
         const decoded = decodeLocation(location);
+        const L = (await import("leaflet")).default;
         const anchorA = L.latLng(
           parseFloat(decoded[1]),
           parseFloat(decoded[2])
@@ -226,12 +226,11 @@ const CreateHighline = ({
     console.log("Invalid form");
   };
 
-  useEffect(
-    function setDistanceFromLocation() {
-      if (!location || location === "picking") return;
-
+  useEffect(() => {
+    async function setDistanceFromLocation(loc: string) {
       try {
-        const decoded = decodeLocation(location);
+        const decoded = decodeLocation(loc);
+        const L = (await import("leaflet")).default;
         const anchorA = L.latLng(
           parseFloat(decoded[1]),
           parseFloat(decoded[2])
@@ -245,9 +244,11 @@ const CreateHighline = ({
         if (e instanceof Error) console.error(e.message);
         return;
       }
-    },
-    [location, highlineForm]
-  );
+    }
+
+    if (!location || location === "picking") return;
+    setDistanceFromLocation(location);
+  }, [location, highlineForm]);
 
   return (
     <Drawer open={open} onOpenChange={(o) => handleToggleDrawer(o)}>
