@@ -30,14 +30,8 @@ export default async function Highline({
   const highline = highlines[0];
 
   return (
-    <>
-      <div className="mx-auto w-full max-w-xl overflow-hidden">
-        <HighlineCard highline={highline} />
-      </div>
-      <CreateHighline
-        mapIsOpen={false}
-        location={searchParams["location"] || null}
-      />
-    </>
+    <div className="mx-auto w-full max-w-xl overflow-hidden">
+      <HighlineCard highline={highline} />
+    </div>
   );
 }
