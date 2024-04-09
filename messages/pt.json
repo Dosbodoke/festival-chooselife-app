@@ -41,6 +41,27 @@
     },
     "seeDetails": "Ver detalhes"
   },
+  "map": {
+    "locationPicker": {
+      "setA": "Definir ancoragem A",
+      "setB": "Definir ancoragem B",
+      "confirm": "Confirmar"
+    },
+    "toggle": {
+      "map": "Mapa",
+      "list": "Lista"
+    },
+    "type": {
+      "header": "Tipode de mapa",
+      "description": "Selecione o mapa a ser visualizado",
+      "map": "Mapa",
+      "satellite": "Satélite"
+    },
+    "refetch": {
+      "pending": "Pesquisando...",
+      "enabled": "Pesquisar nesta área"
+    }
+  },
   "highline": {
     "registry": {
       "trigger": "Registrar rolê",

@@ -41,6 +41,27 @@
     },
     "seeDetails": "See details"
   },
+  "map": {
+    "locationPicker": {
+      "setA": "Set anchor A",
+      "setB": "Set anchor B",
+      "confirm": "Confirm"
+    },
+    "toggle": {
+      "map": "Map",
+      "list": "List"
+    },
+    "type": {
+      "header": "Map type",
+      "description": "Select the map to visualize",
+      "map": "Map",
+      "satellite": "Satellite"
+    },
+    "refetch": {
+      "pending": "Searching...",
+      "enabled": "Search in this area"
+    }
+  },
   "highline": {
     "registry": {
       "trigger": "Registry",

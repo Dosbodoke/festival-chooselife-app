@@ -3,6 +3,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import L, { type LatLng, type Marker as MarkerType } from "leaflet";
 import { MapPin, Undo2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useMemo, useRef, useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import { Marker, Polyline, useMapEvent } from "react-leaflet";
@@ -21,6 +22,7 @@ export const LocationPicker = ({
 }: {
   focusedMarker: string | null;
 }) => {
+  const t = useTranslations("map.locationPicker");
   const queryClient = useQueryClient();
   const supabase = useSupabaseBrowser();
   const insertLocationMutation = useMutation<
@@ -159,18 +161,12 @@ export const LocationPicker = ({
         >
           <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
           <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
-            {anchorA
-              ? anchorB
-                ? "confirmar"
-                : "Set anchor B"
-              : "Set Anchor A"}
+            {anchorA ? (anchorB ? t("confirm") : t("setB")) : t("setA")}
           </span>
         </button>
         <button
           className="mr-2 rounded-full p-1"
-          onClick={() => {
-            handleUndoPickLocation;
-          }}
+          onClick={handleUndoPickLocation}
         >
           <Undo2 className="h-6 w-6 text-destructive" />
         </button>

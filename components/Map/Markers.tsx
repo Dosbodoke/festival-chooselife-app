@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import type { BBox, GeoJsonProperties } from "geojson";
 import L from "leaflet";
 import { SearchIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import { Marker, Polyline, useMap, useMapEvents } from "react-leaflet";
@@ -36,6 +37,7 @@ export const Markers = ({
   focusedMarker: string | null;
   setHighlineIds: React.Dispatch<React.SetStateAction<string[]>>;
 }) => {
+  const t = useTranslations("map.refetch");
   const queryClient = useQueryClient();
   const supabase = useSupabaseBrowser();
   const { pushQueryParam, deleteQueryParam } = useQueryString();
@@ -246,7 +248,7 @@ export const Markers = ({
         }}
       >
         <p className="font-medium">
-          {isFetching ? "Pesquisando..." : "Pesquisar nesta área"}
+          {isFetching ? t("pending") : t("enabled")}
         </p>
         <div className="h-5 w-5">
           <SearchIcon className="h-full w-full text-blue-500" />

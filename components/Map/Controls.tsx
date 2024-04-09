@@ -7,6 +7,7 @@ import {
   MapIcon,
   SatelliteIcon,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { TileLayer, useMapEvents } from "react-leaflet";
 
@@ -18,6 +19,7 @@ import {
 import { useQueryString } from "@/hooks/useQueryString";
 
 export const MapControls = ({ locale }: { locale: string }) => {
+  const t = useTranslations("map.type");
   const { pushQueryParam, searchParams } = useQueryString();
 
   const acceptedTypes = ["map", "satelite"] as const;
@@ -73,9 +75,9 @@ export const MapControls = ({ locale }: { locale: string }) => {
           <PopoverContent className="w-80">
             <div className="grid gap-4">
               <div className="space-y-2">
-                <h4 className="font-medium leading-none">Tipo de mapa</h4>
+                <h4 className="font-medium leading-none">{t("header")}</h4>
                 <p className="text-sm text-muted-foreground">
-                  Selecione o mapa a ser visualizado
+                  {t("description")}
                 </p>
               </div>
               <div className="flex gap-2">
@@ -87,7 +89,7 @@ export const MapControls = ({ locale }: { locale: string }) => {
                   <div className="h-6 w-6">
                     <MapIcon />
                   </div>
-                  <div>Mapa</div>
+                  <div>{t("map")}</div>
                 </button>
                 <button
                   onClick={() => pushQueryParam("mapType", "satelite")}
@@ -97,7 +99,7 @@ export const MapControls = ({ locale }: { locale: string }) => {
                   <div className="h-6 w-6">
                     <SatelliteIcon />
                   </div>
-                  <div>Satélite</div>
+                  <div>{t("satellite")}</div>
                 </button>
               </div>
             </div>
