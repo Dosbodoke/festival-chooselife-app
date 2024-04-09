@@ -1,4 +1,3 @@
-import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 
@@ -27,22 +26,6 @@ const getHigh = cache(
     return result.data;
   }
 );
-
-export async function generateMetadata(
-  { params, searchParams }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
-  const id = params.id;
-
-  const highlines = await getHigh({ id });
-  if (!highlines || highlines.length === 0) return notFound();
-  const highline = highlines[0];
-
-  return {
-    title: highline.name,
-    description: highline.description,
-  };
-}
 
 export default async function Highline({
   params: { id },
