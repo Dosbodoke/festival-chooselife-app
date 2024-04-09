@@ -16,13 +16,15 @@ function HighlineImage({ coverImageId }: HighlinePropsImage) {
 
   if (!coverImageId) {
     return (
-      <Image
-        src={"/chooselife-black.png"}
-        alt="Chooselife Icon"
-        fill
-        priority
-        className="object-contain object-center dark:invert"
-      />
+      <div className="h-full w-full bg-muted drop-shadow">
+        <Image
+          src={"/chooselife-black.png"}
+          alt="Chooselife Icon"
+          fill
+          priority
+          className="object-contain object-center dark:invert"
+        />
+      </div>
     );
   }
 
@@ -31,7 +33,7 @@ function HighlineImage({ coverImageId }: HighlinePropsImage) {
   } = supabase.storage.from("images").getPublicUrl(`${coverImageId}`);
 
   return (
-    <>
+    <div className="h-full w-full drop-shadow">
       {!loaded ? (
         <div className="flex h-full items-center justify-center space-x-2 opacity-70 dark:invert">
           <span className="sr-only">Loading...</span>
@@ -47,7 +49,7 @@ function HighlineImage({ coverImageId }: HighlinePropsImage) {
         onLoad={() => setLoaded(true)}
         className={cn(loaded ? "object-cover object-center" : "opacity-0")}
       />
-    </>
+    </div>
   );
 }
 

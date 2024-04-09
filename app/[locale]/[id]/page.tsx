@@ -1,49 +1,37 @@
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
+import { cache } from "react";
 
-import HighlineImage from "@/components/HighlineImage";
-import { RegistryEntry } from "@/components/RegistryEntry";
-import Tabs from "@/components/tabs/Tabs";
-import { useSupabaseServer } from "@/utils/supabase/server";
+import { getHighline } from "@/app/actions/getHighline";
+import CreateHighline from "@/components/CreateHighline";
 
-import GoBack from "./_components/GoBack";
+import HighlineCard from "./_components/HighlineCard";
 
 export const dynamic = "force-dynamic";
 
+type Props = {
+  params: { id: string };
+  searchParams: { [key: string]: string | undefined };
+};
+
+const getHigh = cache(async ({ id }: { id: string }) => {
+  const result = await getHighline({
+    id,
+  });
+  return result.data;
+});
+
 export default async function Highline({
   params: { id },
-}: {
-  params: { id: string };
-}) {
-  const cookieStore = cookies();
-  const supabase = useSupabaseServer(cookieStore);
+  searchParams,
+}: Props) {
+  const highlines = await getHigh({ id });
 
-  const { data: highline } = await supabase
-    .from("highline")
-    .select()
-    .match({ id })
-    .single();
-
-  if (!highline) return notFound();
+  if (!highlines || highlines.length === 0) return notFound();
+  const highline = highlines[0];
 
   return (
-    <div className="relative mx-2 max-w-screen-md space-y-2 md:mx-auto">
-      <GoBack />
-      <div className="rounded-lg border border-gray-200 bg-white shadow-2xl dark:border-gray-700 dark:bg-gray-800">
-        <div className="relative h-64 w-full rounded md:h-96">
-          <HighlineImage coverImageId={highline.cover_image} />
-        </div>
-        <div className="h-full w-full space-y-2 px-2 pb-4 md:px-4 md:pb-6">
-          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-            {highline.name}
-          </h1>
-          <RegistryEntry
-            highlineId={highline.id}
-            highlineDistance={highline.lenght}
-          />
-          <Tabs highline={highline} />
-        </div>
-      </div>
+    <div className="mx-auto w-full max-w-xl overflow-hidden">
+      <HighlineCard highline={highline} />
     </div>
   );
 }

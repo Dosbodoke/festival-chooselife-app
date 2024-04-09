@@ -1,15 +1,15 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
 
+import type { Highline } from "@/app/actions/getHighline";
 import useSupabaseBrowser from "@/utils/supabase/client";
-import type { Tables } from "@/utils/supabase/database.types";
 
 import SeeMore from "../SeeMore";
 import LoadingSkeleton from "./LoadingSkeleton";
 import UsernameLink from "./UsernameLink";
 
 interface Props {
-  highline: Tables["highline"]["Row"];
+  highline: Highline;
 }
 
 const PAGE_SIZE = 5;

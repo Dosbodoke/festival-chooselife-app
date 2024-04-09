@@ -161,7 +161,7 @@ export const RegistryEntry = ({ highlineId, highlineDistance }: Props) => {
         <div className="scrollbar mx-auto flex w-full max-w-md flex-col overflow-auto rounded-t-[10px] p-4">
           {formMutation.isSuccess ? (
             <>
-              <DrawerHeader>
+              <DrawerHeader className="mb-4 p-0">
                 <DrawerTitle>{t("success.header")}</DrawerTitle>
                 <span className="block"> 🆑 🆑 🆑 🆑 🆑</span>
                 <DrawerDescription>{t("success.message")}</DrawerDescription>
@@ -175,7 +175,7 @@ export const RegistryEntry = ({ highlineId, highlineDistance }: Props) => {
             </>
           ) : (
             <>
-              <DrawerHeader>
+              <DrawerHeader className="mb-4 p-0">
                 <DrawerTitle>{t("title")}</DrawerTitle>
                 <DrawerDescription>{t("description")}</DrawerDescription>
               </DrawerHeader>
@@ -330,15 +330,10 @@ export const RegistryEntry = ({ highlineId, highlineDistance }: Props) => {
                     {formMutation.isPending ? (
                       <ButtonLoading />
                     ) : (
-                      <>
-                        <Button type="submit">
-                          <PlusSvg className="mr-2 h-4 w-4" />
-                          {t("submit")}
-                        </Button>
-                        <DrawerClose asChild>
-                          <Button variant="outline">Cancel</Button>
-                        </DrawerClose>
-                      </>
+                      <Button type="submit">
+                        <PlusSvg className="mr-2 h-4 w-4" />
+                        {t("submit")}
+                      </Button>
                     )}
                   </DrawerFooter>
                 </form>

@@ -1,54 +1,37 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 
-import type { Tables } from "@/utils/supabase/database.types";
+import type { Highline } from "@/app/actions/getHighline";
 
 interface Props {
-  highline: Tables["highline"]["Row"];
+  highline: Highline;
 }
 
 function Info({ highline }: Props) {
   const t = useTranslations("highline.tabs.informations");
 
   return (
-    <motion.div exit={{ opacity: 0 }}>
-      <p className="mb-4 leading-relaxed">{highline.description}</p>
+    <div>
+      <InfoItem
+        label={t("height")}
+        value={`${highline.height} ${t("meters")}`}
+      />
+      <InfoItem
+        label={t("length")}
+        value={`${highline.lenght} ${t("meters")}`}
+      />
+      <InfoItem label={t("mainWebbing")} value={highline.main_webbing} />
+      <InfoItem label={t("backupWebbing")} value={highline.backup_webbing} />
+    </div>
+  );
+}
 
-      <div className="flex border-t border-gray-200 py-2">
-        <span className="flex-1 text-gray-500 dark:text-gray-400">
-          {t("height")}
-        </span>
-        <span className="flex-1 text-right text-gray-900 dark:text-gray-200">
-          {highline.height} {t("meters")}
-        </span>
-      </div>
-      <div className="flex border-t border-gray-200 py-2">
-        <span className="flex-1 text-gray-500 dark:text-gray-400">
-          {t("length")}
-        </span>
-        <span className="flex-1 text-right text-gray-900 dark:text-gray-200">
-          {highline.lenght} {t("meters")}
-        </span>
-      </div>
-      <div className="flex border-t border-gray-200 py-2">
-        <span className="flex-1 text-gray-500 dark:text-gray-400">
-          {t("mainWebbing")}
-        </span>
-        <span className="flex-1 text-right text-gray-900 dark:text-gray-200">
-          {highline.main_webbing}
-        </span>
-      </div>
-      <div className="flex border-t border-gray-200 py-2">
-        <span className="flex-1 text-gray-500 dark:text-gray-400">
-          {t("backupWebbing")}
-        </span>
-        <span className="flex-1 text-right text-gray-900 dark:text-gray-200">
-          {highline.backup_webbing}
-        </span>
-      </div>
-    </motion.div>
+function InfoItem({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center space-x-2">
+      <div className="text-sm text-muted-foreground">{label}:</div>
+      <hr className="flex-1 border-t border-dashed border-muted-foreground" />
+      <div className="text-sm font-medium leading-none">{value}</div>
+    </div>
   );
 }
 

@@ -78,11 +78,12 @@ secret = "env(DEV_GOOGLE_CLIENT_SECRET)"
 redirect_uri = "http://localhost:54321/auth/v1/callback"
 
 [analytics]
-enabled = false
+enabled = true
 port = 54327
 vector_port = 54328
 # Setup BigQuery project to enable log viewer on local development stack.
 # See: https://supabase.com/docs/guides/getting-started/local-development#enabling-local-logging
+backend = "postgres"
 gcp_project_id = ""
 gcp_project_number = ""
 gcp_jwt_path = "supabase/gcloud.json"
