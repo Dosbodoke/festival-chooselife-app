@@ -23,6 +23,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
+  keywords: ["Highline", "Slackline", "Slackmap", "Freestyle"],
   applicationName: APP_NAME,
   title: {
     default: APP_DEFAULT_TITLE,
@@ -46,6 +47,7 @@ export const metadata: Metadata = {
       template: APP_TITLE_TEMPLATE,
     },
     description: APP_DESCRIPTION,
+    images: ["/icon.png"],
   },
   twitter: {
     card: "summary",
