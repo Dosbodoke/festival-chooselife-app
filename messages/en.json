@@ -41,8 +41,28 @@
     },
     "seeDetails": "See details"
   },
+  "map": {
+    "locationPicker": {
+      "setA": "Set anchor A",
+      "setB": "Set anchor B",
+      "confirm": "Confirm"
+    },
+    "toggle": {
+      "map": "Map",
+      "list": "List"
+    },
+    "type": {
+      "header": "Map type",
+      "description": "Select the map to visualize",
+      "map": "Map",
+      "satellite": "Satellite"
+    },
+    "refetch": {
+      "pending": "Searching...",
+      "enabled": "Search in this area"
+    }
+  },
   "highline": {
-    "goBack": "See all Highlines",
     "registry": {
       "trigger": "Registry",
       "title": "Registry",
@@ -88,7 +108,7 @@
         "height": "Height",
         "length": "Length",
         "mainWebbing": "Main webbing",
-        "backupWebbing": "Backup webing",
+        "backupWebbing": "Backup webbing",
         "meters": "meters"
       },
       "comments": "Comments",
@@ -105,7 +125,6 @@
     }
   },
   "profile": {
-    "goBack": "Go back to home page",
     "header": {
       "notVerified": "This user is not verified"
     },
@@ -162,6 +181,7 @@
   "LocaleSwitcher": {
     "label": "Change language"
   },
+  "goBack": "Go Back",
   "usernameDialog": {
     "title": "Welcome to the CHOOSELIFE APP 👋",
     "description": "Just afew more additional information to finish setting up your account.",

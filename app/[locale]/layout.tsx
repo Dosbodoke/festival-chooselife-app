@@ -19,7 +19,11 @@ const APP_DEFAULT_TITLE = "Chooselife";
 const APP_TITLE_TEMPLATE = "%s - Chooselife";
 const APP_DESCRIPTION = "O aplicativo feito para o Highliner";
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:3000";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
+  keywords: ["Highline", "Slackline", "Slackmap", "Freestyle"],
   applicationName: APP_NAME,
   title: {
     default: APP_DEFAULT_TITLE,
@@ -43,6 +47,7 @@ export const metadata: Metadata = {
       template: APP_TITLE_TEMPLATE,
     },
     description: APP_DESCRIPTION,
+    images: ["/icon.png"],
   },
   twitter: {
     card: "summary",
@@ -78,7 +83,7 @@ export default function RootLayout({
               <UsernameDialog />
               {children}
             </main>
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </Providers>
         <Analytics />

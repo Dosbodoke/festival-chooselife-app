@@ -4,8 +4,8 @@ import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useCallback, useMemo } from "react";
 
+import type { Highline } from "@/app/actions/getHighline";
 import { usePathname, useRouter } from "@/navigation";
-import type { Tables } from "@/utils/supabase/database.types";
 
 import Cadenas from "./Cadenas";
 import CategoryDropdown from "./CategoryDropdown";
@@ -14,7 +14,7 @@ import FullLine from "./FullLine";
 import Speedline from "./Speedline";
 
 interface Props {
-  highline: Tables["highline"]["Row"];
+  highline: Highline;
 }
 
 export type Category = "speedline" | "distance" | "cadenas" | "fullLine";

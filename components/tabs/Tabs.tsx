@@ -5,42 +5,25 @@ import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useCallback, useMemo } from "react";
 
+import type { Highline } from "@/app/actions/getHighline";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePathname, useRouter } from "@/navigation";
-import type { Tables } from "@/utils/supabase/database.types";
 
 import Comments from "./Comments";
 import Info from "./Info";
 import Ranking from "./Ranking";
 
-type Tab = {
-  id: string;
-  label: string;
-};
-
 interface Props {
-  highline: Tables["highline"]["Row"];
+  highline: Highline;
 }
 
-function tabMapping(tab: string, highline: Tables["highline"]["Row"]) {
-  switch (tab) {
-    case "info":
-      return <Info highline={highline} />;
-    case "reviews":
-      return <Comments highline={highline} />;
-    case "ranking":
-      return <Ranking highline={highline} />;
-    default:
-      return null;
-  }
-}
-
-function Tabs({ highline }: Props) {
+function HighlineTabs({ highline }: Props) {
   const t = useTranslations("highline.tabs");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const tab = searchParams.get("tab") || "info";
+  const selectedTab = searchParams.get("tab") || "info";
 
   // Get a new searchParams string by merging the current
   // searchParams with a provided key/value pair
@@ -55,55 +38,64 @@ function Tabs({ highline }: Props) {
     [searchParams]
   );
 
-  const tabs = useMemo<Tab[]>(
+  const tabs = useMemo(
     () => [
       {
         id: "info",
         label: t("informations.label"),
+        content: <Info highline={highline} />,
       },
       {
-        id: "reviews",
+        id: "comments",
         label: t("comments"),
+        content: <Comments highline={highline} />,
       },
       {
         id: "ranking",
         label: "Ranking",
+        content: <Ranking highline={highline} />,
       },
     ],
-    [t]
+    [t, highline]
   );
 
   return (
-    <div className="h-full">
-      <ul className="mb-4 flex">
-        {tabs.map((item) => (
-          <li
-            key={item.id}
-            className={`relative flex-auto cursor-pointer rounded-t-md text-base md:text-lg ${
-              item.id === tab ? "text-blue-600 dark:text-blue-500" : ""
-            }`}
-            onClick={(e) => {
-              e.preventDefault();
-              router.push(pathname + "?" + createQueryString("tab", item.id));
-            }}
-          >
-            {item.label}
-            {item.id === tab ? (
-              <motion.div
-                className="absolute -bottom-px left-0 right-0 h-px bg-blue-700"
-                layout
-                layoutId="underline"
-              />
-            ) : null}
-          </li>
-        ))}
-      </ul>
+    <>
+      <Tabs
+        value={selectedTab}
+        onValueChange={(value) => {
+          router.replace(pathname + "?" + createQueryString("tab", value));
+        }}
+      >
+        <TabsList className="w-full gap-2">
+          {tabs.map((tab) => (
+            <TabsTrigger
+              className="relative data-[state=active]:bg-transparent"
+              value={tab.id}
+              key={`${tab.id}-trigger`}
+            >
+              {selectedTab === tab.id && (
+                <motion.div
+                  layoutId="selectedTab"
+                  transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
+                  className="absolute inset-0 rounded-md bg-background"
+                />
+              )}
 
-      <div className="overflow-y-auto overflow-x-hidden">
-        {tabMapping(tab, highline)}
-      </div>
-    </div>
+              <span className="relative block text-black dark:text-white">
+                {tab.label}
+              </span>
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        {tabs.map((tab) => (
+          <TabsContent key={`${tab.id}-content`} value={tab.id}>
+            {tab.content}
+          </TabsContent>
+        ))}
+      </Tabs>
+    </>
   );
 }
 
-export default Tabs;
+export default HighlineTabs;

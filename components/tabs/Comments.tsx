@@ -4,15 +4,15 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useFormatter } from "next-intl";
 import React from "react";
 
+import type { Highline } from "@/app/actions/getHighline";
 import useSupabaseBrowser from "@/utils/supabase/client";
-import type { Tables } from "@/utils/supabase/database.types";
 
 import LoadingSkeleton from "./Ranking/LoadingSkeleton";
 import UsernameLink from "./Ranking/UsernameLink";
 import SeeMore from "./SeeMore";
 
 interface Props {
-  highline: Tables["highline"]["Row"];
+  highline: Highline;
 }
 
 const PAGE_SIZE = 5;
@@ -61,33 +61,40 @@ function Comments({ highline }: Props) {
   }
 
   return (
-    <>
+    <div className="space-y-4">
       {comments?.pages.map((page) =>
         page?.map((comment) => (
-          <article
+          <div
+            className="flex items-start space-x-4"
             key={`comment-${comment.created_at}`}
-            className="bg border-t border-gray-200 py-6 text-base first:border-t-0 dark:border-gray-700"
           >
-            <footer className="mb-2 flex items-center justify-between">
-              <div className="flex flex-1 items-center justify-between gap-2">
+            {/* <div className="relative flex-shrink-0">
+              <Image
+                src={"/default-profile-picture.png"}
+                fill={true}
+                alt="Profile picture"
+                className="h-12 w-12 rounded-full"
+              />
+            </div> */}
+            <div className="space-y-1">
+              <div className="flex items-center space-x-2">
                 <UsernameLink username={comment.instagram} />
-                <p className="text-sm text-muted-foreground">
-                  {format.dateTime(new Date(comment.created_at), {
-                    dateStyle: "medium",
-                  })}
-                </p>
+                {/* <h4 className="text-sm font-semibold">{comment.instagram}</h4> */}
+                <span className="text-xs text-muted-foreground">
+                  {format.relativeTime(new Date(comment.created_at))}
+                </span>
               </div>
-            </footer>
-            <p className="text-gray-500 dark:text-gray-400">
-              {comment.comment}
-            </p>
-          </article>
+              <p className="text-sm leading-none text-muted-foreground">
+                {comment.comment}
+              </p>
+            </div>
+          </div>
         ))
       )}
       {hasNextPage && (
         <SeeMore onClick={() => fetchNextPage()} disabled={isLoading} />
       )}
-    </>
+    </div>
   );
 }
 

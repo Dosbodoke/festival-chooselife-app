@@ -3,17 +3,23 @@
 import { type CookieOptions, createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
-import { Database } from "@/utils/supabase/database.types";
+import { Database, Functions } from "@/utils/supabase/database.types";
+
+type Props = {
+  id?: string;
+  searchValue?: string;
+  pageParam?: number;
+  pageSize?: number;
+};
+
+export type Highline = Functions["get_highline"]["Returns"][0];
 
 export const getHighline = async ({
   pageParam,
   searchValue,
   pageSize,
-}: {
-  pageParam: number;
-  searchValue: string;
-  pageSize: number;
-}) => {
+  id,
+}: Props) => {
   const cookieStore = cookies();
   const supabase = createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -37,18 +43,14 @@ export const getHighline = async ({
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data } = await supabase
-    .from("highline")
-    .select("*, favorite_highline(profile_id)")
-    .range((pageParam - 1) * pageSize, pageParam * pageSize - 1)
-    .ilike("name", `%${searchValue || ""}%`);
+  const result = await supabase.rpc("get_highline", {
+    ...(id ? { searchid: id } : {}),
+    ...(user?.id ? { userid: user.id } : {}),
+    ...(searchValue ? { searchname: searchValue } : {}),
+    ...(pageParam && pageSize
+      ? { pageparam: pageParam, pagesize: pageSize }
+      : {}),
+  });
 
-  return {
-    data: data?.map((high) => ({
-      ...high,
-      is_favorite: !!high.favorite_highline.find(
-        (fav) => fav.profile_id === user?.id
-      ),
-    })),
-  };
+  return result;
 };

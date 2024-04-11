@@ -41,8 +41,28 @@
     },
     "seeDetails": "Ver detalhes"
   },
+  "map": {
+    "locationPicker": {
+      "setA": "Definir ancoragem A",
+      "setB": "Definir ancoragem B",
+      "confirm": "Confirmar"
+    },
+    "toggle": {
+      "map": "Mapa",
+      "list": "Lista"
+    },
+    "type": {
+      "header": "Tipode de mapa",
+      "description": "Selecione o mapa a ser visualizado",
+      "map": "Mapa",
+      "satellite": "Satélite"
+    },
+    "refetch": {
+      "pending": "Pesquisando...",
+      "enabled": "Pesquisar nesta área"
+    }
+  },
   "highline": {
-    "goBack": "Ver todos os highlines",
     "registry": {
       "trigger": "Registrar rolê",
       "title": "Registrar rolê",
@@ -105,7 +125,6 @@
     }
   },
   "profile": {
-    "goBack": "Voltar para a página inicial",
     "header": {
       "notVerified": "Este usuário não é verificado"
     },
@@ -162,6 +181,7 @@
   "LocaleSwitcher": {
     "label": "Trocar idioma"
   },
+  "goBack": "Voltar",
   "usernameDialog": {
     "title": "Bem vindo ao APP CHOOSELIFE 👋",
     "description": "Só falta algumas informações detalhes para terminar de criar sua conta.",

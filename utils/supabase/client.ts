@@ -4,7 +4,7 @@ import { useMemo } from "react";
 
 import type { Database } from "./database.types";
 
-type TypedSupabaseClient = SupabaseClient<Database>;
+export type TypedSupabaseClient = SupabaseClient<Database>;
 
 let client: TypedSupabaseClient | undefined;
 
