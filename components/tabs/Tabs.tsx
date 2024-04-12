@@ -3,11 +3,11 @@
 import { motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 
 import type { Highline } from "@/app/actions/getHighline";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { usePathname, useRouter } from "@/navigation";
+import { useQueryString } from "@/hooks/useQueryString";
 
 import Comments from "./Comments";
 import Info from "./Info";
@@ -19,24 +19,10 @@ interface Props {
 
 function HighlineTabs({ highline }: Props) {
   const t = useTranslations("highline.tabs");
-  const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { replaceQueryParam } = useQueryString();
 
   const selectedTab = searchParams.get("tab") || "info";
-
-  // Get a new searchParams string by merging the current
-  // searchParams with a provided key/value pair
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
-      params.delete("category");
-
-      return params.toString();
-    },
-    [searchParams]
-  );
 
   const tabs = useMemo(
     () => [
@@ -64,7 +50,7 @@ function HighlineTabs({ highline }: Props) {
       <Tabs
         value={selectedTab}
         onValueChange={(value) => {
-          router.replace(pathname + "?" + createQueryString("tab", value));
+          replaceQueryParam("tab", value);
         }}
       >
         <TabsList className="my-2 w-full gap-2">
