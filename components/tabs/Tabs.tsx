@@ -67,7 +67,7 @@ function HighlineTabs({ highline }: Props) {
           router.replace(pathname + "?" + createQueryString("tab", value));
         }}
       >
-        <TabsList className="w-full gap-2">
+        <TabsList className="my-2 w-full gap-2">
           {tabs.map((tab) => (
             <TabsTrigger
               className="relative data-[state=active]:bg-transparent"
