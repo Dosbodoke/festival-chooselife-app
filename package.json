@@ -40,7 +40,7 @@
     "leaflet": "^1.9.4",
     "leaflet-defaulticon-compatibility": "^0.1.2",
     "lucide-react": "^0.340.0",
-    "next": "^14.1.0",
+    "next": "^14.2.0",
     "next-intl": "^3.5.0",
     "next-recompose-plugins": "^2.0.2",
     "next-themes": "^0.2.1",
