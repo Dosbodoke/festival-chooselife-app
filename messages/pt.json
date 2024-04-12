@@ -102,6 +102,12 @@
       },
       "submit": "Registrar"
     },
+    "header": {
+      "expandDescription": "Ver mais...",
+      "shrinkDescription": "Ver menos...",
+      "seeOnMap": "Ver no mapa",
+      "addToMap": "Adicionar ao mapa"
+    },
     "tabs": {
       "informations": {
         "label": "Informações",

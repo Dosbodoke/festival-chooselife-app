@@ -102,6 +102,12 @@
       },
       "submit": "Registry"
     },
+    "header": {
+      "expandDescription": "See more...",
+      "shrinkDescription": "See less...",
+      "seeOnMap": "See on map",
+      "addToMap": "Add to map"
+    },
     "tabs": {
       "informations": {
         "label": "Informations",

@@ -1,7 +1,7 @@
 "use client";
 
 import { MapPinIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 
 import type { Highline } from "@/app/actions/getHighline";
@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
 
 export const HighlineHeader = ({ highline }: { highline: Highline }) => {
-  const router = useRouter();
+  const t = useTranslations("highline.header");
 
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [isClamped, setIsClamped] = useState(false);
@@ -48,7 +48,9 @@ export const HighlineHeader = ({ highline }: { highline: Highline }) => {
               onClick={() => setDescriptionExpanded((prev) => !prev)}
               variant="link"
             >
-              {descriptionExpanded ? "See less..." : "See more..."}
+              {descriptionExpanded
+                ? t("shrinkDescription")
+                : t("expandDescription")}
             </Button>
           </div>
         ) : null}
@@ -58,28 +60,19 @@ export const HighlineHeader = ({ highline }: { highline: Highline }) => {
           highlineId={highline.id}
           highlineDistance={highline.lenght}
         />
-        {highline.anchor_a_lat && highline.anchor_b_lat ? (
-          <Button
-            variant="outline"
-            className="border-dashed"
-            onClick={() => {
-              router.push(``);
-            }}
-            asChild
-          >
+        <Button variant="outline" className="border-dashed" asChild>
+          {highline.anchor_a_lat && highline.anchor_b_lat ? (
             <Link href={`/?view=map&focusedMarker=${highline.id}`}>
-              <MapPinIcon className="mr-2 h-4 w-4" /> Ver no mapa
+              <MapPinIcon className="mr-2 h-4 w-4" /> {t("seeOnMap")}
             </Link>
-          </Button>
-        ) : (
-          <Button variant="outline" className="border-dashed" asChild>
+          ) : (
             <Link
               href={`/?view=map&focusedMarker=${highline.id}&location=picking`}
             >
-              <MapPinIcon className="mr-2 h-4 w-4" /> Adicionar ao mapa
+              <MapPinIcon className="mr-2 h-4 w-4" /> {t("addToMap")}
             </Link>
-          </Button>
-        )}
+          )}
+        </Button>
       </div>
     </CardHeader>
   );
