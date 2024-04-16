@@ -8,7 +8,7 @@ import type { Highline } from "@/app/actions/getHighline";
 import { usePathname, useRouter } from "@/navigation";
 
 import Cadenas from "./Cadenas";
-import CategoryDropdown from "./CategoryDropdown";
+import { CategoryDropdown } from "./CategoryDropdown";
 import Distance from "./Distance";
 import FullLine from "./FullLine";
 import Speedline from "./Speedline";
