@@ -5,8 +5,8 @@ import type { Highline } from "@/app/actions/getHighline";
 import useSupabaseBrowser from "@/utils/supabase/client";
 
 import SeeMore from "../SeeMore";
+import { Leaderboard } from "./leaderboard";
 import LoadingSkeleton from "./LoadingSkeleton";
-import UsernameLink from "./UsernameLink";
 
 interface Props {
   highline: Highline;
@@ -27,7 +27,7 @@ function Cadenas({ highline }: Props) {
   }
 
   const {
-    data: entrys,
+    data: entries,
     isLoading,
     isError,
     fetchNextPage,
@@ -53,26 +53,21 @@ function Cadenas({ highline }: Props) {
 
   return (
     <>
-      <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-        {entrys?.pages.map((page, pageIndex) =>
-          page?.map((entry, idx) => {
-            const rankingPosition = pageIndex * PAGE_SIZE + idx + 1; // Calculate ranking
+      <Leaderboard
+        entries={
+          entries?.pages.flatMap((page, pageIdx) => {
             return (
-              <li key={entry.instagram} className="py-3 sm:py-4">
-                <div className="flex items-center space-x-4">
-                  <div className="font-bold">{rankingPosition}</div>
-                  <div className="min-w-0 flex-1">
-                    <UsernameLink username={entry.instagram} />
-                  </div>
-                  <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    {entry.total_cadenas}
-                  </div>
-                </div>
-              </li>
+              page?.map((entry, idx) => {
+                return {
+                  name: entry.instagram,
+                  position: pageIdx * PAGE_SIZE + idx + 1,
+                  value: entry.total_cadenas.toString(),
+                };
+              }) || []
             );
-          })
-        )}
-      </ul>
+          }) || [null, null, null]
+        }
+      />
       {hasNextPage && (
         <SeeMore onClick={() => fetchNextPage()} disabled={isLoading} />
       )}

@@ -1,0 +1,185 @@
+import { cva } from "class-variance-authority";
+import { CrownIcon } from "lucide-react";
+import React from "react";
+
+import { cn } from "@/lib/utils";
+import { transformSecondsToTimeString } from "@/utils/helperFunctions";
+
+import { UsernameLink } from "./UsernameLink";
+
+interface PodiumProps {
+  name: string;
+  value: string;
+  position: number;
+}
+
+const podiumVariants = cva("", {
+  variants: {
+    size: {
+      small: "p-4 md:p-6",
+      large: "md:p-6 md:py-12 p-4 py-8",
+    },
+    text: {
+      gold: "text-yellow-500",
+      silver: "text-neutral-500 dark:text-neutral-300",
+      bronze: "text-amber-700",
+    },
+    gradient: {
+      gold: "from-yellow-500/5 dark:from-yellow-500/10",
+      silver: "from-neutral-300/20 dark:from-neutral-300/10",
+      bronze: "from-amber-700/5 dark:from-amber-700/10",
+    },
+  },
+});
+
+const Podium = ({ name, value, position }: PodiumProps) => {
+  const variant =
+    position === 1 ? "gold" : position === 2 ? "silver" : "bronze";
+
+  return (
+    <div className="w-1/3">
+      <div className="flex flex-col items-center md:min-w-[12rem]">
+        <div className="flex w-full items-center justify-center border-4 border-b-4 border-t-0 border-transparent border-b-neutral-200 dark:border-b-neutral-600">
+          <div
+            className={cn(
+              "flex w-[96%] flex-col items-center gap-3 bg-gradient-to-t to-80% py-4",
+              podiumVariants({
+                gradient: variant,
+              })
+            )}
+          >
+            <div className="flex flex-col items-center gap-1">
+              <div className="flex h-8 w-8 items-center justify-center md:h-12 md:w-12">
+                <CrownIcon
+                  className={cn(
+                    "text-2xl md:text-4xl",
+                    podiumVariants({ text: variant })
+                  )}
+                />
+              </div>
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-neutral-200/40 dark:bg-neutral-800/60 md:h-16 md:w-16">
+                <i
+                  className="fa-regular fa-user text-lg text-neutral-600 dark:text-neutral-50 md:text-2xl"
+                  aria-hidden="true"
+                />
+              </div>
+            </div>
+            <div className="flex w-full flex-col items-center gap-0.5 md:gap-0">
+              <span className="xs:text-sm max-w-[calc(100%-1rem)] overflow-hidden text-ellipsis whitespace-nowrap text-xs text-neutral-800 dark:text-neutral-50 md:text-lg">
+                {name}
+              </span>
+              <div className="flex flex-col items-center gap-1">
+                <span
+                  className={cn(
+                    "text-xs md:text-base",
+                    podiumVariants({ text: variant })
+                  )}
+                >
+                  <span className="whitespace-nowrap">
+                    <i
+                      className="fas fa-dice-d8"
+                      aria-hidden="true"
+                      style={{ scale: "0.6" }}
+                    />{" "}
+                    {value}
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className={cn(
+            "xs:rounded-b-md flex w-full items-start justify-center bg-neutral-100 dark:bg-neutral-900/75",
+            podiumVariants({
+              size: variant === "gold" ? "large" : "small",
+            })
+          )}
+        >
+          <div className="flex items-center justify-center gap-1">
+            <span className="xs:text-sm text-xs text-neutral-400 dark:text-neutral-600 md:text-lg">
+              #
+            </span>
+            <span className="xs:text-base text-sm font-semibold text-neutral-800 dark:text-neutral-50 md:text-2xl">
+              {position}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const LeaderboardRow = ({ name, value, position }: PodiumProps) => {
+  return (
+    <li className="py-3 sm:py-4">
+      <div className="flex items-start space-x-4">
+        <div className="flex items-center justify-center gap-1">
+          <span className="xs:text-sm text-xs text-neutral-400 dark:text-neutral-600 md:text-lg">
+            #
+          </span>
+          <span className="xs:text-base text-sm font-semibold text-neutral-800 dark:text-neutral-50 md:text-2xl">
+            {position}
+          </span>
+        </div>
+        <div className="min-w-0 flex-1">
+          <UsernameLink username={name} />
+          {/* <div className="text-sm text-muted-foreground ">
+            {format.dateTime(new Date(entry.created_at), {
+              dateStyle: "short",
+            })}
+          </div> */}
+        </div>
+        <div className="text-base font-medium text-gray-900 dark:text-white">
+          {value}
+        </div>
+      </div>
+    </li>
+  );
+};
+
+interface LeaderboardProps {
+  entries: Array<{
+    name: string;
+    value: string;
+    position: number;
+  } | null>;
+}
+
+export const Leaderboard = ({ entries }: LeaderboardProps) => {
+  return (
+    <>
+      <div className="xs:gap-2 bg-light-theme-dotted-pattern dark:bg-dark-theme-dotted-pattern bg-dotted-pattern-size flex items-end justify-center gap-0 border-t border-t-neutral-100 bg-center bg-repeat dark:border-t-neutral-700/75 md:gap-4">
+        <Podium
+          name={entries[1]?.name || ""}
+          value={entries[1]?.value || ""}
+          position={2}
+        />
+        <Podium
+          name={entries[0]?.name || ""}
+          value={entries[0]?.value || ""}
+          position={1}
+        />
+        <Podium
+          name={entries[2]?.name || ""}
+          value={entries[2]?.value || ""}
+          position={3}
+        />
+      </div>
+      <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+        {entries
+          .slice(3)
+          .map((entry) =>
+            entry ? (
+              <LeaderboardRow
+                key={entry.name}
+                name={entry?.name}
+                position={entry?.position}
+                value={entry?.value}
+              />
+            ) : null
+          )}
+      </ul>
+    </>
+  );
+};
