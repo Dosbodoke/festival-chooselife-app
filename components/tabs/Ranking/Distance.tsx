@@ -5,8 +5,8 @@ import type { Highline } from "@/app/actions/getHighline";
 import useSupabaseBrowser from "@/utils/supabase/client";
 
 import SeeMore from "../SeeMore";
+import { Leaderboard } from "./leaderboard";
 import LoadingSkeleton from "./LoadingSkeleton";
-import UsernameLink from "./UsernameLink";
 
 interface Props {
   highline: Highline;
@@ -17,7 +17,7 @@ const PAGE_SIZE = 5;
 function Distance({ highline }: Props) {
   const supabase = useSupabaseBrowser();
 
-  async function fetchEntrys({ pageParam = 1 }) {
+  async function fetchEntries({ pageParam = 1 }) {
     const { data, error } = await supabase.rpc("get_total_walked", {
       highline_id: highline.id,
       page_number: pageParam,
@@ -27,14 +27,14 @@ function Distance({ highline }: Props) {
   }
 
   const {
-    data: entrys,
+    data: entries,
     isLoading,
     isError,
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery({
     queryKey: ["entry", highline.id, "distance"],
-    queryFn: ({ pageParam }) => fetchEntrys({ pageParam }),
+    queryFn: ({ pageParam }) => fetchEntries({ pageParam }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, pages) => {
       const nextPage = pages.length + 1;
@@ -53,26 +53,21 @@ function Distance({ highline }: Props) {
 
   return (
     <>
-      <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-        {entrys?.pages.map((page, pageIndex) =>
-          page?.map((entry, idx) => {
-            const rankingPosition = pageIndex * PAGE_SIZE + idx + 1; // Calculate ranking
+      <Leaderboard
+        entries={
+          entries?.pages.flatMap((page, pageIdx) => {
             return (
-              <li key={entry.instagram} className="py-3 sm:py-4">
-                <div className="flex items-center space-x-4">
-                  <div className="font-bold">{rankingPosition}</div>
-                  <div className="min-w-0 flex-1">
-                    <UsernameLink username={entry.instagram} />
-                  </div>
-                  <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    {entry.total_distance_walked}m
-                  </div>
-                </div>
-              </li>
+              page?.map((entry, idx) => {
+                return {
+                  name: entry.instagram,
+                  position: pageIdx * PAGE_SIZE + idx + 1,
+                  value: `${entry.total_distance_walked}m`,
+                };
+              }) || []
             );
-          })
-        )}
-      </ul>
+          }) || [null, null, null]
+        }
+      />
       {hasNextPage && (
         <SeeMore onClick={() => fetchNextPage()} disabled={isLoading} />
       )}
