@@ -1,5 +1,4 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useFormatter } from "next-intl";
 import React from "react";
 
 import type { Highline } from "@/app/actions/getHighline";
@@ -7,7 +6,7 @@ import { transformSecondsToTimeString } from "@/utils/helperFunctions";
 import useSupabaseBrowser from "@/utils/supabase/client";
 
 import SeeMore from "../SeeMore";
-import { Leaderboard, LeaderboardRow } from "./leaderboard";
+import { Leaderboard } from "./leaderboard";
 import LoadingSkeleton from "./LoadingSkeleton";
 
 interface Props {
@@ -18,7 +17,6 @@ const PAGE_SIZE = 5;
 
 function Speedline({ highline }: Props) {
   const supabase = useSupabaseBrowser();
-  const format = useFormatter();
 
   async function fetchEntries({ pageParam = 1 }) {
     const { data, error } = await supabase.rpc("get_crossing_time", {
@@ -26,7 +24,6 @@ function Speedline({ highline }: Props) {
       page_number: pageParam,
       page_size: PAGE_SIZE,
     });
-    console.log({ data });
     return data;
   }
 
@@ -62,6 +59,7 @@ function Speedline({ highline }: Props) {
           entries?.pages.flatMap((page, pageIdx) => {
             return (
               page?.map((entry, idx) => {
+                if (!entry.crossing_time) return null;
                 return {
                   name: entry.instagram,
                   position: pageIdx * PAGE_SIZE + idx + 1,
