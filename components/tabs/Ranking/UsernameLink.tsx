@@ -5,7 +5,7 @@ interface Props {
   username: string;
   className?: string;
 }
-function UsernameLink({ username, className }: Props) {
+export const UsernameLink = ({ username, className }: Props) => {
   return (
     <Link
       href={`/profile/${username.replace("@", "")}`}
@@ -17,6 +17,4 @@ function UsernameLink({ username, className }: Props) {
       {username}
     </Link>
   );
-}
-
-export default UsernameLink;
+};

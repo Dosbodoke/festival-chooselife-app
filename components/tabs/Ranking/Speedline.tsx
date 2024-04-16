@@ -5,11 +5,10 @@ import React from "react";
 import type { Highline } from "@/app/actions/getHighline";
 import { transformSecondsToTimeString } from "@/utils/helperFunctions";
 import useSupabaseBrowser from "@/utils/supabase/client";
-import type { Tables } from "@/utils/supabase/database.types";
 
 import SeeMore from "../SeeMore";
+import { Leaderboard, LeaderboardRow } from "./leaderboard";
 import LoadingSkeleton from "./LoadingSkeleton";
-import UsernameLink from "./UsernameLink";
 
 interface Props {
   highline: Highline;
@@ -21,7 +20,7 @@ function Speedline({ highline }: Props) {
   const supabase = useSupabaseBrowser();
   const format = useFormatter();
 
-  async function fetchEntrys({ pageParam = 1 }) {
+  async function fetchEntries({ pageParam = 1 }) {
     const { data } = await supabase
       .from("entry")
       .select()
@@ -33,14 +32,14 @@ function Speedline({ highline }: Props) {
   }
 
   const {
-    data: entrys,
+    data: entries,
     isLoading,
     isError,
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery({
     queryKey: ["entry", highline.id, "speedline"],
-    queryFn: ({ pageParam }) => fetchEntrys({ pageParam }),
+    queryFn: ({ pageParam }) => fetchEntries({ pageParam }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, pages) => {
       const nextPage = pages.length + 1;
@@ -59,32 +58,22 @@ function Speedline({ highline }: Props) {
 
   return (
     <>
-      <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-        {entrys?.pages.map((page, pageIndex) =>
-          page?.map((entry, idx) => {
-            if (!entry.crossing_time || !entry.created_at) return null;
-            const rankingPosition = pageIndex * PAGE_SIZE + idx + 1; // Calculate ranking
+      <Leaderboard
+        entries={
+          entries?.pages.flatMap((page, pageIdx) => {
             return (
-              <li key={entry.id} className="py-3 sm:py-4">
-                <div className="flex items-start space-x-4">
-                  <div className="font-bold">{rankingPosition}</div>
-                  <div className="min-w-0 flex-1">
-                    <UsernameLink username={entry.instagram} />
-                    <div className="text-sm text-muted-foreground ">
-                      {format.dateTime(new Date(entry.created_at), {
-                        dateStyle: "short",
-                      })}
-                    </div>
-                  </div>
-                  <div className="text-base font-medium text-gray-900 dark:text-white">
-                    {transformSecondsToTimeString(entry.crossing_time)}
-                  </div>
-                </div>
-              </li>
+              page?.map((entry, idx) => {
+                if (!entry.crossing_time || !entry.created_at) return null;
+                return {
+                  name: entry.instagram,
+                  position: pageIdx * PAGE_SIZE + idx + 1,
+                  value: transformSecondsToTimeString(entry.crossing_time),
+                };
+              }) || []
             );
-          })
-        )}
-      </ul>
+          }) || [null, null, null]
+        }
+      />
       {hasNextPage && (
         <SeeMore onClick={() => fetchNextPage()} disabled={isLoading} />
       )}

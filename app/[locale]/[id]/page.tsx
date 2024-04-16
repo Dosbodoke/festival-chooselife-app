@@ -29,9 +29,5 @@ export default async function Highline({
   if (!highlines || highlines.length === 0) return notFound();
   const highline = highlines[0];
 
-  return (
-    <div className="mx-auto w-full max-w-xl overflow-hidden">
-      <HighlineCard highline={highline} />
-    </div>
-  );
+  return <HighlineCard highline={highline} />;
 }
