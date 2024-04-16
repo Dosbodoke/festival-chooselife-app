@@ -8,7 +8,7 @@ import type { Highline } from "@/app/actions/getHighline";
 import useSupabaseBrowser from "@/utils/supabase/client";
 
 import LoadingSkeleton from "./Ranking/LoadingSkeleton";
-import UsernameLink from "./Ranking/UsernameLink";
+import { UsernameLink } from "./Ranking/UsernameLink";
 import SeeMore from "./SeeMore";
 
 interface Props {
