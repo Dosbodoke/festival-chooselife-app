@@ -1,5 +1,6 @@
 import { cva } from "class-variance-authority";
 import { CrownIcon } from "lucide-react";
+import Image from "next/image";
 import React from "react";
 
 import { cn } from "@/lib/utils";
@@ -11,6 +12,7 @@ interface PodiumProps {
   username: string;
   value: string;
   position: number;
+  profilePicture?: string;
 }
 
 const podiumVariants = cva("", {
@@ -32,7 +34,39 @@ const podiumVariants = cva("", {
   },
 });
 
-const Podium = ({ username, value, position }: PodiumProps) => {
+const RankingPosition = ({ position }: { position: number }) => (
+  <div className="flex items-center justify-center gap-1">
+    <span className="xs:text-sm text-xs text-neutral-400 dark:text-neutral-600 md:text-lg">
+      #
+    </span>
+    <span className="xs:text-base text-sm font-semibold text-neutral-800 dark:text-neutral-50 md:text-2xl">
+      {position}
+    </span>
+  </div>
+);
+
+const ProfilePicture = ({
+  username,
+  src,
+}: {
+  username?: string;
+  src?: string;
+}) => {
+  return (
+    <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-neutral-200/40 dark:bg-neutral-800/60 md:h-16 md:w-16">
+      {username ? (
+        <Image
+          src={src || "/default-profile-picture.png"}
+          fill={true}
+          alt="Profile picture"
+          className="rounded-full"
+        />
+      ) : null}
+    </div>
+  );
+};
+
+const Podium = ({ username, value, position, profilePicture }: PodiumProps) => {
   const variant =
     position === 1 ? "gold" : position === 2 ? "silver" : "bronze";
 
@@ -60,12 +94,7 @@ const Podium = ({ username, value, position }: PodiumProps) => {
                   )}
                 />
               </div>
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-neutral-200/40 dark:bg-neutral-800/60 md:h-16 md:w-16">
-                <i
-                  className="fa-regular fa-user text-lg text-neutral-600 dark:text-neutral-50 md:text-2xl"
-                  aria-hidden="true"
-                />
-              </div>
+              <ProfilePicture username={username} src={profilePicture} />
             </div>
             <div className="flex w-full flex-col items-center gap-0.5 md:gap-0">
               <span className="xs:text-sm max-w-[calc(100%-1rem)] overflow-hidden text-ellipsis whitespace-nowrap text-xs font-normal text-neutral-800 dark:text-neutral-50 md:text-lg">
@@ -78,14 +107,7 @@ const Podium = ({ username, value, position }: PodiumProps) => {
                     podiumVariants({ text: variant })
                   )}
                 >
-                  <span className="whitespace-nowrap">
-                    <i
-                      className="fas fa-dice-d8"
-                      aria-hidden="true"
-                      style={{ scale: "0.6" }}
-                    />{" "}
-                    {value}
-                  </span>
+                  <span className="whitespace-nowrap">{value}</span>
                 </span>
               </div>
             </div>
@@ -99,32 +121,24 @@ const Podium = ({ username, value, position }: PodiumProps) => {
             })
           )}
         >
-          <div className="flex items-center justify-center gap-1">
-            <span className="xs:text-sm text-xs text-neutral-400 dark:text-neutral-600 md:text-lg">
-              #
-            </span>
-            <span className="xs:text-base text-sm font-semibold text-neutral-800 dark:text-neutral-50 md:text-2xl">
-              {position}
-            </span>
-          </div>
+          <RankingPosition position={position} />
         </div>
       </div>
     </Link>
   );
 };
 
-export const LeaderboardRow = ({ username, value, position }: PodiumProps) => {
+export const LeaderboardRow = ({
+  username,
+  value,
+  position,
+  profilePicture,
+}: PodiumProps) => {
   return (
     <li className="py-3 sm:py-4">
-      <div className="flex items-start space-x-4">
-        <div className="flex items-center justify-center gap-1">
-          <span className="xs:text-sm text-xs text-neutral-400 dark:text-neutral-600 md:text-lg">
-            #
-          </span>
-          <span className="xs:text-base text-sm font-semibold text-neutral-800 dark:text-neutral-50 md:text-2xl">
-            {position}
-          </span>
-        </div>
+      <div className="flex space-x-4">
+        <RankingPosition position={position} />
+        <ProfilePicture username={username} src={profilePicture} />
         <div className="min-w-0 flex-1">
           <UsernameLink username={username} />
           {/* <div className="text-sm text-muted-foreground ">
@@ -146,6 +160,7 @@ interface LeaderboardProps {
     name: string;
     value: string;
     position: number;
+    profilePicture: string;
   } | null>;
 }
 
@@ -157,16 +172,19 @@ export const Leaderboard = ({ entries }: LeaderboardProps) => {
           username={entries[1]?.name || ""}
           value={entries[1]?.value || ""}
           position={2}
+          profilePicture={entries[1]?.profilePicture}
         />
         <Podium
           username={entries[0]?.name || ""}
           value={entries[0]?.value || ""}
           position={1}
+          profilePicture={entries[0]?.profilePicture}
         />
         <Podium
           username={entries[2]?.name || ""}
           value={entries[2]?.value || ""}
           position={3}
+          profilePicture={entries[2]?.profilePicture}
         />
       </div>
       <ul className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -179,6 +197,7 @@ export const Leaderboard = ({ entries }: LeaderboardProps) => {
                 username={entry?.name}
                 position={entry?.position}
                 value={entry?.value}
+                profilePicture={entry.profilePicture}
               />
             ) : null
           )}

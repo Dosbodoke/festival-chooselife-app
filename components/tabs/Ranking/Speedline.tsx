@@ -21,13 +21,12 @@ function Speedline({ highline }: Props) {
   const format = useFormatter();
 
   async function fetchEntries({ pageParam = 1 }) {
-    const { data } = await supabase
-      .from("entry")
-      .select()
-      .match({ highline_id: highline.id })
-      .order("crossing_time", { ascending: true })
-      .range((pageParam - 1) * PAGE_SIZE, pageParam * PAGE_SIZE - 1);
-
+    const { data, error } = await supabase.rpc("get_crossing_time", {
+      highline_id: highline.id,
+      page_number: pageParam,
+      page_size: PAGE_SIZE,
+    });
+    console.log({ data });
     return data;
   }
 
@@ -63,11 +62,11 @@ function Speedline({ highline }: Props) {
           entries?.pages.flatMap((page, pageIdx) => {
             return (
               page?.map((entry, idx) => {
-                if (!entry.crossing_time || !entry.created_at) return null;
                 return {
                   name: entry.instagram,
                   position: pageIdx * PAGE_SIZE + idx + 1,
                   value: transformSecondsToTimeString(entry.crossing_time),
+                  profilePicture: entry.profile_picture || "",
                 };
               }) || []
             );

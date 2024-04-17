@@ -62,6 +62,7 @@ function FullLine({ highline }: Props) {
                   name: entry.instagram,
                   position: pageIdx * PAGE_SIZE + idx + 1,
                   value: entry.total_full_lines.toString(),
+                  profilePicture: entry.profile_picture,
                 };
               }) || []
             );

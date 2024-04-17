@@ -62,6 +62,7 @@ function Cadenas({ highline }: Props) {
                   name: entry.instagram,
                   position: pageIdx * PAGE_SIZE + idx + 1,
                   value: entry.total_cadenas.toString(),
+                  profilePicture: entry.profile_picture,
                 };
               }) || []
             );
