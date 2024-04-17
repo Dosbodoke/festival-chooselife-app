@@ -62,6 +62,7 @@ function Distance({ highline }: Props) {
                   name: entry.instagram,
                   position: pageIdx * PAGE_SIZE + idx + 1,
                   value: `${entry.total_distance_walked}m`,
+                  profilePicture: entry.profile_picture,
                 };
               }) || []
             );
