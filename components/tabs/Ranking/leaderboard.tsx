@@ -3,12 +3,12 @@ import { CrownIcon } from "lucide-react";
 import React from "react";
 
 import { cn } from "@/lib/utils";
-import { transformSecondsToTimeString } from "@/utils/helperFunctions";
+import { Link } from "@/navigation";
 
 import { UsernameLink } from "./UsernameLink";
 
 interface PodiumProps {
-  name: string;
+  username: string;
   value: string;
   position: number;
 }
@@ -32,12 +32,15 @@ const podiumVariants = cva("", {
   },
 });
 
-const Podium = ({ name, value, position }: PodiumProps) => {
+const Podium = ({ username, value, position }: PodiumProps) => {
   const variant =
     position === 1 ? "gold" : position === 2 ? "silver" : "bronze";
 
   return (
-    <div className="w-1/3">
+    <Link
+      href={`/profile/${username.replace("@", "")}`}
+      className={`w-1/3 ${username ? "cursor-pointer" : "pointer-events-none"}`}
+    >
       <div className="flex flex-col items-center md:min-w-[12rem]">
         <div className="flex w-full items-center justify-center border-4 border-b-4 border-t-0 border-transparent border-b-neutral-200 dark:border-b-neutral-600">
           <div
@@ -65,8 +68,8 @@ const Podium = ({ name, value, position }: PodiumProps) => {
               </div>
             </div>
             <div className="flex w-full flex-col items-center gap-0.5 md:gap-0">
-              <span className="xs:text-sm max-w-[calc(100%-1rem)] overflow-hidden text-ellipsis whitespace-nowrap text-xs text-neutral-800 dark:text-neutral-50 md:text-lg">
-                {name}
+              <span className="xs:text-sm max-w-[calc(100%-1rem)] overflow-hidden text-ellipsis whitespace-nowrap text-xs font-normal text-neutral-800 dark:text-neutral-50 md:text-lg">
+                {username}
               </span>
               <div className="flex flex-col items-center gap-1">
                 <span
@@ -106,11 +109,11 @@ const Podium = ({ name, value, position }: PodiumProps) => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
-export const LeaderboardRow = ({ name, value, position }: PodiumProps) => {
+export const LeaderboardRow = ({ username, value, position }: PodiumProps) => {
   return (
     <li className="py-3 sm:py-4">
       <div className="flex items-start space-x-4">
@@ -123,7 +126,7 @@ export const LeaderboardRow = ({ name, value, position }: PodiumProps) => {
           </span>
         </div>
         <div className="min-w-0 flex-1">
-          <UsernameLink username={name} />
+          <UsernameLink username={username} />
           {/* <div className="text-sm text-muted-foreground ">
             {format.dateTime(new Date(entry.created_at), {
               dateStyle: "short",
@@ -151,17 +154,17 @@ export const Leaderboard = ({ entries }: LeaderboardProps) => {
     <>
       <div className="xs:gap-2 bg-light-theme-dotted-pattern dark:bg-dark-theme-dotted-pattern bg-dotted-pattern-size flex items-end justify-center gap-0 border-t border-t-neutral-100 bg-center bg-repeat dark:border-t-neutral-700/75 md:gap-4">
         <Podium
-          name={entries[1]?.name || ""}
+          username={entries[1]?.name || ""}
           value={entries[1]?.value || ""}
           position={2}
         />
         <Podium
-          name={entries[0]?.name || ""}
+          username={entries[0]?.name || ""}
           value={entries[0]?.value || ""}
           position={1}
         />
         <Podium
-          name={entries[2]?.name || ""}
+          username={entries[2]?.name || ""}
           value={entries[2]?.value || ""}
           position={3}
         />
@@ -173,7 +176,7 @@ export const Leaderboard = ({ entries }: LeaderboardProps) => {
             entry ? (
               <LeaderboardRow
                 key={entry.name}
-                name={entry?.name}
+                username={entry?.name}
                 position={entry?.position}
                 value={entry?.value}
               />
