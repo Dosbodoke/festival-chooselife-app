@@ -193,10 +193,10 @@ export const Leaderboard = ({ entries }: LeaderboardProps) => {
           .map((entry) =>
             entry ? (
               <LeaderboardRow
-                key={entry.name}
-                username={entry?.name}
-                position={entry?.position}
-                value={entry?.value}
+                key={`entry-${entry.position}`}
+                username={entry.name}
+                position={entry.position}
+                value={entry.value}
                 profilePicture={entry.profilePicture}
               />
             ) : null
