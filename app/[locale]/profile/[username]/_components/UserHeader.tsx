@@ -72,9 +72,9 @@ function UserHeader({ profile, username }: Props) {
             <p className="text-muted-foreground">@{username}</p>
             <ul className="space-y-2">
               {profile.birthday ? (
-                <li className="flex items-center gap-2 text-muted-foreground">
+                <li className="flex items-center gap-1 text-muted-foreground">
                   <CalendarFoldIcon className="h-4 w-4 text-muted-foreground" />
-                  <span>age:</span> {calculateAge(profile.birthday)}
+                  <span>{t("age")}:</span> {calculateAge(profile.birthday)}
                 </li>
               ) : null}
               {/* <li className="flex gap-2 text-muted-foreground">

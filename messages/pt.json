@@ -132,7 +132,8 @@
   },
   "profile": {
     "header": {
-      "notVerified": "Este usuário não é verificado"
+      "notVerified": "Este usuário não é verificado",
+      "age": "Idade"
     },
     "notFound": {
       "title": "Usuário não existe",
@@ -227,6 +228,10 @@
       "description": {
         "label": "Bio",
         "placeholder": "Fale um pouco sobre você"
+      },
+      "birthday": {
+        "label": "Aniversário",
+        "placeholder": "Selecione uma data"
       },
       "submit": "Salvar"
     }

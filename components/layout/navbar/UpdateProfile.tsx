@@ -2,11 +2,16 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
+import { format } from "date-fns";
+import { enUS, ptBR } from "date-fns/locale";
+import { CalendarIcon } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button, ButtonLoading } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Drawer,
   DrawerClose,
@@ -22,9 +27,16 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/Input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { TextArea } from "@/components/ui/TextArea";
+import { cn } from "@/lib/utils";
 import { useRouter } from "@/navigation";
 import useSupabaseBrowser from "@/utils/supabase/client";
 import { Database } from "@/utils/supabase/database.types";
@@ -32,6 +44,11 @@ import { Database } from "@/utils/supabase/database.types";
 const formSchema = z.object({
   name: z.string().min(3, "Deve conter ao menos 3 caracteres"),
   description: z.string().optional(),
+  birthday: z
+    .date({
+      required_error: "A date of birth is required.",
+    })
+    .nullable(),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -41,42 +58,46 @@ export default function UpdateProfile({
 }: {
   profile: Database["public"]["Tables"]["profiles"]["Row"];
 }) {
+  const dateLocale = useLocale() === "pt" ? ptBR : enUS;
   const t = useTranslations("updateProfile");
+  const [open, setOpen] = useState(false);
   const router = useRouter();
   const supabase = useSupabaseBrowser();
-  const profileForm = useForm<FormSchema>({
+  const form = useForm<FormSchema>({
     mode: "onTouched",
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: profile.name || "",
       description: profile.description || "",
+      birthday: profile.birthday ? new Date(profile.birthday) : null,
     },
   });
 
-  async function updateProfile(formData: FormSchema) {
-    const { error } = await supabase
-      .from("profiles")
-      .update({
-        description: formData.description,
-        name: formData.name,
-      })
-      .eq("id", profile.id);
+  const profileMutation = useMutation<void, Error, FormSchema>({
+    mutationFn: async (formData) => {
+      const { error } = await supabase
+        .from("profiles")
+        .update({
+          description: formData.description,
+          name: formData.name,
+          birthday: formData.birthday?.toDateString(),
+        })
+        .eq("id", profile.id);
 
-    await supabase.auth.updateUser({
-      data: {
-        displayName: formData.name,
-      },
-    });
-    if (error) throw error;
-  }
+      if (error) throw new Error(error.message);
 
-  const profileMutation = useMutation({
-    mutationFn: updateProfile,
-    onSuccess(data, variables, context) {
+      await supabase.auth.updateUser({
+        data: {
+          displayName: formData.name,
+        },
+      });
+    },
+    onSuccess() {
+      setOpen(false);
       router.refresh();
     },
-    onError: (e) => {
-      profileForm.setError("root", {
+    onError: () => {
+      form.setError("root", {
         message: "Error on upadting the profile, try again later!",
       });
     },
@@ -91,22 +112,22 @@ export default function UpdateProfile({
   };
 
   return (
-    <Drawer>
+    <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <Button variant="outline">{t("trigger")}</Button>
       </DrawerTrigger>
       <DrawerContent>
-        <div className="scrollbar mx-auto flex w-full max-w-md flex-col overflow-auto rounded-t-[10px] p-4">
-          <DrawerHeader>
+        <div className="scrollbar mx-auto flex w-full max-w-md flex-col space-y-4 overflow-auto rounded-t-[10px] p-4">
+          <DrawerHeader className="p-0">
             <DrawerTitle>{t("title")}</DrawerTitle>
           </DrawerHeader>
-          <Form {...profileForm}>
+          <Form {...form}>
             <form
-              onSubmit={profileForm.handleSubmit(onSubmit, onError)}
+              onSubmit={form.handleSubmit(onSubmit, onError)}
               className="space-y-6"
             >
               <FormField
-                control={profileForm.control}
+                control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
@@ -121,7 +142,7 @@ export default function UpdateProfile({
                 )}
               />
               <FormField
-                control={profileForm.control}
+                control={form.control}
                 name="description"
                 render={({ field }) => (
                   <FormItem>
@@ -137,16 +158,58 @@ export default function UpdateProfile({
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="birthday"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>{t("fields.birthday.label")}</FormLabel>
+                    <Popover modal={true}>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP", {
+                                locale: dateLocale,
+                              })
+                            ) : (
+                              <span>{t("fields.birthday.placeholder")}</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          initialFocus
+                          mode="single"
+                          captionLayout="dropdown-buttons"
+                          locale={dateLocale}
+                          selected={field.value || undefined}
+                          fromYear={1900}
+                          toYear={new Date().getFullYear()}
+                          onSelect={field.onChange}
+                          disabled={(date) =>
+                            date > new Date() || date < new Date("1900-01-01")
+                          }
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <DrawerFooter className="p-0">
                 {profileMutation.isPending ? (
                   <ButtonLoading />
                 ) : (
-                  <>
-                    <Button type="submit">{t("fields.submit")}</Button>
-                    <DrawerClose asChild>
-                      <Button variant="outline">Cancel</Button>
-                    </DrawerClose>
-                  </>
+                  <Button type="submit">{t("fields.submit")}</Button>
                 )}
               </DrawerFooter>
             </form>
