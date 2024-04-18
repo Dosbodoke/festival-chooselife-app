@@ -67,7 +67,7 @@ export default async function Profile({
 
   return (
     <div className="mx-2 max-w-screen-md space-y-4 pt-0 md:mx-auto md:space-y-6 md:pt-8">
-      <div className="flex flex-row items-end justify-between">
+      <div className="flex justify-end">
         {profile && profile.id === user?.id ? (
           <UpdateProfile profile={profile} />
         ) : null}
