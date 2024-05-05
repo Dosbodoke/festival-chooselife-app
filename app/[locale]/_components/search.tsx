@@ -3,7 +3,7 @@
 import { SearchIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/ui/input";
 import { useQueryString } from "@/hooks/useQueryString";
 
 export default function Search() {
