@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { PlusSvg } from "@/assets";
+import { SuccessAnimation } from "@/components/animations/SuccessAnimation";
 import { Button, ButtonLoading } from "@/components/ui/button";
 import {
   Drawer,
@@ -19,10 +20,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { transformTimeStringToSeconds } from "@/utils/helperFunctions";
-import useSupabaseBrowser from "@/utils/supabase/client";
-
-import { SuccessAnimation } from "./animations/SuccessAnimation";
 import {
   Form,
   FormControl,
@@ -30,10 +27,14 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from "./ui/form";
-import { Input } from "./ui/Input";
-import NumberPicker from "./ui/NumberPicker";
-import { TextArea } from "./ui/TextArea";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/Input";
+import NumberPicker from "@/components/ui/NumberPicker";
+import { TextArea } from "@/components/ui/TextArea";
+import { transformTimeStringToSeconds } from "@/utils/helperFunctions";
+import useSupabaseBrowser from "@/utils/supabase/client";
+
+import MultiSelectFormField from "./witness-select";
 
 const formSchema = z.object({
   instagram: z
@@ -59,11 +60,9 @@ const formSchema = z.object({
       "Inválido, use o formato mm:ss"
     ),
   witness: z
-    .string()
-    .refine(
-      (w) => /^(?=.*@[^,\s]+,.*@[^,\s]+).*$/.test(w),
-      "Inválido, coloque o instagram de duas pessoas, separado por vírgula."
-    ),
+    .array(z.string().min(1))
+    .min(1)
+    .nonempty("Please select at least two witness."),
   comment: z.string(),
 });
 
@@ -90,7 +89,7 @@ export const RegistryEntry = ({ highlineId, highlineDistance }: Props) => {
       full_lines: 0,
       distance: 0,
       time: "",
-      witness: "",
+      witness: [],
       comment: "",
     },
   });
@@ -104,32 +103,30 @@ export const RegistryEntry = ({ highlineId, highlineDistance }: Props) => {
     if (totalDistance) entryForm.setValue("distance", totalDistance);
   }, [watchCadenas, watchFullLines, highlineDistance, entryForm]);
 
-  const createRecord = async (formData: FormSchema) => {
-    const response = await supabase.from("entry").insert([
-      {
-        highline_id: highlineId,
-        instagram: formData.instagram.toLowerCase(),
-        cadenas: formData.cadenas,
-        full_lines: formData.full_lines,
-        distance_walked: formData.distance,
-        crossing_time: formData.time
-          ? transformTimeStringToSeconds(formData.time)
-          : null,
-        comment: formData.comment,
-        witness: formData.witness?.replace(" ", "").split(","),
-        is_highliner: true, // TODO: Remove this field from database
-      },
-    ]);
-
-    if (response.error) {
-      throw new Error(response.error.message);
-    }
-
-    return response.data;
-  };
-
   const formMutation = useMutation({
-    mutationFn: createRecord,
+    mutationFn: async (formData: FormSchema) => {
+      const response = await supabase.from("entry").insert([
+        {
+          highline_id: highlineId,
+          instagram: formData.instagram.toLowerCase(),
+          cadenas: formData.cadenas,
+          full_lines: formData.full_lines,
+          distance_walked: formData.distance,
+          crossing_time: formData.time
+            ? transformTimeStringToSeconds(formData.time)
+            : null,
+          comment: formData.comment,
+          witness: formData.witness,
+          is_highliner: true, // TODO: Remove this field from database
+        },
+      ]);
+
+      if (response.error) {
+        throw new Error(response.error.message);
+      }
+
+      return response.data;
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["entry"] });
     },
@@ -157,7 +154,7 @@ export const RegistryEntry = ({ highlineId, highlineDistance }: Props) => {
         <Button variant="default">{t("trigger")}</Button>
       </DrawerTrigger>
 
-      <DrawerContent>
+      <DrawerContent onPointerDownOutside={(e) => true && e.preventDefault()}>
         <div className="scrollbar mx-auto flex w-full max-w-md flex-col overflow-auto rounded-t-[10px] p-4">
           {formMutation.isSuccess ? (
             <>
@@ -301,9 +298,11 @@ export const RegistryEntry = ({ highlineId, highlineDistance }: Props) => {
                         </div>
 
                         <FormControl>
-                          <Input
+                          <MultiSelectFormField
+                            defaultValue={field.value}
+                            onValueChange={field.onChange}
                             placeholder={t("witness.placeholder")}
-                            {...field}
+                            variant="secondary"
                           />
                         </FormControl>
                       </FormItem>
