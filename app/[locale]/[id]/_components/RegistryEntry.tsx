@@ -61,10 +61,6 @@ const formSchema = z.object({
       "Inválido, use o formato mm:ss"
     ),
   witness: z.string().min(2).array().length(2),
-  // witness: z
-  //   .array(z.string().min(2))
-  //   .min(2)
-  //   .nonempty("Please select at least two witness."),
   comment: z.string(),
 });
 
