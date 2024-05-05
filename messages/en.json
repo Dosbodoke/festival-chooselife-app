@@ -73,7 +73,8 @@
       },
       "description": "Registry your walk and get access to your statistics.",
       "instagram": {
-        "placeholder": "Your @ on instragram"
+        "description": "Username on the Chooselife APP or instragram @",
+        "placeholder": "@user"
       },
       "cadenas": {
         "label": "Sent",
