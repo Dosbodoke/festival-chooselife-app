@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 
 import type { Highline } from "@/app/actions/getHighline";
-import { RegistryEntry } from "@/components/RegistryEntry";
+import { RegistryEntry } from "@/app/[locale]/[id]/_components/RegistryEntry";
 import { Button } from "@/components/ui/button";
 import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
