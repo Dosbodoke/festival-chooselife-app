@@ -93,8 +93,12 @@
       },
       "witness": {
         "label": "Testemunhas",
-        "description": "Insira o instagram de duas pessoas, separado por vírgula.",
-        "placeholder": "Exemplo: @festivalchooselife, @testemunha2"
+        "description": "Selectione dois úsuario para ser sua testeminha, se a pessoa não tiver no APP use o @ do instagram dela",
+        "placeholder": "Exemplo: @festivalchooselife, @juangsandrade",
+        "searchPlaceholder": "Username ou @ do instagram",
+        "clear": "Limpar",
+        "close": "Fechar",
+        "verifiedHeading": "Verificados"
       },
       "comment": {
         "label": "Comentário",
