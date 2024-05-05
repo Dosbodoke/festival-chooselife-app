@@ -28,7 +28,7 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/ui/input";
 import NumberPicker from "@/components/ui/NumberPicker";
 import { TextArea } from "@/components/ui/TextArea";
 import { transformTimeStringToSeconds } from "@/utils/helperFunctions";
