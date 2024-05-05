@@ -2,13 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { cva, type VariantProps } from "class-variance-authority";
 import { BadgeCheckIcon, CheckIcon, ChevronDown, XIcon } from "lucide-react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import * as React from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Command,
-  CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
@@ -22,10 +22,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import useSupabaseBrowser from "@/utils/supabase/client";
-
-import { Skeleton } from "../../../../components/ui/skeleton";
 
 const multiSelectVariants = cva(
   "gap-2 m-1 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300",
@@ -76,7 +75,7 @@ const MultiSelectFormField = React.forwardRef<
     ref
   ) => {
     const supabase = useSupabaseBrowser();
-
+    const t = useTranslations("highline.registry.witness");
     const [search, setSearch] = React.useState("");
     const normalizedSearch = React.useMemo(
       () => (!search || search.startsWith("@") ? search : `@${search}`),
@@ -200,8 +199,8 @@ const MultiSelectFormField = React.forwardRef<
         <PopoverContent
           className="p-0 drop-shadow-sm"
           align="start"
-          side="bottom"
-          sideOffset={8}
+          side="top"
+          sideOffset={12}
           onEscapeKeyDown={(e) => {
             e.stopPropagation();
             setIsPopoverOpen(false);
@@ -215,14 +214,12 @@ const MultiSelectFormField = React.forwardRef<
         >
           <Command loop shouldFilter={false}>
             <CommandInput
-              placeholder="Search..."
+              placeholder={t("searchPlaceholder")}
               onKeyDown={handleInputKeyDown}
               value={search}
               onValueChange={setSearch}
             />
             <CommandList>
-              {/* {isPending ? <CommandLoading>Loading</CommandLoading> : null} */}
-              <CommandEmpty>No results found.</CommandEmpty>
               {search.length > 0 ||
               selectedOption.find((value) => value.verified === false) ? (
                 <CommandGroup heading="Instagram">
@@ -293,7 +290,7 @@ const MultiSelectFormField = React.forwardRef<
                 </CommandGroup>
               ) : null}
               {data && data.length > 0 ? (
-                <CommandGroup heading="Verified">
+                <CommandGroup heading={t("verifiedHeading")}>
                   {data?.map((dt) => {
                     if (!dt.username) return null;
                     const username = dt.username;
@@ -354,7 +351,7 @@ const MultiSelectFormField = React.forwardRef<
               )}
               <CommandSeparator />
               <CommandGroup>
-                <div className="flex items-center justify-between">
+                <div className="relative flex gap-1">
                   {selectedOption.length > 0 && (
                     <>
                       <CommandItem
@@ -365,17 +362,16 @@ const MultiSelectFormField = React.forwardRef<
                           pointerEvents: "auto",
                           opacity: 1,
                         }}
-                        className="flex-1 cursor-pointer justify-center"
+                        className="flex-1 cursor-pointer justify-center text-red-500"
                       >
-                        Clear
+                        {t("clear")}
                       </CommandItem>
                       <Separator
                         orientation="vertical"
-                        className="min-h-6 flex h-full"
+                        className="absolute left-1/2 my-auto"
                       />
                     </>
                   )}
-                  <CommandSeparator />
                   <CommandItem
                     onSelect={() => setIsPopoverOpen(false)}
                     style={{
@@ -384,7 +380,7 @@ const MultiSelectFormField = React.forwardRef<
                     }}
                     className="flex-1 cursor-pointer justify-center"
                   >
-                    Close
+                    {t("close")}
                   </CommandItem>
                 </div>
               </CommandGroup>
