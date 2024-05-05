@@ -73,7 +73,8 @@
       },
       "description": "Registre como foi o seu rolê e tenha acesso as suas estatísticas.",
       "instagram": {
-        "placeholder": "Seu @ do instragram"
+        "description": "Nome de úsuario no APP Chooselife ou o @ do instagram",
+        "placeholder": "@user"
       },
       "cadenas": {
         "label": "Cadenas",
@@ -93,7 +94,7 @@
       },
       "witness": {
         "label": "Testemunhas",
-        "description": "Selectione dois úsuario para ser sua testeminha, se a pessoa não tiver no APP use o @ do instagram dela",
+        "description": "Selecione dois úsuario para ser testemunha, se a pessoa não tiver no APP use o @ do instagram dela",
         "placeholder": "Exemplo: @festivalchooselife, @juangsandrade",
         "searchPlaceholder": "Username ou @ do instagram",
         "clear": "Limpar",

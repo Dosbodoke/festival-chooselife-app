@@ -40,6 +40,7 @@ import MultiSelectFormField from "./witness-select";
 const formSchema = z.object({
   instagram: z
     .string()
+    .trim()
     .startsWith("@", "O usuário deve começar com @")
     .min(3, "Deve conter ao menos 3 caracteres"),
   cadenas: z.number().nonnegative(),
@@ -91,6 +92,19 @@ export const RegistryEntry = ({ highlineId, highlineDistance }: Props) => {
       comment: "",
     },
   });
+
+  useEffect(() => {
+    async function setUsername() {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      entryForm.setValue(
+        "instagram",
+        session?.user.user_metadata["username"] || ""
+      );
+    }
+    setUsername();
+  }, [supabase.auth, entryForm]);
 
   const watchCadenas = entryForm.watch("cadenas");
   const watchFullLines = entryForm.watch("full_lines");
@@ -184,7 +198,10 @@ export const RegistryEntry = ({ highlineId, highlineDistance }: Props) => {
                     name="instagram"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Instagram</FormLabel>
+                        <FormLabel>Highliner</FormLabel>
+                        <FormDescription>
+                          {t("instagram.description")}
+                        </FormDescription>
                         <FormControl>
                           <Input
                             placeholder={t("instagram.placeholder")}
