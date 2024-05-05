@@ -27,6 +27,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import NumberPicker from "@/components/ui/NumberPicker";
@@ -59,10 +60,11 @@ const formSchema = z.object({
         /^([0-9]|[0-5][0-9]):[0-5][0-9]$/.test(value),
       "Inválido, use o formato mm:ss"
     ),
-  witness: z
-    .array(z.string().min(1))
-    .min(1)
-    .nonempty("Please select at least two witness."),
+  witness: z.string().min(2).array().length(2),
+  // witness: z
+  //   .array(z.string().min(2))
+  //   .min(2)
+  //   .nonempty("Please select at least two witness."),
   comment: z.string(),
 });
 
@@ -305,6 +307,7 @@ export const RegistryEntry = ({ highlineId, highlineDistance }: Props) => {
                             variant="secondary"
                           />
                         </FormControl>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
