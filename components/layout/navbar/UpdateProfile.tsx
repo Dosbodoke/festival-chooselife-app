@@ -35,7 +35,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { TextArea } from "@/components/ui/TextArea";
+import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { useRouter } from "@/navigation";
 import useSupabaseBrowser from "@/utils/supabase/client";
@@ -148,7 +148,7 @@ export default function UpdateProfile({
                   <FormItem>
                     <FormLabel>{t("fields.description.label")}</FormLabel>
                     <FormControl>
-                      <TextArea
+                      <Textarea
                         {...field}
                         placeholder={t("fields.description.placeholder")}
                         rows={3}

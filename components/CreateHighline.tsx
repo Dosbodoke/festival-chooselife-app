@@ -39,7 +39,7 @@ import { SuccessAnimation } from "./animations/SuccessAnimation";
 import Dropzone from "./ui/Dropzone";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 import { Input } from "./ui/input";
-import { TextArea } from "./ui/TextArea";
+import { Textarea } from "./ui/textarea";
 
 const formSchema = z.object({
   name: z.string().min(3, "Deve conter ao menos 3 caracteres"),
@@ -370,7 +370,7 @@ const CreateHighline = ({
                     <FormItem>
                       <FormLabel>{t("highlineDescription.label")}</FormLabel>
                       <FormControl>
-                        <TextArea
+                        <Textarea
                           {...field}
                           placeholder={t("highlineDescription.placeholder")}
                           rows={3}

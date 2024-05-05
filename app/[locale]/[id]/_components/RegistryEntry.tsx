@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import NumberPicker from "@/components/ui/NumberPicker";
-import { TextArea } from "@/components/ui/TextArea";
+import { Textarea } from "@/components/ui/textarea";
 import { transformTimeStringToSeconds } from "@/utils/helperFunctions";
 import useSupabaseBrowser from "@/utils/supabase/client";
 
@@ -315,7 +315,7 @@ export const RegistryEntry = ({ highlineId, highlineDistance }: Props) => {
                       <FormItem>
                         <FormLabel optional>{t("comment.label")}</FormLabel>
                         <FormControl>
-                          <TextArea
+                          <Textarea
                             {...field}
                             placeholder={t("comment.placeholder")}
                             rows={3}
