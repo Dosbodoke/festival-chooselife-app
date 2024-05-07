@@ -141,11 +141,6 @@ export const LeaderboardRow = ({
         <ProfilePicture username={username} src={profilePicture} />
         <div className="min-w-0 flex-1">
           <UsernameLink username={username} />
-          {/* <div className="text-sm text-muted-foreground ">
-            {format.dateTime(new Date(entry.created_at), {
-              dateStyle: "short",
-            })}
-          </div> */}
         </div>
         <div className="text-base font-medium text-gray-900 dark:text-white">
           {value}
