@@ -132,7 +132,7 @@ export const Markers = ({
       if (!highlines?.find((high) => high.id === focusedMarker)) {
         const { data } = await queryClient.ensureQueryData({
           queryKey: ["highline", focusedMarker],
-          queryFn: () => getHighline({ id: focusedMarker }),
+          queryFn: () => getHighline({ id: [focusedMarker] }),
         });
         if (data && data.length === 1) {
           map.setView([data[0].anchor_a_lat, data[0].anchor_a_long], 18);
