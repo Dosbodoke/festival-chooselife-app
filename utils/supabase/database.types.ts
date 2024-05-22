@@ -264,6 +264,8 @@ export type Database = {
           highline_ids: string[];
           page_number: number;
           page_size: number;
+          start_date?: string;
+          end_date?: string;
         };
         Returns: {
           instagram: string;
@@ -276,6 +278,8 @@ export type Database = {
           highline_ids: string[];
           page_number: number;
           page_size: number;
+          start_date?: string;
+          end_date?: string;
         };
         Returns: {
           instagram: string;
@@ -288,6 +292,8 @@ export type Database = {
           highline_ids: string[];
           page_number: number;
           page_size: number;
+          start_date?: string;
+          end_date?: string;
         };
         Returns: {
           instagram: string;

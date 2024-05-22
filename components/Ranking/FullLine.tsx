@@ -9,11 +9,13 @@ import LoadingSkeleton from "./LoadingSkeleton";
 
 interface Props {
   highlines_ids: string[];
+  startDate?: Date;
+  endDate?: Date;
 }
 
 const PAGE_SIZE = 5;
 
-function FullLine({ highlines_ids }: Props) {
+function FullLine({ highlines_ids, startDate, endDate }: Props) {
   const supabase = useSupabaseBrowser();
 
   async function fetchFullLine({ pageParam = 1 }) {
@@ -21,6 +23,8 @@ function FullLine({ highlines_ids }: Props) {
       highline_ids: highlines_ids,
       page_number: pageParam,
       page_size: PAGE_SIZE,
+      start_date: startDate?.toISOString(),
+      end_date: endDate?.toISOString(),
     });
     return data;
   }

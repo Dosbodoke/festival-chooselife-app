@@ -9,18 +9,22 @@ import LoadingSkeleton from "./LoadingSkeleton";
 
 interface Props {
   highlines_ids: string[];
+  startDate?: Date;
+  endDate?: Date;
 }
 
 const PAGE_SIZE = 5;
 
-function Distance({ highlines_ids }: Props) {
+function Distance({ highlines_ids, startDate, endDate }: Props) {
   const supabase = useSupabaseBrowser();
 
   async function fetchEntries({ pageParam = 1 }) {
-    const { data, error } = await supabase.rpc("get_total_walked", {
+    const { data } = await supabase.rpc("get_total_walked", {
       highline_ids: highlines_ids,
       page_number: pageParam,
       page_size: PAGE_SIZE,
+      start_date: startDate?.toISOString(),
+      end_date: endDate?.toISOString(),
     });
     return data;
   }
