@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 
 import { getHighline } from "@/app/actions/getHighline";
-import CreateHighline from "@/components/CreateHighline";
 
 import HighlineCard from "./_components/HighlineCard";
 
@@ -15,7 +14,7 @@ type Props = {
 
 const getHigh = cache(async ({ id }: { id: string }) => {
   const result = await getHighline({
-    id,
+    id: [id],
   });
   return result.data;
 });

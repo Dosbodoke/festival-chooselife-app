@@ -234,7 +234,7 @@ export type Database = {
       };
       get_highline: {
         Args: {
-          searchid?: string;
+          searchid?: string[];
           searchname?: string;
           pagesize?: number;
           pageparam?: number;
@@ -261,7 +261,7 @@ export type Database = {
       };
       get_total_cadenas: {
         Args: {
-          highline_id: string;
+          highline_ids: string[];
           page_number: number;
           page_size: number;
         };
@@ -273,7 +273,7 @@ export type Database = {
       };
       get_total_full_lines: {
         Args: {
-          highline_id: string;
+          highline_ids: string[];
           page_number: number;
           page_size: number;
         };
@@ -285,7 +285,7 @@ export type Database = {
       };
       get_total_walked: {
         Args: {
-          highline_id: string;
+          highline_ids: string[];
           page_number: number;
           page_size: number;
         };

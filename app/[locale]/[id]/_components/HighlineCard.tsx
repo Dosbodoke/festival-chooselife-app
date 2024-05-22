@@ -1,9 +1,9 @@
 import { Highline } from "@/app/actions/getHighline";
 import HighlineImage from "@/components/HighlineImage";
-import Tabs from "@/components/tabs/Tabs";
 import { Card, CardContent } from "@/components/ui/card";
 
 import { FavoriteHighline } from "../../_components/FavoriteHighline";
+import { HighlineTabs } from "./highline-tabs";
 import { HighlineHeader } from "./HighlineHeader";
 
 function HighlineCard({ highline }: { highline: Highline }) {
@@ -15,7 +15,7 @@ function HighlineCard({ highline }: { highline: Highline }) {
       </div>
       <HighlineHeader highline={highline} />
       <CardContent>
-        <Tabs highline={highline} />
+        <HighlineTabs highline={highline} />
       </CardContent>
     </Card>
   );

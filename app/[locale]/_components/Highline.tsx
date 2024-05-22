@@ -2,7 +2,7 @@ import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { UnfoldHorizontalIcon, UnfoldVerticalIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-import { Highline } from "@/app/actions/getHighline";
+import type { Highline } from "@/app/actions/getHighline";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,21 +11,27 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
-import type { Functions } from "@/utils/supabase/database.types";
 
 import HighlineImage from "../../../components/HighlineImage";
 import { FavoriteHighline } from "./FavoriteHighline";
 
 interface Props {
   highline: Highline;
+  classname?: string;
 }
 
-export function Highline({ highline }: Props) {
+export function Highline({ highline, classname }: Props) {
   const t = useTranslations("home");
 
   return (
-    <Card className="flex w-full max-w-[24rem] flex-col overflow-hidden">
+    <Card
+      className={cn(
+        "flex w-full max-w-[22rem] flex-col overflow-hidden",
+        classname
+      )}
+    >
       <div className="relative h-48 w-full">
         <HighlineImage coverImageId={highline.cover_image} />
         <FavoriteHighline id={highline.id} isFavorite={highline.is_favorite} />

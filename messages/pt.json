@@ -260,5 +260,9 @@
       "fourth": "O APP agora aparecerá na sua tela inicial."
     },
     "actionButton": "install"
+  },
+  "festival": {
+    "cardSubTitle": "Acompanhe o ranking do festival em tempo real",
+    "pageSubTitle": "O maior festival de Highline do Brasil"
   }
 }

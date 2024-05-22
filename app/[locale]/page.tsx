@@ -9,6 +9,7 @@ import { getHighline } from "@/app/actions/getHighline";
 import CreateHighline from "@/components/CreateHighline";
 import MapToggle from "@/components/Map/MapToggle";
 
+import { HeroPromoCard } from "./_components/hero-promo-card";
 import { HighlineList } from "./_components/HighlineList";
 import Search from "./_components/search";
 
@@ -74,6 +75,7 @@ export default async function Home({
       ) : (
         <>
           <Search />
+          <HeroPromoCard />
           <HydrationBoundary state={dehydrate(queryClient)}>
             <HighlineList />
           </HydrationBoundary>

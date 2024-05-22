@@ -260,5 +260,9 @@
       "fourth": "The APP will now appear on your home screen."
     },
     "actionButton": "install"
+  },
+  "festival": {
+    "cardSubTitle": "Follow the festival ranking in real time",
+    "pageSubTitle": "The biggest Highline festival in Brazil"
   }
 }
