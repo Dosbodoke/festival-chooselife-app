@@ -28,7 +28,7 @@ export const Selected = ({
   const { data, pending } = useQueries({
     queries: highlineIds.map((id) => ({
       queryKey: ["highline", id],
-      queryFn: async () => getHighline({ id }),
+      queryFn: async () => getHighline({ id: [id] }),
     })),
     combine: (results) => {
       return {

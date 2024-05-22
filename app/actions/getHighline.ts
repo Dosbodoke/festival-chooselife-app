@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 import { Database, Functions } from "@/utils/supabase/database.types";
 
 type Props = {
-  id?: string;
+  id?: string[];
   searchValue?: string;
   pageParam?: number;
   pageSize?: number;
@@ -44,7 +44,7 @@ export const getHighline = async ({
   } = await supabase.auth.getUser();
 
   const result = await supabase.rpc("get_highline", {
-    ...(id ? { searchid: id } : {}),
+    ...(id && id.length > 0 ? { searchid: id } : {}),
     ...(user?.id ? { userid: user.id } : {}),
     ...(searchValue ? { searchname: searchValue } : {}),
     ...(pageParam && pageSize
