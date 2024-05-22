@@ -75,6 +75,8 @@ export const Ranking: React.FC<Props> = ({
         category={selectedCategory}
         highlines_ids={highlines_ids}
         visibleCategories={visibleCategories}
+        startDate={startDate}
+        endDate={endDate}
       />
     </div>
   );
