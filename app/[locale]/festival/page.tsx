@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { FestivalTabs } from "./_components/festival-tabs";
+import { Loader2 } from "lucide-react";
 
 type Props = {
   params: { locale: string; username: string };
@@ -45,7 +46,13 @@ export default function Festival({
             {/* <TabsContent value="schedule">
               <div>foo</div>
             </TabsContent> */}
-            <Suspense fallback={<div>loading...</div>}>
+            <Suspense
+              fallback={
+                <div className="mt-12 grid w-full place-items-center">
+                  <Loader2 className="h-20 w-20 animate-spin text-primary"></Loader2>
+                </div>
+              }
+            >
               <FestivalTabs />
             </Suspense>
           </Tabs>
