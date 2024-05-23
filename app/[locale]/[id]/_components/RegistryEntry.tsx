@@ -206,6 +206,9 @@ export const RegistryEntry = ({ highlineId, highlineDistance }: Props) => {
                           <Input
                             placeholder={t("instagram.placeholder")}
                             {...field}
+                            onChange={(event) =>
+                              field.onChange(event.target.value.trim())
+                            }
                           />
                         </FormControl>
                       </FormItem>
