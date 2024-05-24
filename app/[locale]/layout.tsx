@@ -5,8 +5,9 @@ import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { useMessages } from "next-intl";
+import { unstable_setRequestLocale } from "next-intl/server";
 
-import Footer from "@/components/Footer";
+// import Footer from "@/components/Footer";
 import NavBar from "@/components/layout/navbar";
 import { locales } from "@/navigation";
 
@@ -59,6 +60,10 @@ export const metadata: Metadata = {
   },
 };
 
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
 export default function RootLayout({
   children,
   params: { locale },
@@ -66,6 +71,7 @@ export default function RootLayout({
   children: React.ReactNode;
   params: { locale: "en" | "pt" };
 }) {
+  unstable_setRequestLocale(locale);
   // Validate that the incoming `locale` parameter is valid
   if (!locales.includes(locale)) notFound();
   const messages = useMessages();

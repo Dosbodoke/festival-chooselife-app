@@ -18,12 +18,12 @@ interface Props {
 }
 
 function Providers({ locale, messages, children }: Props) {
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
   const queryClient = getQueryClient();
   const now = new Date();
 
-  const forcedThemeFromSearchParams =
-    searchParams.get("view") === "map" ? "light" : undefined;
+  // const forcedThemeFromSearchParams =
+  //   searchParams.get("view") === "map" ? "light" : undefined;
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -36,7 +36,7 @@ function Providers({ locale, messages, children }: Props) {
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
-          forcedTheme={forcedThemeFromSearchParams}
+          // forcedTheme={forcedThemeFromSearchParams}
         >
           <Toaster />
           <SpeedInsights />

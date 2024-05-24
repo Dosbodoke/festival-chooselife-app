@@ -1,21 +1,20 @@
+import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { unstable_setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { FestivalTabs } from "./_components/festival-tabs";
-import { Loader2 } from "lucide-react";
 
 type Props = {
   params: { locale: string; username: string };
   searchParams: { [key: string]: string | undefined };
 };
 
-export default function Festival({
-  params: { username },
-  searchParams,
-}: Props) {
+export default function Festival({ params: { locale } }: Props) {
+  unstable_setRequestLocale(locale);
   const t = useTranslations("festival");
 
   return (

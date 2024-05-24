@@ -4,6 +4,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
+import { unstable_setRequestLocale } from "next-intl/server";
 
 import { getHighline } from "@/app/actions/getHighline";
 import CreateHighline from "@/components/CreateHighline";
@@ -46,6 +47,7 @@ export default async function Home({
   params: { locale: "en" | "pt" };
   searchParams: { [key: string]: string | undefined };
 }) {
+  unstable_setRequestLocale(locale);
   const mapOpen = searchParams["view"] === "map";
   const location = searchParams["location"] || null;
   const focusedMarker = searchParams["focusedMarker"];
