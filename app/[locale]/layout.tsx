@@ -83,7 +83,7 @@ export default function RootLayout(props: {
   return (
     // suppressHydrationWarning because of `next-themes`
     // refer to https://github.com/pacocoursey/next-themes#with-app
-    <html lang={locale} suppressHydrationWarning>
+    (<html lang={locale} suppressHydrationWarning>
       <body className={`min-h-screen md:px-0 ${GeistSans.variable} font-sans`}>
         <Providers locale={locale} messages={messages}>
           <div className="relative flex h-full min-h-screen flex-col">
@@ -98,6 +98,6 @@ export default function RootLayout(props: {
         </Providers>
         <Analytics />
       </body>
-    </html>
+    </html>)
   );
 }
