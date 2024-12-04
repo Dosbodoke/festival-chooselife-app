@@ -8,6 +8,7 @@ import {
   SatelliteIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useQueryState } from "nuqs";
 import { useState } from "react";
 import { TileLayer, useMapEvents } from "react-leaflet";
 
@@ -16,18 +17,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useQueryString } from "@/hooks/useQueryString";
 
-export const MapControls = ({ locale }: { locale: string }) => {
+export const MapControls = () => {
   const t = useTranslations("map.type");
-  const { pushQueryParam, searchParams } = useQueryString();
+  const [mapType, setMapType] = useQueryState("mapType");
 
   const acceptedTypes = ["map", "satelite"] as const;
-  const mapType: (typeof acceptedTypes)[number] = acceptedTypes.includes(
-    // @ts-expect-error
-    searchParams.get("mapType") || ""
+  const currentMapType: (typeof acceptedTypes)[number] = acceptedTypes.includes(
+    mapType as (typeof acceptedTypes)[number]
   )
-    ? (searchParams.get("mapType") as (typeof acceptedTypes)[number])
+    ? (mapType as (typeof acceptedTypes)[number])
     : "map";
   const [isLocated, setIsLocated] = useState(false);
 
@@ -43,7 +42,7 @@ export const MapControls = ({ locale }: { locale: string }) => {
 
   return (
     <>
-      {mapType === "satelite" ? (
+      {currentMapType === "satelite" ? (
         <TileLayer
           attribution={`© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>`}
           url={`https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/tiles/{z}/{x}/{y}?access_token=${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`}
@@ -82,8 +81,8 @@ export const MapControls = ({ locale }: { locale: string }) => {
               </div>
               <div className="flex gap-2">
                 <button
-                  onClick={() => pushQueryParam("mapType", "map")}
-                  data-active={mapType === "map"}
+                  onClick={() => setMapType("map")}
+                  data-active={currentMapType === "map"}
                   className="flex flex-1 flex-col gap-6 rounded-md border-2 border-border p-4 hover:border-ring data-[active=true]:bg-accent"
                 >
                   <div className="h-6 w-6">
@@ -92,8 +91,8 @@ export const MapControls = ({ locale }: { locale: string }) => {
                   <div>{t("map")}</div>
                 </button>
                 <button
-                  onClick={() => pushQueryParam("mapType", "satelite")}
-                  data-active={mapType === "satelite"}
+                  onClick={() => setMapType("satelite")}
+                  data-active={currentMapType === "satelite"}
                   className="flex flex-1 flex-col gap-6 rounded-md border-2 border-border p-4 hover:border-ring data-[active=true]:bg-accent"
                 >
                   <div className="h-6 w-6">

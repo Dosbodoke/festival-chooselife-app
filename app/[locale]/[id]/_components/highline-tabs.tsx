@@ -1,14 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useSearchParams } from "next/navigation";
+import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
-import { useMemo } from "react";
+import { useQueryState } from "nuqs";
 
 import type { Highline } from "@/app/actions/getHighline";
 import { Ranking } from "@/components/Ranking";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useQueryString } from "@/hooks/useQueryString";
 
 import Comments from "./Comments";
 import Info from "./Info";
@@ -19,38 +17,34 @@ interface Props {
 
 export const HighlineTabs = ({ highline }: Props) => {
   const t = useTranslations("highline.tabs");
-  const searchParams = useSearchParams();
-  const { replaceQueryParam } = useQueryString();
+  const [tab, setTab] = useQueryState("tab");
 
-  const selectedTab = searchParams.get("tab") || "info";
+  const selectedTab = tab || "info";
 
-  const tabs = useMemo(
-    () => [
-      {
-        id: "info",
-        label: t("informations.label"),
-        content: <Info highline={highline} />,
-      },
-      {
-        id: "comments",
-        label: t("comments"),
-        content: <Comments highline={highline} />,
-      },
-      {
-        id: "ranking",
-        label: "Ranking",
-        content: <Ranking highlines_ids={[highline.id]} />,
-      },
-    ],
-    [t, highline]
-  );
+  const tabs = [
+    {
+      id: "info",
+      label: t("informations.label"),
+      content: <Info highline={highline} />,
+    },
+    {
+      id: "comments",
+      label: t("comments"),
+      content: <Comments highline={highline} />,
+    },
+    {
+      id: "ranking",
+      label: "Ranking",
+      content: <Ranking highlines_ids={[highline.id]} />,
+    },
+  ];
 
   return (
     <>
       <Tabs
         value={selectedTab}
         onValueChange={(value) => {
-          replaceQueryParam("tab", value);
+          setTab(value);
         }}
       >
         <TabsList className="my-2 w-full gap-2">

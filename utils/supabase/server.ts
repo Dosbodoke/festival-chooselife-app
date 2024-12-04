@@ -3,7 +3,8 @@ import { cookies } from "next/headers";
 
 import { Database } from "./database.types";
 
-export const useSupabaseServer = (cookieStore: ReturnType<typeof cookies>) => {
+export const useSupabaseServer = async () => {
+  const cookieStore = await cookies();
   return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,

@@ -1,7 +1,6 @@
 // Refer to the following documentation for more context
 // https://supabase.com/docs/guides/auth/auth-helpers/nextjs#managing-sign-in-with-code-exchange
 
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 import { useSupabaseServer } from "@/utils/supabase/server";
@@ -16,9 +15,8 @@ export async function GET(request: Request) {
   const redirectTo = requestUrl.searchParams.get("redirect_to");
 
   if (code) {
-    const cookieStore = cookies();
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const supabase = useSupabaseServer(cookieStore);
+    const supabase = await useSupabaseServer();
 
     await supabase.auth.exchangeCodeForSession(code);
   }

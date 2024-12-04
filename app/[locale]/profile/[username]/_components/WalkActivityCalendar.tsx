@@ -1,8 +1,8 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { useFormatter, useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
+import { useQueryState } from "nuqs";
 import * as React from "react";
 
 import {
@@ -21,7 +21,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { usePathname, useRouter } from "@/navigation";
 
 const chartTheme = {
   light: ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"],
@@ -403,24 +402,10 @@ interface Props {
   selectedYear: string;
 }
 const YearSwitcher = ({ years, selectedYear }: Props) => {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const pathname = usePathname();
-
-  // Get a new searchParams string by merging the current
-  // searchParams with a provided key/value pair
-  const createQueryString = React.useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
-
-      return params.toString();
-    },
-    [searchParams]
-  );
+  const [year, setYear] = useQueryState("year");
 
   function handleYearChange(year: string) {
-    router.push(pathname + "?" + createQueryString("year", year));
+    setYear(year);
   }
 
   return (

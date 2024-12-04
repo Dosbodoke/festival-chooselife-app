@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 
@@ -14,14 +13,12 @@ import UserNotFound from "./_components/UserNotFound";
 export const dynamic = "force-dynamic";
 
 type Props = {
-  params: { locale: string; username: string };
-  searchParams: { [key: string]: string | undefined };
+  params: Promise<{ locale: string; username: string }>;
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 };
 
-export async function generateMetadata({
-  params,
-  searchParams,
-}: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const t = await getTranslations("profileMetadata");
   return {
     title: t("title", { username: `@${params.username}` }),
@@ -29,12 +26,13 @@ export async function generateMetadata({
   };
 }
 
-export default async function Profile({
-  params: { username },
-  searchParams,
-}: Props) {
-  const cookieStore = cookies();
-  const supabase = useSupabaseServer(cookieStore);
+export default async function Profile(props: Props) {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const supabase = await useSupabaseServer();
+
+  const searchParams = await props.searchParams;
+  const params = await props.params;
+  const { username } = params;
 
   const result = await Promise.all([
     supabase.auth.getUser(),

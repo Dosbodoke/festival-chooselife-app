@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { useQueryState } from "nuqs";
 import { useMemo } from "react";
 
 import { ArrowDownSvg } from "@/assets";
@@ -13,7 +14,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useQueryString } from "@/hooks/useQueryString";
 
 import { type Category } from "./index";
 
@@ -27,7 +27,7 @@ export const CategoryDropdown = ({
   visibleCategories,
 }: Props) => {
   const t = useTranslations("highline.tabs.ranking");
-  const { replaceQueryParam } = useQueryString();
+  const [, setCategory] = useQueryState("category");
 
   const categories = useMemo<Record<Category, { label: string }>>(
     () => ({
@@ -55,7 +55,7 @@ export const CategoryDropdown = ({
         <DropdownMenuSeparator />
         <DropdownMenuRadioGroup
           value={selectedCategory}
-          onValueChange={(category) => replaceQueryParam("category", category)}
+          onValueChange={(category) => setCategory(category)}
         >
           {visibleCategories.map((category) => (
             <DropdownMenuRadioItem key={category} value={category}>
