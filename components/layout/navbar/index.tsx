@@ -1,5 +1,3 @@
-import { cookies } from "next/headers";
-
 import { useSupabaseServer } from "@/utils/supabase/server";
 
 import GoBack from "./GoBack";
@@ -9,8 +7,8 @@ import SignUp from "./SignUp";
 import { ThemeModeToggler } from "./ThemeToggler";
 
 export default async function NavBar() {
-  const cookieStore = cookies();
-  const supabase = useSupabaseServer(cookieStore);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const supabase = await useSupabaseServer();
 
   const {
     data: { user },

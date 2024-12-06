@@ -5,8 +5,10 @@ import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { useMessages } from "next-intl";
+import { unstable_setRequestLocale } from "next-intl/server";
+import { use } from "react";
 
-import Footer from "@/components/Footer";
+// import Footer from "@/components/Footer";
 import NavBar from "@/components/layout/navbar";
 import { locales } from "@/navigation";
 
@@ -59,13 +61,27 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-  params: { locale },
-}: {
-  children: React.ReactNode;
-  params: { locale: "en" | "pt" };
-}) {
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
+export default function RootLayout(
+  props: {
+    children: React.ReactNode;
+    params: Promise<{ locale: "en" | "pt" }>;
+  }
+) {
+  const params = use(props.params);
+
+  const {
+    locale
+  } = params;
+
+  const {
+    children
+  } = props;
+
+  unstable_setRequestLocale(locale);
   // Validate that the incoming `locale` parameter is valid
   if (!locales.includes(locale)) notFound();
   const messages = useMessages();
@@ -73,7 +89,7 @@ export default function RootLayout({
   return (
     // suppressHydrationWarning because of `next-themes`
     // refer to https://github.com/pacocoursey/next-themes#with-app
-    <html lang={locale} suppressHydrationWarning>
+    (<html lang={locale} suppressHydrationWarning>
       <body className={`min-h-screen md:px-0 ${GeistSans.variable} font-sans`}>
         <Providers locale={locale} messages={messages}>
           <div className="relative flex h-full min-h-screen flex-col">
@@ -88,6 +104,6 @@ export default function RootLayout({
         </Providers>
         <Analytics />
       </body>
-    </html>
+    </html>)
   );
 }

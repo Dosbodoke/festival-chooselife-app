@@ -8,8 +8,8 @@ import HighlineCard from "./_components/HighlineCard";
 export const dynamic = "force-dynamic";
 
 type Props = {
-  params: { id: string };
-  searchParams: { [key: string]: string | undefined };
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 };
 
 const getHigh = cache(async ({ id }: { id: string }) => {
@@ -19,10 +19,13 @@ const getHigh = cache(async ({ id }: { id: string }) => {
   return result.data;
 });
 
-export default async function Highline({
-  params: { id },
-  searchParams,
-}: Props) {
+export default async function Highline(props: Props) {
+  const params = await props.params;
+
+  const {
+    id
+  } = params;
+
   const highlines = await getHigh({ id });
 
   if (!highlines || highlines.length === 0) return notFound();

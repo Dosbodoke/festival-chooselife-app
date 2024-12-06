@@ -1,19 +1,15 @@
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
-import dynamic from "next/dynamic";
+"use client";
 
-import { getHighline } from "@/app/actions/getHighline";
+import dynamic from "next/dynamic";
+import { useLocale } from "next-intl";
+import { useQueryState } from "nuqs";
+
 import CreateHighline from "@/components/CreateHighline";
 import MapToggle from "@/components/Map/MapToggle";
 
 import { HeroPromoCard } from "./_components/hero-promo-card";
 import { HighlineList } from "./_components/HighlineList";
 import Search from "./_components/search";
-
-const PAGE_SIZE = 6;
 
 const Map = dynamic(() => import("@/components/Map/Map"), {
   ssr: false,
@@ -39,30 +35,15 @@ const Map = dynamic(() => import("@/components/Map/Map"), {
   ),
 });
 
-export default async function Home({
-  params: { locale },
-  searchParams,
-}: {
-  params: { locale: "en" | "pt" };
-  searchParams: { [key: string]: string | undefined };
-}) {
-  const mapOpen = searchParams["view"] === "map";
-  const location = searchParams["location"] || null;
-  const focusedMarker = searchParams["focusedMarker"];
+export default function Home() {
+  const locale = useLocale();
+
+  const [view] = useQueryState("view");
+  const [location] = useQueryState("location");
+  const [focusedMarker] = useQueryState("focusedMarker");
+
+  const mapOpen = view === "map";
   const isPickingLocation = location === "picking";
-  const searchValue = searchParams["q"] || "";
-  const queryClient = new QueryClient();
-  await queryClient.prefetchInfiniteQuery({
-    queryKey: ["highlines", { searchValue }],
-    queryFn: ({ pageParam }) =>
-      getHighline({ pageParam, searchValue, pageSize: PAGE_SIZE }),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, pages) => {
-      const nextPage = pages.length + 1;
-      return lastPage.data?.length === PAGE_SIZE ? nextPage : undefined;
-    },
-    pages: 2,
-  });
 
   return (
     <div className="relative mx-2 max-w-screen-xl space-y-4 md:mx-auto">
@@ -76,9 +57,7 @@ export default async function Home({
         <>
           <Search />
           <HeroPromoCard />
-          <HydrationBoundary state={dehydrate(queryClient)}>
-            <HighlineList />
-          </HydrationBoundary>
+          <HighlineList />
         </>
       )}
       <CreateHighline

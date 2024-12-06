@@ -1,6 +1,6 @@
 "use client";
 
-import { useQueryString } from "@/hooks/useQueryString";
+import { useQueryState } from "nuqs";
 
 import Cadenas from "./Cadenas";
 import { CategoryDropdown } from "./CategoryDropdown";
@@ -61,18 +61,21 @@ export const Ranking: React.FC<Props> = ({
   startDate,
   endDate,
 }) => {
-  const { searchParams } = useQueryString();
-  const selectedCategory =
-    (searchParams.get("category") as Category) || "distance";
+  const [category] = useQueryState<Category | null>("category", {
+    parse: (value): Category | null => value as Category,
+    defaultValue: "distance",
+  });
+
+  const safeCategory = category || "distance";
 
   return (
     <div className="w-full rounded-lg">
       <CategoryDropdown
-        selectedCategory={selectedCategory}
+        selectedCategory={safeCategory}
         visibleCategories={visibleCategories}
       />
       <CategoryRenderer
-        category={selectedCategory}
+        category={safeCategory}
         highlines_ids={highlines_ids}
         visibleCategories={visibleCategories}
         startDate={startDate}

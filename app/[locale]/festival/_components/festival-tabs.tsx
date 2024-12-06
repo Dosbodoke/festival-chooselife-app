@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import React from "react";
 
 import { getHighline } from "@/app/actions/getHighline";
@@ -9,8 +8,8 @@ import { useSupabaseServer } from "@/utils/supabase/server";
 import { Highline } from "../../_components/Highline";
 
 export const FestivalTabs = async () => {
-  const cookieStore = cookies();
-  const supabase = useSupabaseServer(cookieStore);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const supabase = await useSupabaseServer();
 
   const { data: sectors } = await supabase
     .from("sector")

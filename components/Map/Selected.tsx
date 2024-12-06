@@ -6,10 +6,10 @@ import {
   UnfoldHorizontalIcon,
   UnfoldVerticalIcon,
 } from "lucide-react";
+import { useQueryState } from "nuqs";
 import React from "react";
 
 import { getHighline } from "@/app/actions/getHighline";
-import { useQueryString } from "@/hooks/useQueryString";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
 
@@ -24,7 +24,7 @@ export const Selected = ({
   highlineIds: string[];
   focusedMarker: string | null;
 }) => {
-  const { pushQueryParam } = useQueryString();
+  const [, setFocusedMarker] = useQueryState("focusedMarker");
   const { data, pending } = useQueries({
     queries: highlineIds.map((id) => ({
       queryKey: ["highline", id],
@@ -64,7 +64,7 @@ export const Selected = ({
                 className="group inline-block h-32 min-w-[20rem] cursor-pointer overflow-hidden border-2 border-muted bg-card hover:bg-accent hover:text-accent-foreground data-[active=true]:border-primary data-[active=true]:bg-accent"
                 onClick={() => {
                   if (focusedMarker !== selected.id) {
-                    pushQueryParam("focusedMarker", selected.id);
+                    setFocusedMarker(selected.id);
                   }
                 }}
                 key={selected.id}

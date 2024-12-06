@@ -2,8 +2,7 @@
 
 import { ListIcon, MapIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-
-import { useQueryString } from "@/hooks/useQueryString";
+import { useQueryState } from "nuqs";
 
 function MapToggle({
   mapIsOpen,
@@ -13,7 +12,7 @@ function MapToggle({
   hidden?: boolean;
 }) {
   const t = useTranslations("map.toggle");
-  const { replaceQueryParam } = useQueryString();
+  const [, setView] = useQueryState("view");
 
   return (
     <div
@@ -22,7 +21,7 @@ function MapToggle({
       hidden={hidden}
     >
       <button
-        onClick={() => replaceQueryParam("view", mapIsOpen ? "list" : "map")}
+        onClick={() => setView(mapIsOpen ? "list" : "map")}
         className="flex items-center gap-2 rounded-3xl bg-black px-5 py-3 text-white"
       >
         <p>{mapIsOpen ? t("list") : t("map")}</p>

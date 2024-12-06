@@ -5,6 +5,7 @@ import type { BBox, GeoJsonProperties } from "geojson";
 import L from "leaflet";
 import { SearchIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useQueryState } from "nuqs";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import { Marker, Polyline, useMap, useMapEvents } from "react-leaflet";
@@ -12,7 +13,6 @@ import type { PointFeature } from "supercluster";
 import useSupercluster from "use-supercluster";
 
 import { getHighline } from "@/app/actions/getHighline";
-import { useQueryString } from "@/hooks/useQueryString";
 import useSupabaseBrowser from "@/utils/supabase/client";
 
 interface PointProperties {
@@ -40,7 +40,7 @@ export const Markers = ({
   const t = useTranslations("map.refetch");
   const queryClient = useQueryClient();
   const supabase = useSupabaseBrowser();
-  const { pushQueryParam, deleteQueryParam } = useQueryString();
+  const [, setFocusedMarker] = useQueryState("focusedMarker");
   const map = useMap();
   const [canRefetch, setCanRefetch] = useState(false);
   const [bounds, setBounds] = useState<BBox>();
@@ -99,7 +99,7 @@ export const Markers = ({
     },
     click() {
       if (focusedMarker) {
-        deleteQueryParam("focusedMarker");
+        setFocusedMarker(null);
       }
       setHighlineIds([]);
     },
@@ -120,10 +120,10 @@ export const Markers = ({
 
   const openMarkerDetails = useCallback(
     async (highlineIds: string[]) => {
-      pushQueryParam("focusedMarker", highlineIds[0]);
+      setFocusedMarker(highlineIds[0]);
       setHighlineIds(highlineIds);
     },
-    [pushQueryParam, setHighlineIds]
+    [setFocusedMarker, setHighlineIds]
   );
 
   useEffect(() => {

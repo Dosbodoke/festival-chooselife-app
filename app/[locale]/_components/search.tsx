@@ -2,22 +2,22 @@
 
 import { SearchIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useQueryState } from "nuqs";
 
 import { Input } from "@/components/ui/input";
-import { useQueryString } from "@/hooks/useQueryString";
 
 export default function Search() {
   const t = useTranslations("home");
-  const { searchParams, pushQueryParam, deleteQueryParam } = useQueryString();
+  const [search, setSearch] = useQueryState("q");
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const val = e.target as HTMLFormElement;
-    const search = val.search as HTMLInputElement;
-    if (search.value) {
-      pushQueryParam("q", search.value);
+    const searchInput = val.search as HTMLInputElement;
+    if (searchInput.value) {
+      setSearch(searchInput.value);
     } else {
-      deleteQueryParam("q");
+      setSearch(null);
     }
   }
 
@@ -27,12 +27,12 @@ export default function Search() {
         <SearchIcon className="h-6 w-6 text-muted-foreground" />
       </span>
       <Input
-        key={searchParams?.get("q")}
+        key={search}
         type="search"
         name="search"
         placeholder={t("searchPlaceholder")}
         autoComplete="off"
-        defaultValue={searchParams?.get("q") || ""}
+        defaultValue={search || ""}
         className="bg-transparent pl-10 text-base"
       />
     </form>

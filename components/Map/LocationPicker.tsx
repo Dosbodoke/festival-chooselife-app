@@ -4,11 +4,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import L, { type LatLng, type Marker as MarkerType } from "leaflet";
 import { MapPin, Undo2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useQueryState } from "nuqs";
 import { useMemo, useRef, useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import { Marker, Polyline, useMapEvent } from "react-leaflet";
 
-import { useQueryString } from "@/hooks/useQueryString";
 import { useRouter } from "@/navigation";
 import {
   encodeLocation,
@@ -53,7 +53,7 @@ export const LocationPicker = ({
     },
   });
   const router = useRouter();
-  const { deleteQueryParam, pushQueryParam } = useQueryString();
+  const [location, setLocation] = useQueryState("location");
 
   const map = useMapEvent("move", () => {
     setCenter(map.getCenter());
@@ -109,7 +109,7 @@ export const LocationPicker = ({
         anchorB,
       });
     } else {
-      pushQueryParam("location", encodeLocation(anchorA, anchorB));
+      setLocation(encodeLocation(anchorA, anchorB));
     }
   }
 
@@ -122,7 +122,7 @@ export const LocationPicker = ({
       setAnchorA(null);
       return;
     }
-    deleteQueryParam("location");
+    setLocation(null);
   }
 
   return (

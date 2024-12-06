@@ -1,8 +1,8 @@
 "use client";
 
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { motion } from "framer-motion";
-import { useSearchParams } from "next/navigation";
+import { motion } from "motion/react";
+import { useQueryState } from "nuqs";
 
 import { getHighline } from "@/app/actions/getHighline";
 
@@ -12,13 +12,16 @@ import { HighlineListSkeleton } from "./HighlineListSkeleton";
 const PAGE_SIZE = 6;
 
 export function HighlineList() {
-  const searchParams = useSearchParams();
-  const searchValue = searchParams.get("q") || "";
+  const [searchValue = ""] = useQueryState("q");
 
   const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
     queryKey: ["highlines", { searchValue }],
     queryFn: ({ pageParam }) =>
-      getHighline({ pageParam, searchValue, pageSize: PAGE_SIZE }),
+      getHighline({
+        pageParam,
+        searchValue: searchValue ?? undefined,
+        pageSize: PAGE_SIZE,
+      }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, pages) => {
       const nextPage = pages.length + 1;

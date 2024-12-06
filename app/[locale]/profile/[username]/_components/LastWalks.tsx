@@ -1,5 +1,4 @@
 import { ChevronRightIcon } from "@radix-ui/react-icons";
-import { cookies } from "next/headers";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
@@ -37,8 +36,9 @@ interface Props {
 }
 
 export default async function LastWalks({ username, year }: Props) {
-  const cookieStore = cookies();
-  const supabase = useSupabaseServer(cookieStore);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const supabase = await useSupabaseServer();
+
   const t = await getTranslations("profile.lastWalks");
 
   const { data: entries } = await supabase

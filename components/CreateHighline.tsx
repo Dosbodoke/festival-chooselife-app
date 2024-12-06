@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import type { LatLng } from "leaflet";
 import { PlusIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
@@ -22,7 +23,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { useQueryString } from "@/hooks/useQueryString";
 import { Link } from "@/navigation";
 import {
   decodeLocation,
@@ -85,20 +85,20 @@ const CreateHighline = ({
   location: string | null;
   hidden?: boolean;
 }) => {
-  const { pushQueryParam, deleteQueryParam } = useQueryString();
+  const [locationParam, setLocationParam] = useQueryState("location");
   const [open, setOpen] = useState(false);
 
   function handleToggleDrawer(open: boolean) {
     // If user is on map, set location query parameter to picking so he can set the anchors
     if (mapIsOpen && !location) {
-      pushQueryParam("location", "picking");
+      setLocationParam("picking");
       return;
     }
     // If user is picking location don't open the Drawer
     if (location === "picking") return;
     // If there is a location setted and he is closing the drawer, reset the location
     if (open === false && location) {
-      deleteQueryParam("location");
+      setLocationParam(null);
     }
     setOpen(open);
   }
