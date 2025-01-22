@@ -3,6 +3,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import L, { type LatLng, type Marker as MarkerType } from "leaflet";
 import { MapPin, Undo2 } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { useQueryState } from "nuqs";
 import { useMemo, useRef, useState } from "react";
@@ -53,7 +54,7 @@ export const LocationPicker = ({
     },
   });
   const router = useRouter();
-  const [location, setLocation] = useQueryState("location");
+  const [_, setLocation] = useQueryState("location");
 
   const map = useMapEvent("move", () => {
     setCenter(map.getCenter());
@@ -137,15 +138,26 @@ export const LocationPicker = ({
           <MapPin className="h-6 w-6 fill-red-500 text-primary" />
         </div>
       ) : null}
-      {anchorA ? (
-        <Marker
-          ref={anchorARef}
-          draggable
-          eventHandlers={markerEventHandlers}
-          position={anchorA}
-          icon={icon}
-        ></Marker>
-      ) : null}
+
+      <AnimatePresence>
+        {anchorA ? (
+          <motion.div
+            key="marker-A"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ type: "spring", bounce: 4, duration: 5 }}
+          >
+            <Marker
+              ref={anchorARef}
+              draggable
+              eventHandlers={markerEventHandlers}
+              position={anchorA}
+              icon={icon}
+            />
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
       {anchorB ? <Marker position={anchorB} icon={icon}></Marker> : null}
       {anchorA && (anchorB || center) ? (
         <Polyline
