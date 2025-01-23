@@ -6,7 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { type AbstractIntlMessages, NextIntlClientProvider } from "next-intl";
 import { ThemeProvider } from "next-themes";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import { Suspense, type ReactNode } from "react";
+import { type ReactNode, Suspense } from "react";
 
 import { Toaster } from "@/components/ui/sonner";
 import { getQueryClient } from "@/lib/query";

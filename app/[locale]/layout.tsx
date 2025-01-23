@@ -65,21 +65,15 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export default function RootLayout(
-  props: {
-    children: React.ReactNode;
-    params: Promise<{ locale: "en" | "pt" }>;
-  }
-) {
+export default function RootLayout(props: {
+  children: React.ReactNode;
+  params: Promise<{ locale: "en" | "pt" }>;
+}) {
   const params = use(props.params);
 
-  const {
-    locale
-  } = params;
+  const { locale } = params;
 
-  const {
-    children
-  } = props;
+  const { children } = props;
 
   unstable_setRequestLocale(locale);
   // Validate that the incoming `locale` parameter is valid

@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -74,6 +74,7 @@
  
 @layer base {
   * {
+    -webkit-tap-highlight-color: transparent;
     @apply border-border;
     min-width: 0;
     box-sizing: border-box;

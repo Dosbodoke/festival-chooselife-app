@@ -44,6 +44,7 @@ export default function Home() {
 
   const mapOpen = view === "map";
   const isPickingLocation = location === "picking";
+  const showActionButtons = !isPickingLocation && !focusedMarker && !location;
 
   return (
     <div className="relative mx-2 max-w-screen-xl space-y-4 md:mx-auto">
@@ -51,7 +52,7 @@ export default function Home() {
         <Map
           locale={locale}
           isPickingLocation={isPickingLocation}
-          focusedMarker={focusedMarker || null}
+          focusedMarker={focusedMarker}
         />
       ) : (
         <>
@@ -63,12 +64,9 @@ export default function Home() {
       <CreateHighline
         mapIsOpen={mapOpen}
         location={location}
-        hidden={isPickingLocation || !!focusedMarker}
+        showTrigger={showActionButtons}
       />
-      <MapToggle
-        mapIsOpen={mapOpen}
-        hidden={isPickingLocation || !!focusedMarker}
-      />
+      {showActionButtons ? <MapToggle mapIsOpen={mapOpen} /> : null}
     </div>
   );
 }

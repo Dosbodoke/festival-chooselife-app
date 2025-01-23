@@ -16,9 +16,7 @@ type Props = {
 export default function Festival(props: Props) {
   const params = use(props.params);
 
-  const {
-    locale
-  } = params;
+  const { locale } = params;
 
   unstable_setRequestLocale(locale);
   const t = useTranslations("festival");
