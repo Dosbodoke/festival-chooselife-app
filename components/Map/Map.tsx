@@ -38,9 +38,11 @@ const MapComponent: React.FC<{
         ref={mapRef}
         className="h-full w-full"
       >
-        {isPickingLocation ? (
-          <LocationPicker focusedMarker={focusedMarker} />
-        ) : (
+        <LocationPicker
+          isPicking={isPickingLocation}
+          focusedMarker={focusedMarker}
+        />
+        {!isPickingLocation && (
           <Markers
             setHighlineIds={setHighlineIds}
             focusedMarker={focusedMarker}

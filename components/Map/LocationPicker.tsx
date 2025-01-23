@@ -20,8 +20,10 @@ import useSupabaseBrowser from "@/utils/supabase/client";
 
 export const LocationPicker = ({
   focusedMarker,
+  isPicking,
 }: {
   focusedMarker: string | null;
+  isPicking: boolean;
 }) => {
   const t = useTranslations("map.locationPicker");
   const queryClient = useQueryClient();
@@ -78,7 +80,7 @@ export const LocationPicker = ({
 
   const icon = new L.DivIcon({
     html: ReactDOMServer.renderToString(
-      <MapPin className="absolute left-1/2 top-1/2 z-[1000] h-6 w-6 -translate-x-1/2 -translate-y-full fill-red-500 text-primary" />
+      <MapPin className="absolute left-1/2 top-1/2 z-[1000] h-6 w-6 -translate-x-1/2 -translate-y-full fill-red-500 text-black" />
     ),
     iconSize: [24, 24],
   });
@@ -128,37 +130,50 @@ export const LocationPicker = ({
 
   return (
     <>
-      {!(anchorA && anchorB) ? (
-        <div className="absolute left-1/2 top-1/2 z-[1000] flex -translate-x-1/2 -translate-y-full flex-col items-center">
-          {distance ? (
-            <span className="mb-1 rounded-2xl bg-primary px-2 py-1 text-primary-foreground">
+      <div className="absolute left-1/2 top-1/2 z-[1000] flex -translate-x-1/2 -translate-y-full flex-col items-center">
+        <AnimatePresence>
+          {isPicking && !(anchorA && anchorB) && distance ? (
+            <motion.span
+              key="distance"
+              variants={markerVariants}
+              initial="initial"
+              animate="active"
+              exit="exit"
+              transition={{ type: "spring", bounce: 0.5, duration: 0.3 }}
+              className="mb-1 rounded-2xl bg-slate-950 px-2 py-1 text-white"
+            >
               {distance}m
-            </span>
+            </motion.span>
           ) : null}
-          <MapPin className="h-6 w-6 fill-red-500 text-primary" />
-        </div>
-      ) : null}
+        </AnimatePresence>
 
-      <AnimatePresence>
-        {anchorA ? (
-          <motion.div
-            key="marker-A"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ type: "spring", bounce: 4, duration: 5 }}
-          >
-            <Marker
-              ref={anchorARef}
-              draggable
-              eventHandlers={markerEventHandlers}
-              position={anchorA}
-              icon={icon}
-            />
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-      {anchorB ? <Marker position={anchorB} icon={icon}></Marker> : null}
+        <AnimatePresence custom={anchorA && anchorB}>
+          {isPicking && !(anchorA && anchorB) ? (
+            <motion.div
+              key="pin"
+              variants={markerVariants}
+              initial="initial"
+              animate="active"
+              exit="exit"
+              transition={{ type: "spring", bounce: 0.5, duration: 0.3 }}
+              custom={anchorA && anchorB}
+            >
+              <MapPin className="h-6 w-6 fill-red-500 text-black" />
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+      </div>
+
+      {anchorA && (
+        <Marker
+          ref={anchorARef}
+          draggable
+          eventHandlers={markerEventHandlers}
+          position={anchorA}
+          icon={icon}
+        />
+      )}
+      {anchorB && <Marker position={anchorB} icon={icon}></Marker>}
       {anchorA && (anchorB || center) ? (
         <Polyline
           positions={[anchorA, anchorB || center]}
@@ -166,23 +181,34 @@ export const LocationPicker = ({
           color="#000000"
         />
       ) : null}
-      <div className="fixed bottom-3 left-1/2 z-[1000] flex w-fit -translate-x-1/2 items-center gap-2 rounded-full bg-primary">
-        <button
-          className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
-          onClick={handlePickLocation}
-        >
-          <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
-          <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
-            {anchorA ? (anchorB ? t("confirm") : t("setB")) : t("setA")}
-          </span>
-        </button>
-        <button
-          className="mr-2 rounded-full p-1"
-          onClick={handleUndoPickLocation}
-        >
-          <Undo2 className="h-6 w-6 text-destructive" />
-        </button>
-      </div>
+
+      {isPicking ? (
+        <div className="fixed bottom-3 left-1/2 z-[1000] flex w-fit -translate-x-1/2 items-center gap-2 rounded-full bg-primary">
+          <button
+            className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+            onClick={handlePickLocation}
+          >
+            <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+            <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
+              {anchorA ? (anchorB ? t("confirm") : t("setB")) : t("setA")}
+            </span>
+          </button>
+          <button
+            className="mr-2 rounded-full p-1"
+            onClick={handleUndoPickLocation}
+          >
+            <Undo2 className="h-6 w-6 text-destructive" />
+          </button>
+        </div>
+      ) : null}
     </>
   );
+};
+
+const markerVariants = {
+  initial: { opacity: 0, y: -12 },
+  active: { opacity: 1, y: 0 },
+  exit: (skipAnimation: boolean) => {
+    return skipAnimation ? { opacity: 0 } : { opacity: 0, y: -12 };
+  },
 };
