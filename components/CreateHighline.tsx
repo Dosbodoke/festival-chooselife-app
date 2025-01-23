@@ -80,11 +80,11 @@ type FormSchema = z.infer<typeof formSchema>;
 const CreateHighline = ({
   mapIsOpen,
   location,
-  hidden,
+  showTrigger,
 }: {
   mapIsOpen: boolean;
   location: string | null;
-  hidden?: boolean;
+  showTrigger?: boolean;
 }) => {
   const [_, setLocationParam] = useQueryState("location");
   const [open, setOpen] = useState(false);
@@ -254,14 +254,14 @@ const CreateHighline = ({
   return (
     <Drawer open={open} onOpenChange={(o) => handleToggleDrawer(o)}>
       <AnimatePresence>
-        {!hidden && (
+        {showTrigger && (
           <DrawerTrigger asChild>
             <motion.button
               key="drawer-trigger"
               initial={{ y: 25, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 25, opacity: 0 }}
-              transition={{ type: "spring", bounce: 0.5 }}
+              transition={{ type: "spring", bounce: 0.5, duration: 0.3 }}
               className="fixed bottom-3 right-6 z-50 p-[3px]"
             >
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500" />

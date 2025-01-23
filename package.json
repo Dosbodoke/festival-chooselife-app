@@ -42,7 +42,7 @@
     "leaflet": "^1.9.4",
     "leaflet-defaulticon-compatibility": "^0.1.2",
     "lucide-react": "^0.340.0",
-    "motion": "12.0.0-alpha.2",
+    "motion": "^12.0.3",
     "next": "15.0.3",
     "next-intl": "^3.5.0",
     "next-recompose-plugins": "^2.0.2",

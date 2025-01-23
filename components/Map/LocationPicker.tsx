@@ -2,14 +2,18 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import L, { type LatLng, type Marker as MarkerType } from "leaflet";
-import { MapPin, Undo2 } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { useQueryState } from "nuqs";
-import { useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import ReactDOMServer from "react-dom/server";
 import { Marker, Polyline, useMapEvent } from "react-leaflet";
 
+import { CheckIcon } from "@/components/ui/check";
+import { MapPinMinusInsideIcon } from "@/components/ui/map-pin-minus-inside";
+import { MapPinPlusInsideIcon } from "@/components/ui/map-pin-plus-inside";
+import { XIcon } from "@/components/ui/x";
 import { useRouter } from "@/navigation";
 import {
   encodeLocation,
@@ -25,7 +29,6 @@ export const LocationPicker = ({
   focusedMarker: string | null;
   isPicking: boolean;
 }) => {
-  const t = useTranslations("map.locationPicker");
   const queryClient = useQueryClient();
   const supabase = useSupabaseBrowser();
   const insertLocationMutation = useMutation<
@@ -183,25 +186,73 @@ export const LocationPicker = ({
       ) : null}
 
       {isPicking ? (
-        <div className="fixed bottom-3 left-1/2 z-[1000] flex w-fit -translate-x-1/2 items-center gap-2 rounded-full bg-primary">
-          <button
-            className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
-            onClick={handlePickLocation}
-          >
-            <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
-            <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
-              {anchorA ? (anchorB ? t("confirm") : t("setB")) : t("setA")}
-            </span>
-          </button>
-          <button
-            className="mr-2 rounded-full p-1"
-            onClick={handleUndoPickLocation}
-          >
-            <Undo2 className="h-6 w-6 text-destructive" />
-          </button>
-        </div>
+        <PickerControls
+          onPick={handlePickLocation}
+          onUndo={handleUndoPickLocation}
+          stage={anchorA ? (anchorB ? "final" : "partial") : "initial"}
+        />
       ) : null}
     </>
+  );
+};
+
+const PickerControls: React.FC<{
+  onPick: () => void;
+  onUndo: () => void;
+  stage: "initial" | "partial" | "final";
+}> = ({ onPick, onUndo, stage }) => {
+  const t = useTranslations("map.locationPicker");
+
+  const label = {
+    initial: t("setA"),
+    partial: t("setB"),
+    final: t("confirm"),
+  };
+
+  return (
+    <div className="pointer-events-none fixed bottom-3 left-1/2 z-[1000] flex w-full -translate-x-1/2 justify-center overflow-hidden">
+      <motion.div
+        initial={{ y: 25, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 25, opacity: 0 }}
+        transition={{ type: "spring", bounce: 0.5, duration: 0.3 }}
+        className="pointer-events-auto flex w-fit overflow-hidden rounded-lg border border-slate-600 shadow-sm shadow-black/5 rtl:space-x-reverse"
+      >
+        <motion.button
+          className="rounded-none border-r border-slate-600 bg-black p-1 shadow-none first:rounded-s-lg last:rounded-e-lg focus-visible:z-10"
+          onClick={onUndo}
+        >
+          {stage === "initial" ? (
+            <XIcon className="h-6 w-6 text-red-400" />
+          ) : (
+            <MapPinMinusInsideIcon className="h-6 w-6 text-red-400" />
+          )}
+        </motion.button>
+        <motion.div className="grid items-center rounded-none border border-none bg-background bg-black p-1 px-3 text-base text-white shadow-none first:rounded-s-lg last:rounded-e-lg focus-visible:z-10">
+          <AnimatePresence mode="popLayout" initial={false}>
+            <motion.span
+              key={stage}
+              initial={{ opacity: 0, y: -10, filter: "blur(2px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: 10, filter: "blur(2px)" }}
+              transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+            >
+              {label[stage]}
+            </motion.span>
+          </AnimatePresence>
+        </motion.div>
+        <motion.button
+          className="rounded-none border-l border-slate-600 bg-black p-1 shadow-none first:rounded-s-lg last:rounded-e-lg focus-visible:z-10"
+          onClick={onPick}
+        >
+          {stage === "final" ? (
+            <CheckIcon className="h-6 w-6 text-green-400" />
+          ) : (
+            <MapPinPlusInsideIcon className="h-6 w-6 text-green-400" />
+          )}
+        </motion.button>
+      </motion.div>
+    </div>
   );
 };
 
