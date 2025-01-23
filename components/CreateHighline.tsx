@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import type { LatLng } from "leaflet";
 import { PlusIcon } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
@@ -85,7 +86,7 @@ const CreateHighline = ({
   location: string | null;
   hidden?: boolean;
 }) => {
-  const [locationParam, setLocationParam] = useQueryState("location");
+  const [_, setLocationParam] = useQueryState("location");
   const [open, setOpen] = useState(false);
 
   function handleToggleDrawer(open: boolean) {
@@ -252,14 +253,25 @@ const CreateHighline = ({
 
   return (
     <Drawer open={open} onOpenChange={(o) => handleToggleDrawer(o)}>
-      <DrawerTrigger asChild>
-        <button className="fixed bottom-3 right-6 z-50 p-[3px]" hidden={hidden}>
-          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500" />
-          <div className="group relative rounded-full bg-black p-2 text-white transition duration-200 hover:bg-transparent">
-            <PlusIcon />
-          </div>
-        </button>
-      </DrawerTrigger>
+      <AnimatePresence>
+        {!hidden && (
+          <DrawerTrigger asChild>
+            <motion.button
+              key="drawer-trigger"
+              initial={{ y: 25, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 25, opacity: 0 }}
+              transition={{ type: "spring", bounce: 0.5 }}
+              className="fixed bottom-3 right-6 z-50 p-[3px]"
+            >
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500" />
+              <div className="group relative rounded-full bg-black p-2 text-white transition duration-200 hover:bg-transparent">
+                <PlusIcon />
+              </div>
+            </motion.button>
+          </DrawerTrigger>
+        )}
+      </AnimatePresence>
 
       {isSuccess ? (
         <DrawerContent className="h-fit">
