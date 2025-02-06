@@ -58,7 +58,7 @@ export const HighlineHeader = ({ highline }: { highline: Highline }) => {
       <div className="flex gap-2">
         <RegistryEntry
           highlineId={highline.id}
-          highlineDistance={highline.lenght}
+          highlineDistance={highline.length}
         />
         <Button variant="outline" className="border-dashed" asChild>
           {highline.anchor_a_lat && highline.anchor_b_lat ? (
