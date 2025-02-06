@@ -17,10 +17,8 @@ function Info({ highline }: Props) {
       />
       <InfoItem
         label={t("length")}
-        value={`${highline.lenght} ${t("meters")}`}
+        value={`${highline.length} ${t("meters")}`}
       />
-      <InfoItem label={t("mainWebbing")} value={highline.main_webbing} />
-      <InfoItem label={t("backupWebbing")} value={highline.backup_webbing} />
     </div>
   );
 }

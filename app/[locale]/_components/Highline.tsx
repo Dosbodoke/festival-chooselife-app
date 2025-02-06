@@ -45,7 +45,7 @@ export function Highline({ highline, classname }: Props) {
           </div>
           <div className="flex gap-2">
             <UnfoldHorizontalIcon className="h-4 w-4" />{" "}
-            {highline.lenght.toFixed(0)}m
+            {highline.length.toFixed(0)}m
           </div>
         </div>
       </CardHeader>

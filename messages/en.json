@@ -264,5 +264,42 @@
   "festival": {
     "cardSubTitle": "Follow the festival ranking in real time",
     "pageSubTitle": "The biggest Highline festival in Brazil"
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "intro": "Your privacy is important to us. It is ChooseLife's policy to respect your privacy regarding any information we may collect from you across our website, ChooseLife, and other sites we own and operate.",
+    "collectionUse": {
+      "title": "Information Collection and Use",
+      "p1": "We only ask for personal information when we truly need it to provide a service to you. We collect it by fair and lawful means, with your knowledge and consent. We also let you know why we're collecting it and how it will be used.",
+      "p2": "We only retain collected information for as long as necessary to provide you with your requested service. What data we store, we'll protect within commercially acceptable means to prevent loss and theft, as well as unauthorized access, disclosure, copying, use or modification.",
+      "p3": "We don't share any personally identifying information publicly or with third-parties, except when required to by law."
+    },
+    "cookies": {
+      "title": "Use of Cookies",
+      "p1": "We use cookies to improve your experience on our site. Specifically, we use cookies for authentication purposes with Supabase, our backend provider. These cookies are essential for the website's functionality and to keep you logged in during your session.",
+      "p2": "Authentication cookies securely store session information, allowing you to browse the site without having to log in repeatedly. They do not collect any personal information beyond what is necessary for this function.",
+      "p3": "You can choose to disable cookies through your browser settings. However, this may affect the functionality of the site, especially regarding authentication and staying logged in."
+    },
+    "externalLinks": {
+      "title": "External Links",
+      "content": "Our website may link to external sites that are not operated by us. Please be aware that we have no control over the content and practices of these sites, and cannot accept responsibility or liability for their respective privacy policies."
+    },
+    "rightOfRefusal": {
+      "title": "Your Right of Refusal",
+      "p1": "You are free to refuse our request for your personal information, with the understanding that we may be unable to provide you with some of your desired services.",
+      "p2": "Your continued use of our website will be regarded as acceptance of our practices around privacy and personal information. If you have any questions about how we handle user data and personal information, feel free to contact us."
+    },
+    "userCommitment": {
+      "title": "User Commitment",
+      "intro": "The user commits to properly use the contents and information that ChooseLife offers on the website and with enunciative, but not limiting, character:",
+      "a": "A) Not to engage in activities that are illegal or contrary to good faith and public order;",
+      "b": "B) Not to spread propaganda or content of a racist, xenophobic nature, or any type of illegal pornography, terrorist advocacy, or against human rights;",
+      "c": "C) Not to cause damage to the physical (hardware) and logical (software) systems of ChooseLife, its suppliers or third parties, to introduce or spread computer viruses or any other hardware or software systems that are capable of causing the aforementioned damages."
+    },
+    "moreInfo": {
+      "title": "More Information",
+      "content": "Hopefully, this has clarified things for you and as was previously mentioned if there is something that you aren't sure whether you need or not it's usually safer to leave cookies enabled in case it does interact with one of the features you use on our site."
+    },
+    "effectiveDate": "This policy is effective as of February 6, 2025."
   }
 }

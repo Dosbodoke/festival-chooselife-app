@@ -121,7 +121,7 @@ function LastWalksContent({ entries }: ContentProps) {
                       {t("popover.height")}: {entry.highline?.height}m
                     </p>
                     <p>
-                      {t("popover.length")}: {entry.highline?.lenght}m
+                      {t("popover.length")}: {entry.highline?.length}m
                     </p>
                   </div>
                   <Button className="w-full" variant={"outline"} asChild>

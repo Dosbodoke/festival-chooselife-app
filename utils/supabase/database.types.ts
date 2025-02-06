@@ -107,46 +107,37 @@ export type Database = {
         Row: {
           anchor_a: unknown | null;
           anchor_b: unknown | null;
-          backup_webbing: string;
           cover_image: string | null;
           created_at: string;
           description: string | null;
           height: number;
           id: string;
-          lenght: number;
-          main_webbing: string;
+          length: number;
           name: string;
-          riggers: string[] | null;
           sector_id: number | null;
         };
         Insert: {
           anchor_a?: unknown | null;
           anchor_b?: unknown | null;
-          backup_webbing?: string;
           cover_image?: string | null;
           created_at?: string;
           description?: string | null;
           height: number;
           id?: string;
-          lenght: number;
-          main_webbing?: string;
+          length: number;
           name: string;
-          riggers?: string[] | null;
           sector_id?: number | null;
         };
         Update: {
           anchor_a?: unknown | null;
           anchor_b?: unknown | null;
-          backup_webbing?: string;
           cover_image?: string | null;
           created_at?: string;
           description?: string | null;
           height?: number;
           id?: string;
-          lenght?: number;
-          main_webbing?: string;
+          length?: number;
           name?: string;
-          riggers?: string[] | null;
           sector_id?: number | null;
         };
         Relationships: [
@@ -184,12 +175,87 @@ export type Database = {
           profile_picture?: string | null;
           username?: string | null;
         };
+        Relationships: [];
+      };
+      rig_setup: {
+        Row: {
+          highline_id: string;
+          id: number;
+          is_rigged: boolean;
+          rig_date: string;
+          riggers: string[];
+          unrigged_at: string | null;
+        };
+        Insert: {
+          highline_id: string;
+          id?: never;
+          is_rigged: boolean;
+          rig_date: string;
+          riggers: string[];
+          unrigged_at?: string | null;
+        };
+        Update: {
+          highline_id?: string;
+          id?: never;
+          is_rigged?: boolean;
+          rig_date?: string;
+          riggers?: string[];
+          unrigged_at?: string | null;
+        };
         Relationships: [
           {
-            foreignKeyName: "profiles_id_fkey";
-            columns: ["id"];
-            isOneToOne: true;
-            referencedRelation: "users";
+            foreignKeyName: "rig_setup_highline_id_fkey";
+            columns: ["highline_id"];
+            isOneToOne: false;
+            referencedRelation: "highline";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      rig_setup_webbing: {
+        Row: {
+          description: string | null;
+          id: number;
+          left_loop: boolean;
+          length: number;
+          right_loop: boolean;
+          setup_id: number;
+          webbing_id: number | null;
+          webbing_type: Database["public"]["Enums"]["webbing_type"];
+        };
+        Insert: {
+          description?: string | null;
+          id?: never;
+          left_loop: boolean;
+          length: number;
+          right_loop: boolean;
+          setup_id: number;
+          webbing_id?: number | null;
+          webbing_type: Database["public"]["Enums"]["webbing_type"];
+        };
+        Update: {
+          description?: string | null;
+          id?: never;
+          left_loop?: boolean;
+          length?: number;
+          right_loop?: boolean;
+          setup_id?: number;
+          webbing_id?: number | null;
+          webbing_type?: Database["public"]["Enums"]["webbing_type"];
+        };
+        Relationships: [
+          {
+            foreignKeyName: "rig_setup_webbing_setup_id_fkey";
+            columns: ["setup_id"];
+            isOneToOne: false;
+            referencedRelation: "rig_setup";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "rig_setup_webbing_webbing_id_fkey";
+            columns: ["webbing_id"];
+            isOneToOne: false;
+            referencedRelation: "webbing";
             referencedColumns: ["id"];
           }
         ];
@@ -212,6 +278,68 @@ export type Database = {
           description?: string | null;
           id?: number;
           name?: string;
+        };
+        Relationships: [];
+      };
+      webbing: {
+        Row: {
+          description: string | null;
+          id: number;
+          left_loop: boolean;
+          length: number;
+          model: number | null;
+          right_loop: boolean;
+          tag_name: string | null;
+          user_id: string;
+        };
+        Insert: {
+          description?: string | null;
+          id?: never;
+          left_loop: boolean;
+          length: number;
+          model?: number | null;
+          right_loop: boolean;
+          tag_name?: string | null;
+          user_id: string;
+        };
+        Update: {
+          description?: string | null;
+          id?: never;
+          left_loop?: boolean;
+          length?: number;
+          model?: number | null;
+          right_loop?: boolean;
+          tag_name?: string | null;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "webbing_model_fkey";
+            columns: ["model"];
+            isOneToOne: false;
+            referencedRelation: "webbing_model";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      webbing_model: {
+        Row: {
+          id: number;
+          material: Database["public"]["Enums"]["material_enum"];
+          name: string;
+          weave: Database["public"]["Enums"]["weave_enum"];
+        };
+        Insert: {
+          id?: never;
+          material: Database["public"]["Enums"]["material_enum"];
+          name: string;
+          weave: Database["public"]["Enums"]["weave_enum"];
+        };
+        Update: {
+          id?: never;
+          material?: Database["public"]["Enums"]["material_enum"];
+          name?: string;
+          weave?: Database["public"]["Enums"]["weave_enum"];
         };
         Relationships: [];
       };
@@ -245,18 +373,16 @@ export type Database = {
           created_at: string;
           name: string;
           height: number;
-          lenght: number;
-          main_webbing: string;
-          backup_webbing: string;
+          length: number;
           description: string;
           sector_id: number;
           cover_image: string;
-          riggers: string[];
           anchor_a_long: number;
           anchor_a_lat: number;
           anchor_b_long: number;
           anchor_b_lat: number;
           is_favorite: boolean;
+          status: string;
         }[];
       };
       get_total_cadenas: {
@@ -329,7 +455,9 @@ export type Database = {
       };
     };
     Enums: {
-      [_ in never]: never;
+      material_enum: "nylon" | "dyneema" | "polyester";
+      weave_enum: "flat" | "tubular";
+      webbing_type: "main" | "backup";
     };
     CompositeTypes: {
       [_ in never]: never;
@@ -409,6 +537,7 @@ export type Database = {
           owner_id: string | null;
           path_tokens: string[] | null;
           updated_at: string | null;
+          user_metadata: Json | null;
           version: string | null;
         };
         Insert: {
@@ -422,6 +551,7 @@ export type Database = {
           owner_id?: string | null;
           path_tokens?: string[] | null;
           updated_at?: string | null;
+          user_metadata?: Json | null;
           version?: string | null;
         };
         Update: {
@@ -435,6 +565,7 @@ export type Database = {
           owner_id?: string | null;
           path_tokens?: string[] | null;
           updated_at?: string | null;
+          user_metadata?: Json | null;
           version?: string | null;
         };
         Relationships: [
@@ -456,6 +587,7 @@ export type Database = {
           key: string;
           owner_id: string | null;
           upload_signature: string;
+          user_metadata: Json | null;
           version: string;
         };
         Insert: {
@@ -466,6 +598,7 @@ export type Database = {
           key: string;
           owner_id?: string | null;
           upload_signature: string;
+          user_metadata?: Json | null;
           version: string;
         };
         Update: {
@@ -476,6 +609,7 @@ export type Database = {
           key?: string;
           owner_id?: string | null;
           upload_signature?: string;
+          user_metadata?: Json | null;
           version?: string;
         };
         Relationships: [
@@ -612,6 +746,10 @@ export type Database = {
           updated_at: string;
         }[];
       };
+      operation: {
+        Args: Record<PropertyKey, never>;
+        Returns: string;
+      };
       search: {
         Args: {
           prefix: string;
@@ -722,4 +860,19 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
   ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+  : never;
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database;
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+  ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
   : never;

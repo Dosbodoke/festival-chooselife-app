@@ -50,7 +50,7 @@ const formSchema = z.object({
       invalid_type_error: "Insira um número",
     })
     .positive("Altura não pode ser negativa"),
-  lenght: z.coerce
+  length: z.coerce
     .number({
       required_error: "Insira o comprimento do Highline",
       invalid_type_error: "Insira um número",
@@ -124,7 +124,7 @@ const CreateHighline = ({
     defaultValues: {
       name: "",
       height: undefined,
-      lenght: undefined,
+      length: undefined,
       backup_webbing: "",
       main_webbing: "",
       image: "",
@@ -135,7 +135,7 @@ const CreateHighline = ({
   async function createHighline({
     name,
     height,
-    lenght,
+    length,
     main_webbing,
     backup_webbing,
     description,
@@ -185,7 +185,7 @@ const CreateHighline = ({
         {
           name,
           height,
-          lenght,
+          length,
           main_webbing,
           backup_webbing,
           description,
@@ -240,7 +240,7 @@ const CreateHighline = ({
           parseFloat(decoded[3]),
           parseFloat(decoded[4])
         );
-        highlineForm.setValue("lenght", getDistance({ anchorA, anchorB }));
+        highlineForm.setValue("length", getDistance({ anchorA, anchorB }));
       } catch (e) {
         if (e instanceof Error) console.error(e.message);
         return;
@@ -330,7 +330,7 @@ const CreateHighline = ({
                 />
                 <FormField
                   control={highlineForm.control}
-                  name="lenght"
+                  name="length"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>{t("length.label")}</FormLabel>

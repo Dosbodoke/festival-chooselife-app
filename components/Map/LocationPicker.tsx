@@ -40,7 +40,7 @@ export const LocationPicker = ({
       const { error } = await supabase
         .from("highline")
         .update({
-          lenght: getDistance({ anchorA: data.anchorA, anchorB: data.anchorB }),
+          length: getDistance({ anchorA: data.anchorA, anchorB: data.anchorB }),
           anchor_a: locationToPostGISPoint({
             lat: data.anchorA.lat,
             lng: data.anchorA.lng,
