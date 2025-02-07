@@ -301,5 +301,15 @@
       "content": "Hopefully, this has clarified things for you and as was previously mentioned if there is something that you aren't sure whether you need or not it's usually safer to leave cookies enabled in case it does interact with one of the features you use on our site."
     },
     "effectiveDate": "This policy is effective as of February 6, 2025."
+  },
+  "deleteAccount": {
+    "title": "Delete Account",
+    "description": "Are you sure you want to delete your account? This action cannot be undone.",
+    "info": "Deleting your account will remove all your personal information from our system. This process may take up to 30 days to complete.",
+    "cancelButton": "Cancel",
+    "deleteButton": "Delete My Account",
+    "processingButton": "Processing...",
+    "successMessage": "Your account deletion request has been received. You will be redirected shortly.",
+    "errorMessage": "An error occurred while processing your request. Please try again."
   }
 }
