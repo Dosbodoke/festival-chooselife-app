@@ -22,10 +22,6 @@
         "label": "Comprimento",
         "placeholder": "Comprimento do Highline em metros"
       },
-      "mainWebbing": {
-        "label": "Fita principal",
-        "placeholder": "Exemplo: Sky 2 (Bera)"
-      },
       "backupWebbing": {
         "label": "Fita backup",
         "placeholder": "Exemplo: Sky 2 (Bera) + Sky 3d (Bera)"
@@ -118,8 +114,6 @@
         "label": "Informações",
         "height": "Altura",
         "length": "Comprimento",
-        "mainWebbing": "Fita principal",
-        "backupWebbing": "Fita backup",
         "meters": "metros"
       },
       "comments": "Comentários",
