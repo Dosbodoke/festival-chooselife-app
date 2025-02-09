@@ -56,8 +56,6 @@ const formSchema = z.object({
       invalid_type_error: "Insira um número",
     })
     .positive("Comprimento não pode ser negativo"),
-  main_webbing: z.string().min(3, "Deve conter ao menos 3 caracteres"),
-  backup_webbing: z.string().min(3, "Deve conter ao menos 3 caracteres"),
   description: z.string().optional(),
   image: z
     .any()
@@ -125,8 +123,6 @@ const CreateHighline = ({
       name: "",
       height: undefined,
       length: undefined,
-      backup_webbing: "",
-      main_webbing: "",
       image: "",
       description: "",
     },
@@ -136,8 +132,6 @@ const CreateHighline = ({
     name,
     height,
     length,
-    main_webbing,
-    backup_webbing,
     description,
     image,
   }: FormSchema) {
@@ -186,8 +180,6 @@ const CreateHighline = ({
           name,
           height,
           length,
-          main_webbing,
-          backup_webbing,
           description,
           cover_image: imageID,
           anchor_a: anchors?.anchorA
@@ -340,36 +332,6 @@ const CreateHighline = ({
                           placeholder={t("length.placeholder")}
                           {...field}
                           value={field.value || ""}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={highlineForm.control}
-                  name="main_webbing"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("mainWebbing.label")}</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder={t("mainWebbing.placeholder")}
-                          {...field}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={highlineForm.control}
-                  name="backup_webbing"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("backupWebbing.label")}</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder={t("backupWebbing.placeholder")}
-                          {...field}
                         />
                       </FormControl>
                     </FormItem>
