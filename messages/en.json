@@ -22,10 +22,6 @@
         "label": "Length",
         "placeholder": "Highline length in meters"
       },
-      "mainWebbing": {
-        "label": "Main webbing",
-        "placeholder": "E.g.: Lift 2be"
-      },
       "backupWebbing": {
         "label": "Backup webbing",
         "placeholder": "E.g.: Lift 2be"
@@ -118,8 +114,6 @@
         "label": "Informations",
         "height": "Height",
         "length": "Length",
-        "mainWebbing": "Main webbing",
-        "backupWebbing": "Backup webbing",
         "meters": "meters"
       },
       "comments": "Comments",
